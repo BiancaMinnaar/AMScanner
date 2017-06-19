@@ -1,0 +1,6 @@
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\bin\Debug\FileScannerConsole.exe.config
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\bin\Debug\FileScannerConsole.exe
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\bin\Debug\FileScannerConsole.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\obj\Debug\FileScannerConsole.csprojResolveAssemblyReference.cache
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\obj\Debug\FileScannerConsole.exe
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileScannerConsole\obj\Debug\FileScannerConsole.pdb

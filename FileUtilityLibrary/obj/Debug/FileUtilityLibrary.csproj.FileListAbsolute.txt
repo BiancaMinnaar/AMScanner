@@ -1,0 +1,12 @@
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\FileUtilityLibrary.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\FileUtilityLibrary.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\obj\Debug\FileUtilityLibrary.csprojResolveAssemblyReference.cache
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\obj\Debug\FileUtilityLibrary.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\obj\Debug\FileUtilityLibrary.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\Excel.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\Excel.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\EPPlus.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\EPPlus.xml
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\Microsoft.VisualStudio.OLE.Interop.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityLibrary\bin\Debug\Microsoft.VisualStudio.OLE.Interop.xml

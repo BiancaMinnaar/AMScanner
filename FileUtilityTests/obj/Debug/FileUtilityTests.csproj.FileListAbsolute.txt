@@ -1,0 +1,14 @@
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\FileUtilityTests.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\FileUtilityTests.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\obj\Debug\FileUtilityTests.csprojResolveAssemblyReference.cache
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\obj\Debug\FileUtilityTests.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\obj\Debug\FileUtilityTests.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\FileUtilityLibrary.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\FileUtilityLibrary.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Castle.Core.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Moq.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Castle.Core.xml
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Moq.xml
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Excel.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\FileUtilityTests\bin\Debug\Excel.pdb

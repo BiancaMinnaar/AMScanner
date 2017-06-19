@@ -1,0 +1,5 @@
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ExcelToCSVConvert\bin\Debug\ExcelToCSVConvert.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ExcelToCSVConvert\bin\Debug\ExcelToCSVConvert.pdb
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ExcelToCSVConvert\obj\Debug\ExcelToCSVConvert.csprojResolveAssemblyReference.cache
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ExcelToCSVConvert\obj\Debug\ExcelToCSVConvert.dll
+C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ExcelToCSVConvert\obj\Debug\ExcelToCSVConvert.pdb
