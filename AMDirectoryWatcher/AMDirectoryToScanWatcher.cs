@@ -14,6 +14,7 @@ namespace AMDirectoryWatcher
 {
     public partial class AMDirectoryToScanWatcher : ServiceBase
     {
+        //TODO: Get Client Specified Masks and delimeter and email addresses.
         public AMDirectoryToScanWatcher()
         {
             InitializeComponent();

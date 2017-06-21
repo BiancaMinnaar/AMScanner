@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemWatcher.cs">
+    <Compile Include="AMDirectoryToScanWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FileSystemWatcher.Designer.cs">
-      <DependentUpon>FileSystemWatcher.cs</DependentUpon>
+    <Compile Include="AMDirectoryToScanWatcher.Designer.cs">
+      <DependentUpon>AMDirectoryToScanWatcher.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

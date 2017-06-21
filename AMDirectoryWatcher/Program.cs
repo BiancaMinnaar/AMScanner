@@ -12,7 +12,7 @@ namespace AMDirectoryWatcher
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new FileSystemWatcher()
+                new AMDirectoryToScanWatcher()
             };
             ServiceBase.Run(ServicesToRun);
         }
