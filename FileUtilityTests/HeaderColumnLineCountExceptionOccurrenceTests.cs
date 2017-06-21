@@ -9,39 +9,13 @@ using System.Collections.Generic;
 namespace FileUtilityTests
 {
     [TestClass]
-    public class PipeCountLineEndingExceptionOccurrenceTests
+    public class HeaderColumnLineCountExceptionOccurrenceTests
     {
-        /*
-         string ExceptionMessage { get; set; }
-         TestThatExceptionMessageIsInitialised
-        int CountDelimiterInString(string stringToCount);
-        TestCountDelimiterInStringReturnsCorrectNumerOfDelimiters
-        void ScanFile(ScannerFile scannerFile);
-        TestThatScanFileRaiseHeaderScanEvent
-        TestThatScanFileRaiseLineReadEvent
-        TestThatScanFileRaiseCharacterReadEvent
-        TestThatScanFileScansWholeFile
-        void LineReadEventHandler(object sender, LineRead e);
-        TestLineReadEventHandlerRaisesOnExceptionFoundWithColumnNumberMissmatch
-        */
-
-        //[TestMethod]
-        //public void TestExceptionOccurrenceInitialisesDelimiter()
-        //{
-        //    //Assign
-        //    //Action
-        //    PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
-        //        Constants.CONSTDelimiter, "");
-
-        //    //Assert
-        //    Assert.AreEqual(Constants.CONSTDelimiter, exceptionTest.Delimiter);
-        //}
-
         [TestMethod]
         public void TestCountDelimiterInStringReturnsCorrectNumerOfDelimiters()
         {
             //Assign
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
 
             //Action
@@ -78,7 +52,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestThatScanFileRaiseOnCharacterRead()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
             var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
             scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
@@ -96,7 +70,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestThatScanFileRaiseOnHeaderRead()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
             var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
             scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
@@ -114,7 +88,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestThatScanFileRaiseOnLineRead()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
             var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
             scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
@@ -132,7 +106,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestLineReadEventHandlerRaisesOnExceptionFoundWithColumnNumberMissmatch()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 Constants.CONSTPipeCountLineEndingErrorMessage);
             var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
             scannerFileMock.Setup(t => t.ExceptionList).Returns(() => new List<string>());
@@ -147,7 +121,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestLineReadEventHandlerRaisesOnExceptionFoundWithColumnNumberMissmatchWithGoodErrorFeedback()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 Constants.CONSTPipeCountLineEndingErrorMessage);
             var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
             var errorList = new List<string>();
@@ -163,7 +137,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestLineReadEventHandlerRaisesNoExceptionWithoutHeaders()
         {
-            PipeCountLineEndingExceptionOccurrence exceptionTest = new PipeCountLineEndingExceptionOccurrence(
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 Constants.CONSTPipeCountLineEndingErrorMessage);
             var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
             var errorList = new List<string>();

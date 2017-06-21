@@ -9,6 +9,7 @@ using Moq;
 using System.IO;
 using FileUtilityLibrary.Model.ScannerFile;
 using FileUtilityLibrary.ExpetionOccurrences;
+using FileUtilityLibrary.Model.ScannerFile.Excel;
 
 namespace FileUtilityTests
 {
@@ -116,12 +117,12 @@ namespace FileUtilityTests
                 {
                     return new ScannerFileCollection<IScannerFile>()
                     {
-                        new ExcelScannerFile("Master1.xlsb", Constants.CONSTDirectoryToScan, '|', true)
+                        new ExcelScannerFile(Constants.CONSTExcelFileWithError, Constants.CONSTDirectoryToScan, ';', true)
                     };
                 });
             _MockMoverService = new Moq.Mock<IMoverService>();
             _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            var PipeError = new PipeCountLineEndingExceptionOccurrence("Pipe Error Found");
+            var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             _ScannerRepository = new ScannerRepository(
                 _MockScannerService.Object, 
@@ -129,7 +130,7 @@ namespace FileUtilityTests
                 _FileMaskToScannerFile.Object, 
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile("Master1.xlsb", Constants.CONSTDirectoryToScan, '|', true);
+            var scanFile = new ExcelScannerFile(Constants.CONSTExcelFileWithError, Constants.CONSTDirectoryToScan, ';', true);
             _ScannerRepository.ScanFileForException(scanFile);
 
             Assert.AreEqual(true, scanFile.HasException);
@@ -145,12 +146,12 @@ namespace FileUtilityTests
                 {
                     return new ScannerFileCollection<IScannerFile>()
                     {
-                        new ExcelScannerFile("VolumePerPeriod_20170519.xls", Constants.CONSTDirectoryToScan, '|', true)
+                        new ExcelScannerFile(Constants.CONSTExcelFIleWithNoError, Constants.CONSTDirectoryToScan, ';', true)
                     };
                 });
             _MockMoverService = new Moq.Mock<IMoverService>();
             _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            var PipeError = new PipeCountLineEndingExceptionOccurrence("Pipe Error Found");
+            var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             _ScannerRepository = new ScannerRepository(
                 _MockScannerService.Object,
@@ -158,10 +159,10 @@ namespace FileUtilityTests
                 _FileMaskToScannerFile.Object,
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile("VolumePerPeriod_20170519.xls", Constants.CONSTDirectoryToScan, '|', true);
+            var scanFile = new ExcelScannerFile(Constants.CONSTExcelFIleWithNoError, Constants.CONSTDirectoryToScan, ';', true);
             _ScannerRepository.ScanFileForException(scanFile);
 
-            Assert.AreEqual(true, scanFile.HasException);
+            Assert.AreEqual(false, scanFile.HasException);
         }
     }
 }

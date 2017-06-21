@@ -65,12 +65,6 @@ namespace FileUtilityLibrary.Model
 
         public void ScanFile(IScannerFile scannerFile)
         {
-            //retrieve SubStructureCount
-            //recurse each SubStructure
-            while (scannerFile.HasSubStructures())
-            {
-                ScanFile(scannerFile);
-            }
             try
             {
                 int lineCount = 0;
@@ -85,6 +79,11 @@ namespace FileUtilityLibrary.Model
             finally
             {
                 scannerFile.Close();
+            }
+
+            while (scannerFile.HasSubStructures())
+            {
+                ScanFile(scannerFile);
             }
         }
 

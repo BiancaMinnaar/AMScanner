@@ -3,9 +3,9 @@ using FileUtilityLibrary.Model;
 
 namespace FileUtilityLibrary.ExpetionOccurrences
 {
-    public class PipeCountLineEndingExceptionOccurrence : ExceptionOccurrence
+    public class HeaderColumnLineCountExceptionOccurrence : ExceptionOccurrence
     {        
-        public PipeCountLineEndingExceptionOccurrence(string exceptionMessage) : base(exceptionMessage)
+        public HeaderColumnLineCountExceptionOccurrence(string exceptionMessage) : base(exceptionMessage)
         {
             OnCharacterRead -= CharacterReadEventHandler;
             OnHeaderRead -= HeaderReadEventHandler;
