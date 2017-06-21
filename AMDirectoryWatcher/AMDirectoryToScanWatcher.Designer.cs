@@ -1,6 +1,6 @@
 ﻿namespace AMDirectoryWatcher
 {
-    partial class FileSystemWatcher
+    partial class AMDirectoryToScanWatcher
     {
         /// <summary> 
         /// Required designer variable.
