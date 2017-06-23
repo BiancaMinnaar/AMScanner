@@ -40,11 +40,20 @@
       <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.25.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.25\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,22 +70,28 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="MoverServiceTests.cs" />
+    <Compile Include="CustomerImportInspectorTests\CustomerImportRetrievalServiceTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\FileUtilityConstants.cs" />
+    <Compile Include="FileUtilityLibraryTests\MoverServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScannerReposetoryTests.cs" />
-    <Compile Include="ScannerServiceTests.cs" />
-    <Compile Include="ScannerFileCollectionTests.cs" />
-    <Compile Include="HeaderColumnLineCountExceptionOccurrenceTests.cs" />
-    <Compile Include="ExcelWorkbookTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\ScannerReposetoryTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\ScannerServiceTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\ScannerFileCollectionTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\HeaderColumnLineCountExceptionOccurrenceTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\ExcelWorkbookTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AMCustomerImportInspector\AMCustomerImportInspector.csproj">
+      <Project>{5f505266-bc8e-4159-b74f-d227ebf6819f}</Project>
+      <Name>AMCustomerImportInspector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileUtilityLibrary\FileUtilityLibrary.csproj">
       <Project>{95de842d-1435-42b6-ad51-a221078682e8}</Project>
       <Name>FileUtilityLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

@@ -2,3 +2,7 @@ ScanDirectory/
 FileUtilityLibrary/obj/
 FileUtilityTests/obj/
 AMCustomerImportInspector/obj/
+AMCustomerImportInspector/bin/
+AMDirectoryWatcher/bin/
+FileUtilityTests/bin/
+packages/

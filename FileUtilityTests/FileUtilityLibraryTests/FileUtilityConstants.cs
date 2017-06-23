@@ -1,6 +1,6 @@
 ﻿namespace FileUtilityTests
 {
-    public class Constants
+    public class FileUtilityLibraryConstants
     {
         public const string CONSTDirectoryToScan = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ScanDirectory";
         public const string CONSTDirecoryToMoveTo = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\MoveDirectory";

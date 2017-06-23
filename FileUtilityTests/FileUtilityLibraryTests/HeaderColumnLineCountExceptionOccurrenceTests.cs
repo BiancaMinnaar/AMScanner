@@ -19,7 +19,7 @@ namespace FileUtilityTests
                 "");
 
             //Action
-            var columnCount = exceptionTest.CountDelimiterInString(Constants.CONSTHeaderLine, Constants.CONSTDelimiter);
+            var columnCount = exceptionTest.CountDelimiterInString(FileUtilityLibraryConstants.CONSTHeaderLine, FileUtilityLibraryConstants.CONSTDelimiter);
 
             ////Assert
             Assert.AreEqual(3, columnCount);
@@ -54,8 +54,8 @@ namespace FileUtilityTests
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTCorrectFileSctructure);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasHeader);
 
             bool eventWasRecieved = false;
             exceptionTest.OnCharacterRead += delegate (object sender, CharacterRead e)
@@ -72,8 +72,8 @@ namespace FileUtilityTests
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTCorrectFileSctructure);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasHeader);
 
             bool eventWasRecieved = false;
             exceptionTest.OnHeaderRead += delegate (object sender, HeaderRead e)
@@ -90,8 +90,8 @@ namespace FileUtilityTests
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTCorrectFileSctructure);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTCorrectFileSctructure);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasHeader);
 
             bool eventWasRecieved = false;
             exceptionTest.OnLineRead += delegate (object sender, LineRead e)
@@ -107,11 +107,11 @@ namespace FileUtilityTests
         public void TestLineReadEventHandlerRaisesOnExceptionFoundWithColumnNumberMissmatch()
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
-                Constants.CONSTPipeCountLineEndingErrorMessage);
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
+                FileUtilityLibraryConstants.CONSTPipeCountLineEndingErrorMessage);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTInCorrectFileSctructureLine2Column2);
             scannerFileMock.Setup(t => t.ExceptionList).Returns(() => new List<string>());
-            scannerFileMock.Setup(t => t.Delimiter).Returns(() => Constants.CONSTDelimiter);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
+            scannerFileMock.Setup(t => t.Delimiter).Returns(() => FileUtilityLibraryConstants.CONSTDelimiter);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasHeader);
 
             exceptionTest.ScanFile(scannerFileMock.Object);
 
@@ -122,12 +122,12 @@ namespace FileUtilityTests
         public void TestLineReadEventHandlerRaisesOnExceptionFoundWithColumnNumberMissmatchWithGoodErrorFeedback()
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
-                Constants.CONSTPipeCountLineEndingErrorMessage);
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
+                FileUtilityLibraryConstants.CONSTPipeCountLineEndingErrorMessage);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTInCorrectFileSctructureLine2Column2);
             var errorList = new List<string>();
             scannerFileMock.Setup(t => t.ExceptionList).Returns(() => errorList);
-            scannerFileMock.Setup(t => t.Delimiter).Returns(() => Constants.CONSTDelimiter);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasHeader);
+            scannerFileMock.Setup(t => t.Delimiter).Returns(() => FileUtilityLibraryConstants.CONSTDelimiter);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasHeader);
 
             exceptionTest.ScanFile(scannerFileMock.Object);
 
@@ -138,12 +138,12 @@ namespace FileUtilityTests
         public void TestLineReadEventHandlerRaisesNoExceptionWithoutHeaders()
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
-                Constants.CONSTPipeCountLineEndingErrorMessage);
-            var scannerFileMock = getScannerMockSetup(Constants.CONSTInCorrectFileSctructureLine2Column2);
+                FileUtilityLibraryConstants.CONSTPipeCountLineEndingErrorMessage);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTInCorrectFileSctructureLine2Column2);
             var errorList = new List<string>();
             scannerFileMock.Setup(t => t.ExceptionList).Returns(() => errorList);
-            scannerFileMock.Setup(t => t.Delimiter).Returns(() => Constants.CONSTDelimiter);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => Constants.CONSTHasNoHeader);
+            scannerFileMock.Setup(t => t.Delimiter).Returns(() => FileUtilityLibraryConstants.CONSTDelimiter);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasNoHeader);
 
             exceptionTest.ScanFile(scannerFileMock.Object);
 

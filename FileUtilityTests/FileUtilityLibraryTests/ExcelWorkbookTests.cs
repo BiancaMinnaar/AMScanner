@@ -11,7 +11,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestExcelWorkbookGetScannableDataReturnsMultipleStreamsFOrMultipleWorksheets()
         {
-            var workBook = new ExcelWorkbook(Constants.CONSTDirectoryToScan + "/" + Constants.CONSTExcelFileWithError);
+            var workBook = new ExcelWorkbook(FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
             workBook.GetScannableData();
             var streamCount = workBook.WorkbookSheetCount;
             Assert.AreEqual(2, streamCount);
@@ -20,7 +20,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestExcelWorkbookGetScannableDataReturnsReadableStreamData()
         {
-            var workBook = new ExcelWorkbook(Constants.CONSTDirectoryToScan + "/" + Constants.CONSTExcelFileWithError);
+            var workBook = new ExcelWorkbook(FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
             var streams = workBook.GetScannableData();
             TextReader reader = new StreamReader(streams[0]);
             var streamData = reader.ReadLine();

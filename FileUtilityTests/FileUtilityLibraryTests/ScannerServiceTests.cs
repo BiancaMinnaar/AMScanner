@@ -17,7 +17,7 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestScannerFindsFileInDirectory()
         {
-            var direcotryToScan = Constants.CONSTDirectoryToScan;
+            var direcotryToScan = FileUtilityLibraryConstants.CONSTDirectoryToScan;
             IScannerService scanner = new ScannerService(new DirecotryHelper(direcotryToScan));
 
             var hasFiles = scanner.DirectoryHasFile("*.*");
@@ -28,10 +28,10 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestScannerOnlyFindsFilesInMask()
         {
-            var direcotryToScan = Constants.CONSTDirectoryToScan;
+            var direcotryToScan = FileUtilityLibraryConstants.CONSTDirectoryToScan;
             IScannerService scanner = new ScannerService(new DirecotryHelper(direcotryToScan));
 
-            var hasFiles = scanner.DirectoryHasFile(Constants.CONSTCorrectFileMask);
+            var hasFiles = scanner.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask);
 
             Assert.IsTrue(hasFiles, "No Files were found");
         }
@@ -39,10 +39,10 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestScannerDoesNotFindsFilesNotInMask()
         {
-            var direcotryToScan = Constants.CONSTDirectoryToScan;
+            var direcotryToScan = FileUtilityLibraryConstants.CONSTDirectoryToScan;
             IScannerService scanner = new ScannerService(new DirecotryHelper(direcotryToScan));
 
-            var hasFiles = scanner.DirectoryHasFile(Constants.CONSTInCorrectFileMask);
+            var hasFiles = scanner.DirectoryHasFile(FileUtilityLibraryConstants.CONSTInCorrectFileMask);
 
             Assert.IsFalse(hasFiles, "Some Files were found");
         }
@@ -50,9 +50,9 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestThatScannerReturnsListOfFilesInMask()
         {
-            var direcotryToScan = Constants.CONSTDirectoryToScan;
+            var direcotryToScan = FileUtilityLibraryConstants.CONSTDirectoryToScan;
             IScannerService scanner = new ScannerService(new DirecotryHelper(direcotryToScan));
-            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(Constants.CONSTCorrectFileMask, Constants.CONSTDelimiter, Constants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
+            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(FileUtilityLibraryConstants.CONSTCorrectFileMask, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
 
             var filesToScan = scanner.GetFilesToScan(FileMaskToScannerFiles);
 
@@ -64,14 +64,14 @@ namespace FileUtilityTests
         {
             var factory = new MockRepository(MockBehavior.Loose);
             var directoryHelper = factory.Create<IDirectoryHelper>();
-            FileInfo[] fileInfos = new FileInfo[2] { new FileInfo(Constants.CONSTDirectoryToScan + @"\" + Constants.CONSTScanFile1), new FileInfo(Constants.CONSTDirectoryToScan + @"\" + Constants.CONSTScanFile1) };
+            FileInfo[] fileInfos = new FileInfo[2] { new FileInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTScanFile1), new FileInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTScanFile1) };
             directoryHelper.Setup(t => t.GetFiles(It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(fileInfos);
             IScannerService scanner = new ScannerService(directoryHelper.Object);
-            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(Constants.CONSTCorrectFileMask, Constants.CONSTDelimiter, Constants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
+            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(FileUtilityLibraryConstants.CONSTCorrectFileMask, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
 
             var filesToScan = scanner.GetFilesToScan(FileMaskToScannerFiles);
 
-            Assert.AreEqual(filesToScan[0].FileName, Constants.CONSTScanFile1, "GetFilesToScan incorrectly populated the FileName");
+            Assert.AreEqual(filesToScan[0].FileName, FileUtilityLibraryConstants.CONSTScanFile1, "GetFilesToScan incorrectly populated the FileName");
         }
 
         [TestMethod]
@@ -79,14 +79,14 @@ namespace FileUtilityTests
         {
             var factory = new MockRepository(MockBehavior.Loose);
             var directoryHelper = factory.Create<IDirectoryHelper>();
-            FileInfo[] fileInfos = new FileInfo[2] { new FileInfo(Constants.CONSTDirectoryToScan + @"\" + Constants.CONSTScanFile1), new FileInfo(Constants.CONSTDirectoryToScan + @"\" + Constants.CONSTScanFile1) };
+            FileInfo[] fileInfos = new FileInfo[2] { new FileInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTScanFile1), new FileInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTScanFile1) };
             directoryHelper.Setup(t => t.GetFiles(It.IsAny<string>(), It.IsAny<SearchOption>())).Returns(fileInfos);
             IScannerService scanner = new ScannerService(directoryHelper.Object);
-            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(Constants.CONSTCorrectFileMask, Constants.CONSTDelimiter, Constants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
+            var FileMaskToScannerFiles = new FileMaskToScannerFile<IScannerFile>(FileUtilityLibraryConstants.CONSTCorrectFileMask, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader, (n, p, d, h) => new CSVScannerFile(n, p, d, h));
 
             var filesToScan = scanner.GetFilesToScan(FileMaskToScannerFiles);
 
-            Assert.AreEqual(filesToScan[0].FilePath, Constants.CONSTDirectoryToScan, "GetFilesToScan incorrectly populated the FilePath");
+            Assert.AreEqual(filesToScan[0].FilePath, FileUtilityLibraryConstants.CONSTDirectoryToScan, "GetFilesToScan incorrectly populated the FilePath");
         }
     }
 }

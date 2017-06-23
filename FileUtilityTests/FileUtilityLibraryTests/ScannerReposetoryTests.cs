@@ -29,22 +29,22 @@ namespace FileUtilityTests
             _MockScannerService = new Moq.Mock<IScannerService>();
             _MockMoverService = new Moq.Mock<IMoverService>();
             Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(Constants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             _ScannerRepository = new ScannerRepository(
                 _MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object,  null);
 
             _ScannerRepository.FindFilesToScan();
-            _MockScannerService.Verify(t => t.DirectoryHasFile(Constants.CONSTCorrectFileMask));
+            _MockScannerService.Verify(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask));
         }
 
         [TestMethod]
         public void TestThatFindFilesToScanReturnsCallsGetFilesToScan()
         {
             _MockScannerService = new Moq.Mock<IScannerService>();
-            _MockScannerService.Setup(t => t.DirectoryHasFile(Constants.CONSTCorrectFileMask)).Returns(true);
+            _MockScannerService.Setup(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask)).Returns(true);
             _MockMoverService = new Moq.Mock<IMoverService>();
             Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(Constants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
 
             _ScannerRepository.FindFilesToScan();
@@ -55,14 +55,14 @@ namespace FileUtilityTests
         public void TestThatGetFilesToScanReturnsCorrectScannerFileList()
         {
             _MockScannerService = new Moq.Mock<IScannerService>();
-            _MockScannerService.Setup(t => t.DirectoryHasFile(Constants.CONSTCorrectFileMask)).Returns(true);
+            _MockScannerService.Setup(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask)).Returns(true);
             var scanFilesToReturn = new ScannerFileCollection<IScannerFile>()
             {
-                new CSVScannerFile(Constants.CONSTTestFile1, Constants.CONSTDirectoryToScan, Constants.CONSTDelimiter, Constants.CONSTHasHeader),
-                new CSVScannerFile(Constants.CONSTTestFile2, Constants.CONSTDirectoryToScan, Constants.CONSTDelimiter, Constants.CONSTHasHeader)
+                new CSVScannerFile(FileUtilityLibraryConstants.CONSTTestFile1, FileUtilityLibraryConstants.CONSTDirectoryToScan, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader),
+                new CSVScannerFile(FileUtilityLibraryConstants.CONSTTestFile2, FileUtilityLibraryConstants.CONSTDirectoryToScan, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader)
             };
             Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(Constants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             _MockScannerService.Setup(t => t.GetFilesToScan(fileMaskToScannerFile.Object)).Returns(scanFilesToReturn);
             _MockMoverService = new Moq.Mock<IMoverService>();
             _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
@@ -80,7 +80,7 @@ namespace FileUtilityTests
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
             scannerFileMock.Setup(t => t.HasException).Returns(false);
             Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(Constants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
             _ScannerRepository.MoveFileAfterScan(scannerFileMock.Object);
 
@@ -99,7 +99,7 @@ namespace FileUtilityTests
             };
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
             Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(Constants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, exeptionList);
 
             _ScannerRepository.ScanFileForException(scannerFileMock.Object);
@@ -117,7 +117,7 @@ namespace FileUtilityTests
                 {
                     return new ScannerFileCollection<IScannerFile>()
                     {
-                        new ExcelScannerFile(Constants.CONSTExcelFileWithError, Constants.CONSTDirectoryToScan, ';', true)
+                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
                     };
                 });
             _MockMoverService = new Moq.Mock<IMoverService>();
@@ -130,7 +130,7 @@ namespace FileUtilityTests
                 _FileMaskToScannerFile.Object, 
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile(Constants.CONSTExcelFileWithError, Constants.CONSTDirectoryToScan, ';', true);
+            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
             _ScannerRepository.ScanFileForException(scanFile);
 
             Assert.AreEqual(true, scanFile.HasException);
@@ -146,7 +146,7 @@ namespace FileUtilityTests
                 {
                     return new ScannerFileCollection<IScannerFile>()
                     {
-                        new ExcelScannerFile(Constants.CONSTExcelFIleWithNoError, Constants.CONSTDirectoryToScan, ';', true)
+                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFIleWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
                     };
                 });
             _MockMoverService = new Moq.Mock<IMoverService>();
@@ -159,7 +159,7 @@ namespace FileUtilityTests
                 _FileMaskToScannerFile.Object,
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile(Constants.CONSTExcelFIleWithNoError, Constants.CONSTDirectoryToScan, ';', true);
+            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFIleWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
             _ScannerRepository.ScanFileForException(scanFile);
 
             Assert.AreEqual(false, scanFile.HasException);
