@@ -9,6 +9,6 @@ namespace AMCustomerImportInspector.Interface
 {
     public interface ICustomerImportReposetory
     {
-        ImportDefinision GetCustomerImports();
+        IList<ImportDefinision> GetImportDefinitionsFromDatabase();
     }
 }

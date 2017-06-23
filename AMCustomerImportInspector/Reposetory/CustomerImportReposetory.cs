@@ -10,9 +10,16 @@ namespace AMCustomerImportInspector.Reposetory
 {
     public class CustomerImportReposetory : ICustomerImportReposetory
     {
-        public ImportDefinision GetCustomerImports()
+        private ICustomerImportRetrievalService _DataService;
+
+        public CustomerImportReposetory(ICustomerImportRetrievalService dataService)
         {
-            throw new NotImplementedException();
+            _DataService = dataService;
+        }
+
+        public IList<ImportDefinision> GetImportDefinitionsFromDatabase()
+        {
+            return _DataService.GetCustomerImports();
         }
     }
 }

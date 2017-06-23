@@ -71,6 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CustomerImportInspectorTests\CustomerImportRetrievalServiceTests.cs" />
+    <Compile Include="CustomerImportInspectorTests\CustomerImportReposetoryTest.cs" />
     <Compile Include="FileUtilityLibraryTests\FileUtilityConstants.cs" />
     <Compile Include="FileUtilityLibraryTests\MoverServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
