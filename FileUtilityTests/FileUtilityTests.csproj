@@ -70,6 +70,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CustomerImportInspectorTests\CustomerImportEmailServiceTest.cs" />
+    <Compile Include="CustomerImportInspectorTests\CustomerImportInspectorConstants.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportRetrievalServiceTests.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportReposetoryTest.cs" />
     <Compile Include="FileUtilityLibraryTests\FileUtilityConstants.cs" />

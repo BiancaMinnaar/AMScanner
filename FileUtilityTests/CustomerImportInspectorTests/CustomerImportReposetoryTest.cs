@@ -27,11 +27,84 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                     ImportPath = "C:/ImportFileDirecory"
                 }
             });
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
 
-            var repo = new CustomerImportReposetory(mockDataService.Object);
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
             var importConfigItem = repo.GetImportDefinitionsFromDatabase()[0];
 
             Assert.AreEqual("EXCEL", importConfigItem.ImportFormat);
+        }
+
+        [TestMethod]
+        public void Test_IsFileInImportDefinition_FindsFileInList()
+        {
+            Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
+            var definitionList = new List<ImportDefinision>()
+            {
+                new ImportDefinision()
+                {
+                    Delimiter = "|",
+                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FileMask = "*.xls",
+                    ImportFormat = "EXCEL",
+                    ImportName = "First Import",
+                    ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
+                }
+            };
+
+            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithNoError, definitionList);
+
+            Assert.IsTrue(checkFile);
+        }
+
+        [TestMethod]
+        public void Test_IsFileInImportDefinition_DoesntFindaFileInList()
+        {
+            Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
+            var definitionList = new List<ImportDefinision>()
+            {
+                new ImportDefinision()
+                {
+                    Delimiter = "|",
+                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FileMask = "*.xls",
+                    ImportFormat = "EXCEL",
+                    ImportName = "First Import",
+                    ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
+                }
+            };
+
+            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithError, definitionList);
+
+            Assert.IsFalse(checkFile);
+        }
+
+        [TestMethod]
+        public void Test_EmailFaultyFile_EmailsFile()
+        {
+            Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
+            var definitionList = new List<ImportDefinision>()
+            {
+                new ImportDefinision()
+                {
+                    Delimiter = "|",
+                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FileMask = "*.xls",
+                    ImportFormat = "EXCEL",
+                    ImportName = "First Import",
+                    ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
+                }
+            };
+
+            repo.EmailFaultyFile(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithError, definitionList[0]);
+
+            Assert.IsTrue(true);
         }
     }
 }

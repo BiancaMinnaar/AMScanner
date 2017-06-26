@@ -146,7 +146,7 @@ namespace FileUtilityTests
                 {
                     return new ScannerFileCollection<IScannerFile>()
                     {
-                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFIleWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
+                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
                     };
                 });
             _MockMoverService = new Moq.Mock<IMoverService>();
@@ -159,7 +159,7 @@ namespace FileUtilityTests
                 _FileMaskToScannerFile.Object,
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFIleWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
+            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
             _ScannerRepository.ScanFileForException(scanFile);
 
             Assert.AreEqual(false, scanFile.HasException);

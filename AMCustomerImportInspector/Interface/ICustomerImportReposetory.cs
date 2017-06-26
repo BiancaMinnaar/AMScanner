@@ -10,5 +10,7 @@ namespace AMCustomerImportInspector.Interface
     public interface ICustomerImportReposetory
     {
         IList<ImportDefinision> GetImportDefinitionsFromDatabase();
+        bool IsFileInImportDefinition(string fullFileName, IList<ImportDefinision> definisionList);
+        void EmailFaultyFile(string fullFileName, ImportDefinision definition);
     }
 }
