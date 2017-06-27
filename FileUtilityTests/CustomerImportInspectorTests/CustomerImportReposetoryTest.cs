@@ -21,7 +21,6 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 {
                     Delimiter = "|",
                     FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
-                    FileMask = "*.xls",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = "C:/ImportFileDirecory"
@@ -47,7 +46,6 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 {
                     Delimiter = "|",
                     FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
-                    FileMask = "*.xls",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
@@ -55,6 +53,52 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             };
 
             var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithNoError, definitionList);
+
+            Assert.IsTrue(checkFile);
+        }
+
+        [TestMethod]
+        public void Test_IsFileInImportDefinition_FindsTextFileInList()
+        {
+            Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
+            var definitionList = new List<ImportDefinision>()
+            {
+                new ImportDefinision()
+                {
+                    Delimiter = "|",
+                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    ImportFormat = "CSV",
+                    ImportName = "First Import",
+                    ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
+                }
+            };
+
+            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTTestFile1, definitionList);
+
+            Assert.IsTrue(checkFile);
+        }
+
+        [TestMethod]
+        public void Test_IsFileInImportDefinition_FindsCSVFileInList()
+        {
+            Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
+            Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
+            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object);
+            var definitionList = new List<ImportDefinision>()
+            {
+                new ImportDefinision()
+                {
+                    Delimiter = "|",
+                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    ImportFormat = "CSV",
+                    ImportName = "First Import",
+                    ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
+                }
+            };
+
+            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTTestFile4, definitionList);
 
             Assert.IsTrue(checkFile);
         }
@@ -71,14 +115,13 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 {
                     Delimiter = "|",
                     FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
-                    FileMask = "*.xls",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
                 }
             };
 
-            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithError, definitionList);
+            var checkFile = repo.IsFileInImportDefinition(FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTTestFile1, definitionList);
 
             Assert.IsFalse(checkFile);
         }
@@ -95,7 +138,6 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 {
                     Delimiter = "|",
                     FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
-                    FileMask = "*.xls",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan

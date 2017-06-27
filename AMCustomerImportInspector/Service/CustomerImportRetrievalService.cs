@@ -21,7 +21,8 @@ namespace AMCustomerImportInspector.Service
                 FailureEmailAddresses = x.failure_email_addresses.Split(';'),
                 ImportFormat = x.data_format,
                 ImportName = x.name,
-                ImportPath = x.vfs_path
+                ImportPath = x.vfs_path,
+                HasHeader = x.data_has_header
             }).ToList();
 
             return returnObj;

@@ -28,10 +28,21 @@ namespace AMCustomerImportInspector.Reposetory
             _EmailService.SendEmailToRecipient(definition.FailureEmailAddresses[0], faultyEmailSubject, faultyEmailBody, fullFileName);
         }
 
+        public ImportDefinision GetImportDefinisionFromFileName(string fullFileName, IList<ImportDefinision> definisionList)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<ImportDefinision> GetImportDefinitionsFromDatabase()
         {
             return _DataService.GetCustomerImports();
         }
+
+        public string GetMoveToDirecotry(string importPath)
+        {
+            throw new NotImplementedException();
+        }
+        //TODO: Fix to return matchingDefinition.
 
         public bool IsFileInImportDefinition(string fullFileName, IList<ImportDefinision> definisionList)
         {

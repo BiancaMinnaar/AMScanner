@@ -13,6 +13,7 @@
         public const string CONSTTestFile1 = "TestFile1.txt";
         public const string CONSTTestFile2 = "TestFile2.txt";
         public const string CONSTTestFile3 = "TestFile3.txt";
+        public const string CONSTTestFile4 = "TestFile1.csv";
         public const char CONSTDelimiter = '|';
         public const bool CONSTHasHeader = true;
         public const bool CONSTHasNoHeader = false;

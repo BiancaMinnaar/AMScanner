@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace AMCustomerImportInspector.Model
 {
@@ -10,8 +6,23 @@ namespace AMCustomerImportInspector.Model
     {
         public string ImportName { get; set; }
         public string ImportPath { get; set; }
-        public string FileMask { get; set; }
+        public string FileMask
+        {
+            get
+            {
+                switch (ImportFormat)
+                {
+                    case "EXCEL":
+                        return "*.xls|*.xlsx|*.xlsb";
+                    case "CSV":
+                        return "*.txt|*.csv";
+                    default:
+                        return "*.*";
+                }
+            }
+        }
         public string ImportFormat { get; set; }
+        public bool HasHeader { get; set; }
         public string Delimiter { get; set; }
         public string[] FailureEmailAddresses { get; set; }
     }

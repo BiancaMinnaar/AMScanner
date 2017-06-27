@@ -1,4 +1,15 @@
-﻿using System;
+﻿using AMCustomerImportInspector.Interface;
+using AMCustomerImportInspector.Reposetory;
+using AMCustomerImportInspector.Service;
+using FileUtilityLibrary.ExpetionOccurrences;
+using FileUtilityLibrary.Interface.Model;
+using FileUtilityLibrary.Interface.Repository;
+using FileUtilityLibrary.Model;
+using FileUtilityLibrary.Model.ScannerFile;
+using FileUtilityLibrary.Reposetory;
+using FileUtilityLibrary.Service;
+using FileUtilityLibrary.Service.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -14,10 +25,14 @@ namespace AMDirectoryWatcher
 {
     public partial class AMDirectoryToScanWatcher : ServiceBase
     {
-        //TODO: Get Client Specified Masks and delimeter and email addresses.
+        ICustomerImportReposetory _ImportRepo;
+        IScannerRepository _ScannerRepo;
+
         public AMDirectoryToScanWatcher()
         {
             InitializeComponent();
+            _ImportRepo = new CustomerImportReposetory(new CustomerImportRetrievalService(), new EmailService());
+            
         }
 
         protected override void OnStart(string[] args)
@@ -33,6 +48,31 @@ namespace AMDirectoryWatcher
                 if (!Directory.Exists(e.FullPath))
                 {
                     //file
+                    var customerImportDefList = _ImportRepo.GetImportDefinitionsFromDatabase();
+                    var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(e.FullPath, customerImportDefList);
+                    if (customerImportDef != null)
+                    {
+                        var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(customerImportDef.ImportPath);
+                        _ScannerRepo = new ScannerRepository(
+                            new ScannerService(new DirecotryHelper(customerImportDef.ImportPath)),
+                            new MoverService(direcotryToMoveTo),
+                            new FileMaskToScannerFile<IScannerFile>(
+                                customerImportDef.FileMask,
+                                customerImportDef.Delimiter[0],
+                                customerImportDef.HasHeader,
+                                (n, p, d, h) => new CSVScannerFile(n, p, d, h)),
+                            new List<IExceptionOccurrence>() { new HeaderColumnLineCountExceptionOccurrence(
+                                "There is an error in the following line: ")}
+                            );
+                        //scan
+                        //if scan fails 
+                        //email
+                        //delete
+                    }
+                    else
+                    {
+                        //move
+                    }
                 }
             }
         }

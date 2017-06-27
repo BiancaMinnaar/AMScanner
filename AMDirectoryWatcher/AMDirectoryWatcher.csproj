@@ -57,6 +57,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AMCustomerImportInspector\AMCustomerImportInspector.csproj">
+      <Project>{5f505266-bc8e-4159-b74f-d227ebf6819f}</Project>
+      <Name>AMCustomerImportInspector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileUtilityLibrary\FileUtilityLibrary.csproj">
+      <Project>{95de842d-1435-42b6-ad51-a221078682e8}</Project>
+      <Name>FileUtilityLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

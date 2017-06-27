@@ -1,6 +1,0 @@
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\bin\Debug\AMDirectoryWatcher.exe.config
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\bin\Debug\AMDirectoryWatcher.exe
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\bin\Debug\AMDirectoryWatcher.pdb
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\obj\Debug\AMDirectoryWatcher.csprojResolveAssemblyReference.cache
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\obj\Debug\AMDirectoryWatcher.exe
-C:\Client\Britehouse\AMDevelopment\FileScannerConsole\AMDirectoryWatcher\obj\Debug\AMDirectoryWatcher.pdb
