@@ -12,6 +12,6 @@ namespace FileUtilityLibrary.Interface.Repository
     public interface IScannerRepository
     {
         void MoveFileAfterScan(IScannerFile fileToScan);
-        bool ScanForExceptions(FileInfo fileToScan, out IList<string> exceptionList);
+        bool ScanForExceptions(IScannerFile fileToScan);
     }
 }

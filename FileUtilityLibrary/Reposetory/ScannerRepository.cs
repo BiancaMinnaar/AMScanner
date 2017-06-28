@@ -22,16 +22,14 @@ namespace FileUtilityLibrary.Reposetory
             _ExceptionsToScanFor = exceptionsToScanFor;
         }
         
-        public bool ScanForExceptions(FileInfo fileToScan, out IList<string> exceptionList)
+        public bool ScanForExceptions(IScannerFile fileToScan)
         {
-            var scannerFile =_FileMaskToScannerFile.GetScannerFileInstance(fileToScan);
             foreach (IExceptionOccurrence rule in _ExceptionsToScanFor)
             {
-                rule.ScanFile(scannerFile);                
+                rule.ScanFile(fileToScan);                
             }
 
-            exceptionList = scannerFile.ExceptionList;
-            return scannerFile.HasException;
+            return fileToScan.HasException;
         }
 
         public void MoveFileAfterScan(IScannerFile fileToScan)

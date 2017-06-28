@@ -5,21 +5,12 @@ using FileUtilityLibrary.ExpetionOccurrences;
 using FileUtilityLibrary.Interface.Model;
 using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Model;
-using FileUtilityLibrary.Model.ScannerFile;
 using FileUtilityLibrary.Reposetory;
 using FileUtilityLibrary.Service;
-using FileUtilityLibrary.Service.Helper;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AMDirectoryWatcher
 {
@@ -56,22 +47,28 @@ namespace AMDirectoryWatcher
                             customerImportDef.ImportPath, 
                             ConfigurationManager.AppSettings["ScannedDirectoryFound"],
                             ConfigurationManager.AppSettings["ScannedDirectoryReplace"]);
-                        _ScannerRepo = new ScannerRepository(
-                            new MoverService(direcotryToMoveTo),
-                            new FileMaskToScannerFile(
+                        var fileMaskToScannerFile = new FileMaskToScannerFile(
                                 customerImportDef.FileMask,
                                 customerImportDef.Delimiter[0],
                                 customerImportDef.HasHeader,
-                                customerImportDef.ImportFormat),
+                                customerImportDef.ImportFormat);
+                        _ScannerRepo = new ScannerRepository(
+                            new MoverService(direcotryToMoveTo),
+                            fileMaskToScannerFile,
                             new List<IExceptionOccurrence>() { new HeaderColumnLineCountExceptionOccurrence(
                                 "There is an error in the following line: ")}
                             );
+                        var scannerFile = fileMaskToScannerFile.GetScannerFileInstance(new FileInfo(e.FullPath));
                         //scan
-                        IList<string> exceptionList;
-                        _ScannerRepo.ScanForExceptions(new FileInfo(e.FullPath), out exceptionList);
+                        var isSuccesfullScan = _ScannerRepo.ScanForExceptions(scannerFile);
                         //if scan fails 
                         //email
                         //delete
+                        //or move
+                        if (isSuccesfullScan)
+                        {
+                            _ScannerRepo.MoveFileAfterScan(scannerFile);
+                        }
                     }
                     else
                     {

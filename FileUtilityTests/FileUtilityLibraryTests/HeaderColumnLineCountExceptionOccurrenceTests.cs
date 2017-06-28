@@ -149,5 +149,21 @@ namespace FileUtilityTests
 
             Assert.AreEqual(0, errorList.Count);
         }
+
+        [TestMethod]
+        public void Test_ScanFile_CallsHasSubstructures()
+        {
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
+                FileUtilityLibraryConstants.CONSTPipeCountLineEndingErrorMessage);
+            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTInCorrectFileSctructureLine2Column2);
+            var errorList = new List<string>();
+            scannerFileMock.Setup(t => t.ExceptionList).Returns(() => errorList);
+            scannerFileMock.Setup(t => t.Delimiter).Returns(() => FileUtilityLibraryConstants.CONSTDelimiter);
+            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasNoHeader);
+
+            exceptionTest.ScanFile(scannerFileMock.Object);
+
+            scannerFileMock.Verify(m => m.HasSubStructures());
+        }
     }
 }
