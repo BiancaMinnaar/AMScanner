@@ -28,9 +28,28 @@ namespace AMCustomerImportInspector.Reposetory
             _EmailService.SendEmailToRecipient(definition.FailureEmailAddresses[0], faultyEmailSubject, faultyEmailBody, fullFileName);
         }
 
-        public ImportDefinision GetImportDefinisionFromFileName(string fullFileName, IList<ImportDefinision> definisionList)
+        public ImportDefinision GetImportDefinisionFromFileName(string fullFileName)
         {
-            throw new NotImplementedException();
+            foreach (ImportDefinision definition in GetImportDefinitionsFromDatabase())
+            {
+                if (fullFileName.Contains(definition.ImportPath))
+                {
+                    Regex mask = new Regex(
+                        '^' +
+                        definition.FileMask
+                            .Replace(".", "[.]")
+                            .Replace("*", ".*")
+                            .Replace("?", ".")
+                        + '$',
+                        RegexOptions.IgnoreCase);
+                    if (mask.IsMatch(fullFileName))
+                    {
+                        return definition;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public IList<ImportDefinision> GetImportDefinitionsFromDatabase()
@@ -38,29 +57,9 @@ namespace AMCustomerImportInspector.Reposetory
             return _DataService.GetCustomerImports();
         }
 
-        public string GetMoveToDirecotry(string importPath)
+        public string GetMoveToDirecotry(string importPath, string importDirectory, string checkedDirectory)
         {
-            throw new NotImplementedException();
-        }
-        //TODO: Fix to return matchingDefinition.
-
-        public bool IsFileInImportDefinition(string fullFileName, IList<ImportDefinision> definisionList)
-        {
-            foreach(ImportDefinision definition in definisionList)
-            {
-                Regex mask = new Regex(
-                    '^' +
-                    definition.FileMask
-                        .Replace(".", "[.]")
-                        .Replace("*", ".*")
-                        .Replace("?", ".")
-                    + '$',
-                    RegexOptions.IgnoreCase);
-                if (mask.IsMatch(fullFileName))
-                    return true;
-            }
-
-            return false;
+            return importPath.Replace(importDirectory, checkedDirectory);
         }
     }
 }

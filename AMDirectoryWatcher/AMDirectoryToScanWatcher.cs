@@ -48,11 +48,14 @@ namespace AMDirectoryWatcher
                 if (!Directory.Exists(e.FullPath))
                 {
                     //file
-                    var customerImportDefList = _ImportRepo.GetImportDefinitionsFromDatabase();
-                    var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(e.FullPath, customerImportDefList);
+                    var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(
+                        e.FullPath);
                     if (customerImportDef != null)
                     {
-                        var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(customerImportDef.ImportPath);
+                        var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(
+                            customerImportDef.ImportPath, 
+                            ConfigurationManager.AppSettings["ScannedDirectoryFound"],
+                            ConfigurationManager.AppSettings["ScannedDirectoryReplace"]);
                         _ScannerRepo = new ScannerRepository(
                             new ScannerService(new DirecotryHelper(customerImportDef.ImportPath)),
                             new MoverService(direcotryToMoveTo),

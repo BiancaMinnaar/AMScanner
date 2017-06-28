@@ -4,6 +4,8 @@
     {
         public const string CONSTDirectoryToScan = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ScanDirectory";
         public const string CONSTDirecoryToMoveTo = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\MoveDirectory";
+        public const string CONSTPartDirecotryToScan = "ScanDirectory";
+        public const string CONSTPartDirecotryToMoveTo = "MoveDirectory";
         public const string CONSTCorrectFileMask = "*.txt";
         public const string CONSTInCorrectFileMask = "*.exe";
         public const string CONSTMoveFileMask = "MoveFile*.txt";
@@ -23,5 +25,11 @@
         public const string CONSTPipeCountLineEndingErrorMessage = "The Ammount of columns returned from the line was incorrect.";
         public const string CONSTExcelFileWithError = "Master1.xlsb";
         public const string CONSTExcelFileWithNoError = "VolumePerPeriod_20170519.xls";
+        public const string CONSTCustomerImportDefinitionPathClient1 = @"C:\test1\Client1\Import";
+        public const string CONSTCustomerImportDefinitionPathClient2 = @"C:\test1\Client2\Import";
+        public const string CONSTCustomerImportDefinitionName1 = "First Import";
+        public const string CONSTCustomerImportDefinitionName2 = "Second Import";
+        public const string CONSTCustomerImportDefinitionTypeExcel = "EXCEL";
+        public const string CONSTCustomerImportDefinitionTypeCSV = "CSV";
     }
 }
