@@ -48,26 +48,27 @@ namespace AMDirectoryWatcher
                 if (!Directory.Exists(e.FullPath))
                 {
                     //file
-                    var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(
-                        e.FullPath);
+                    var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(e.FullPath);
                     if (customerImportDef != null)
                     {
+                        
                         var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(
                             customerImportDef.ImportPath, 
                             ConfigurationManager.AppSettings["ScannedDirectoryFound"],
                             ConfigurationManager.AppSettings["ScannedDirectoryReplace"]);
                         _ScannerRepo = new ScannerRepository(
-                            new ScannerService(new DirecotryHelper(customerImportDef.ImportPath)),
                             new MoverService(direcotryToMoveTo),
-                            new FileMaskToScannerFile<IScannerFile>(
+                            new FileMaskToScannerFile(
                                 customerImportDef.FileMask,
                                 customerImportDef.Delimiter[0],
                                 customerImportDef.HasHeader,
-                                (n, p, d, h) => new CSVScannerFile(n, p, d, h)),
+                                customerImportDef.ImportFormat),
                             new List<IExceptionOccurrence>() { new HeaderColumnLineCountExceptionOccurrence(
                                 "There is an error in the following line: ")}
                             );
                         //scan
+                        IList<string> exceptionList;
+                        _ScannerRepo.ScanForExceptions(new FileInfo(e.FullPath), out exceptionList);
                         //if scan fails 
                         //email
                         //delete

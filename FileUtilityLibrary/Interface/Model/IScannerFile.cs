@@ -10,8 +10,7 @@ namespace FileUtilityLibrary.Interface.Model
         char Delimiter { get; set; }
         bool HasHeader { get; set; }
         bool HasException { get; set; }
-        IList<string> ExceptionList
-        { get; set; }
+        IList<string> ExceptionList { get; set; }
         bool HasSubStructures();
         FileInfo GetFileInfo();
     }

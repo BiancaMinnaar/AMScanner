@@ -76,9 +76,9 @@
     <Compile Include="CustomerImportInspectorTests\CustomerImportReposetoryTest.cs" />
     <Compile Include="FileUtilityLibraryTests\FileUtilityConstants.cs" />
     <Compile Include="FileUtilityLibraryTests\MoverServiceTests.cs" />
+    <Compile Include="FileUtilityLibraryTests\FileMaskToScannerFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileUtilityLibraryTests\ScannerReposetoryTests.cs" />
-    <Compile Include="FileUtilityLibraryTests\ScannerServiceTests.cs" />
     <Compile Include="FileUtilityLibraryTests\ScannerFileCollectionTests.cs" />
     <Compile Include="FileUtilityLibraryTests\HeaderColumnLineCountExceptionOccurrenceTests.cs" />
     <Compile Include="FileUtilityLibraryTests\ExcelWorkbookTests.cs" />

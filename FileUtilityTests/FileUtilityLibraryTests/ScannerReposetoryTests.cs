@@ -3,94 +3,40 @@ using FileUtilityLibrary.Interface.Service;
 using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Reposetory;
 using System.Collections.Generic;
-using FileUtilityLibrary.Model;
 using FileUtilityLibrary.Interface.Model;
 using Moq;
 using System.IO;
-using FileUtilityLibrary.Model.ScannerFile;
 using FileUtilityLibrary.ExpetionOccurrences;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
+using FileUtilityLibrary.Model.ScannerFile;
 
 namespace FileUtilityTests
 {
     [TestClass]
     public class ScannerReposetoryTests
     {
-        private Moq.Mock<IScannerService> _MockScannerService;
         private Moq.Mock<IMoverService> _MockMoverService;
         private IScannerRepository _ScannerRepository;
-        private Mock<IFileMaskToScannerFile<IScannerFile>> _FileMaskToScannerFile;
-        private Mock<IExceptionOccurrence> _SomeExceptionRule;
+        private Mock<IFileMaskToScannerFile> _FileMaskToScannerFile;
         private IList<IExceptionOccurrence> _ExeptionList;
 
         [TestMethod]
-        public void TestThatFindFilesToScanReturnsCallsDirecotryHasFile()
+        public void Test_MoveFileAfterScan_MovesFiles()
         {
-            _MockScannerService = new Moq.Mock<IScannerService>();
-            _MockMoverService = new Moq.Mock<IMoverService>();
-            Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(
-                _MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object,  null);
-
-            _ScannerRepository.FindFilesToScan();
-            _MockScannerService.Verify(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask));
-        }
-
-        [TestMethod]
-        public void TestThatFindFilesToScanReturnsCallsGetFilesToScan()
-        {
-            _MockScannerService = new Moq.Mock<IScannerService>();
-            _MockScannerService.Setup(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask)).Returns(true);
-            _MockMoverService = new Moq.Mock<IMoverService>();
-            Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
-
-            _ScannerRepository.FindFilesToScan();
-            _MockScannerService.Verify(t => t.GetFilesToScan(fileMaskToScannerFile.Object));
-        }
-
-        [TestMethod]
-        public void TestThatGetFilesToScanReturnsCorrectScannerFileList()
-        {
-            _MockScannerService = new Moq.Mock<IScannerService>();
-            _MockScannerService.Setup(t => t.DirectoryHasFile(FileUtilityLibraryConstants.CONSTCorrectFileMask)).Returns(true);
-            var scanFilesToReturn = new ScannerFileCollection<IScannerFile>()
-            {
-                new CSVScannerFile(FileUtilityLibraryConstants.CONSTTestFile1, FileUtilityLibraryConstants.CONSTDirectoryToScan, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader),
-                new CSVScannerFile(FileUtilityLibraryConstants.CONSTTestFile2, FileUtilityLibraryConstants.CONSTDirectoryToScan, FileUtilityLibraryConstants.CONSTDelimiter, FileUtilityLibraryConstants.CONSTHasHeader)
-            };
-            Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _MockScannerService.Setup(t => t.GetFilesToScan(fileMaskToScannerFile.Object)).Returns(scanFilesToReturn);
-            _MockMoverService = new Moq.Mock<IMoverService>();
-            _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
-
-            var returnedFiles = _ScannerRepository.FindFilesToScan();
-
-            Assert.AreEqual(scanFilesToReturn, returnedFiles, "The Returned files weren't the same");
-        }
-
-        [TestMethod]
-        public void TestThatRepoMovesFiles()
-        {
-            _MockScannerService = new Moq.Mock<IScannerService>();
             _MockMoverService = new Moq.Mock<IMoverService>();
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
             scannerFileMock.Setup(t => t.HasException).Returns(false);
-            Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
             _ScannerRepository.MoveFileAfterScan(scannerFileMock.Object);
 
             _MockMoverService.Verify(t => t.MoveFilesInList(It.IsAny<FileInfo[]>()));
         }
 
         [TestMethod]
-        public void TestThatRepoScansFileForException()
+        public void Test_ScansFileForException_CallsScanFile()
         {
-            _MockScannerService = new Moq.Mock<IScannerService>();
             _MockMoverService = new Moq.Mock<IMoverService>();
             var someExceptionRule = new Mock<IExceptionOccurrence>();
             IList<IExceptionOccurrence> exeptionList = new List<IExceptionOccurrence>()
@@ -98,71 +44,136 @@ namespace FileUtilityTests
                 someExceptionRule.Object
             };
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
-            Mock<IFileMaskToScannerFile<IScannerFile>> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
-            fileMaskToScannerFile.Setup(t => t.GetFileMask()).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(_MockScannerService.Object, _MockMoverService.Object, fileMaskToScannerFile.Object, exeptionList);
+            Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
+            fileMaskToScannerFile.Setup(m => m.ImportFormat).Returns(FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeCSV);
+            fileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+                .Returns(() => { return new CSVScannerFile(
+                    FileUtilityLibraryConstants.CONSTScanFile1,
+                    FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                    FileUtilityLibraryConstants.CONSTDelimiter,
+                    true); });
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, exeptionList);
 
-            _ScannerRepository.ScanFileForException(scannerFileMock.Object);
+            IList<string> exceptionList;
+            _ScannerRepository.ScanForExceptions(new FileInfo(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTTestFile1),
+                out exceptionList);
 
             someExceptionRule.Verify(t => t.ScanFile(It.IsAny<IScannerFile>()));
         }
 
         [TestMethod]
-        public void TestScannerReposetoryScanFileForExceptionCorrectlyScansMultipleSheetExcelFile()
+        public void Test_ScanForExceptions_CorrectlyScansMultipleSheetExcelFile()
         {
-            _MockScannerService = new Moq.Mock<IScannerService>();
-            //SetupFilesToScan
-            _MockScannerService.Setup(t => t.GetFilesToScan(It.IsAny<IFileMaskToScannerFile<IScannerFile>>()))
-                .Returns(() =>
-                {
-                    return new ScannerFileCollection<IScannerFile>()
-                    {
-                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
-                    };
-                });
             _MockMoverService = new Moq.Mock<IMoverService>();
-            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
+            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            _FileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+               .Returns(() => {
+                   return new ExcelScannerFile(
+                       FileUtilityLibraryConstants.CONSTExcelFileWithError,
+                       FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                       FileUtilityLibraryConstants.CONSCommaDelimiter,
+                       true);
+               });
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             _ScannerRepository = new ScannerRepository(
-                _MockScannerService.Object, 
                 _MockMoverService.Object, 
                 _FileMaskToScannerFile.Object, 
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
-            _ScannerRepository.ScanFileForException(scanFile);
+            IList<string> exceptionList;
+            var hasErrors = _ScannerRepository.ScanForExceptions(new FileInfo(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTExcelFileWithError),
+                out exceptionList);
 
-            Assert.AreEqual(true, scanFile.HasException);
+            Assert.AreEqual(true, hasErrors);
         }
 
         [TestMethod]
-        public void TestScannerReposetoryScanFileForExceptionCorrectlyScansMultipleSheetExcelFileWithNoErrors()
+        public void Test_ScanFileForException_CorrectlyScansMultipleSheetExcelFileWithNoErrors()
         {
-            _MockScannerService = new Moq.Mock<IScannerService>();
-            //SetupFilesToScan
-            _MockScannerService.Setup(t => t.GetFilesToScan(It.IsAny<IFileMaskToScannerFile<IScannerFile>>()))
-                .Returns(() =>
-                {
-                    return new ScannerFileCollection<IScannerFile>()
-                    {
-                        new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true)
-                    };
-                });
             _MockMoverService = new Moq.Mock<IMoverService>();
-            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile<IScannerFile>>();
+            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            _FileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+               .Returns(() => {
+                   return new ExcelScannerFile(
+                       FileUtilityLibraryConstants.CONSTExcelFileWithError,
+                       FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                       FileUtilityLibraryConstants.CONSCommaDelimiter,
+                       true);
+               });
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             _ScannerRepository = new ScannerRepository(
-                _MockScannerService.Object,
                 _MockMoverService.Object,
                 _FileMaskToScannerFile.Object,
                 _ExeptionList);
 
-            var scanFile = new ExcelScannerFile(FileUtilityLibraryConstants.CONSTExcelFileWithNoError, FileUtilityLibraryConstants.CONSTDirectoryToScan, ';', true);
-            _ScannerRepository.ScanFileForException(scanFile);
+            IList<string> exceptionList;
+            var hasErrors = _ScannerRepository.ScanForExceptions(new FileInfo(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTExcelFileWithNoError),
+                out exceptionList);
 
-            Assert.AreEqual(false, scanFile.HasException);
+            Assert.AreEqual(true, hasErrors);
+        }
+
+        [TestMethod]
+        public void Test_ScanForExceptions_ReturnsPropperErrors()
+        {
+            _MockMoverService = new Moq.Mock<IMoverService>();
+            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            _FileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+               .Returns(() => {
+                   return new ExcelScannerFile(
+                       FileUtilityLibraryConstants.CONSTExcelFileWithError,
+                       FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                       FileUtilityLibraryConstants.CONSCommaDelimiter,
+                       true);
+               });
+            var PipeError = new HeaderColumnLineCountExceptionOccurrence(FileUtilityLibraryConstants.CONSTHeaderErrorErrorMessage);
+            _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
+            _ScannerRepository = new ScannerRepository(
+                _MockMoverService.Object,
+                _FileMaskToScannerFile.Object,
+                _ExeptionList);
+
+            IList<string> exceptionList;
+            var hasErrors = _ScannerRepository.ScanForExceptions(new FileInfo(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTExcelFileWithError),
+                out exceptionList);
+
+            Assert.AreNotEqual(null, exceptionList);
+            Assert.IsTrue(exceptionList[0].Contains(FileUtilityLibraryConstants.CONSTHeaderErrorErrorMessage));
+        }
+
+        [TestMethod]
+        public void Test_ScanForExceptions_ReturnsNoErrorsInCollectionOnPropperFile()
+        {
+            _MockMoverService = new Moq.Mock<IMoverService>();
+            _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            _FileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+               .Returns(() => {
+                   return new ExcelScannerFile(
+                       FileUtilityLibraryConstants.CONSTExcelFileWithNoError,
+                       FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                       FileUtilityLibraryConstants.CONSCommaDelimiter,
+                       true);
+               });
+            var PipeError = new HeaderColumnLineCountExceptionOccurrence(FileUtilityLibraryConstants.CONSTHeaderErrorErrorMessage);
+            _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
+            _ScannerRepository = new ScannerRepository(
+                _MockMoverService.Object,
+                _FileMaskToScannerFile.Object,
+                _ExeptionList);
+
+            IList<string> exceptionList;
+            var hasErrors = _ScannerRepository.ScanForExceptions(new FileInfo(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTExcelFileWithNoError),
+                out exceptionList);
+
+            Assert.AreEqual(0, exceptionList.Count);
         }
     }
 }

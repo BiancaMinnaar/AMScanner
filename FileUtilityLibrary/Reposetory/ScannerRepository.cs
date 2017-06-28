@@ -9,35 +9,29 @@ namespace FileUtilityLibrary.Reposetory
 {
     public class ScannerRepository : IScannerRepository
     {
-        private IScannerService _ScannerService;
         private IMoverService _MoverService;
-        private IFileMaskToScannerFile<IScannerFile> _FileMaskToScannerFile;
+        private IFileMaskToScannerFile _FileMaskToScannerFile;
         private IList<IExceptionOccurrence> _ExceptionsToScanFor;
         
-        
-        public ScannerRepository(IScannerService scannerService, IMoverService moverService, IFileMaskToScannerFile<IScannerFile> fileMaskToScannerFile, IList<IExceptionOccurrence> exceptionsToScanFor)
+        public ScannerRepository(IMoverService moverService, 
+            IFileMaskToScannerFile fileMaskToScannerFile, 
+            IList<IExceptionOccurrence> exceptionsToScanFor)
         {
-            _ScannerService = scannerService;
             _MoverService = moverService;
             _FileMaskToScannerFile = fileMaskToScannerFile;
             _ExceptionsToScanFor = exceptionsToScanFor;
         }
-        public ScannerFileCollection<IScannerFile> FindFilesToScan()
+        
+        public bool ScanForExceptions(FileInfo fileToScan, out IList<string> exceptionList)
         {
-            if (_ScannerService.DirectoryHasFile(_FileMaskToScannerFile.GetFileMask()))
+            var scannerFile =_FileMaskToScannerFile.GetScannerFileInstance(fileToScan);
+            foreach (IExceptionOccurrence rule in _ExceptionsToScanFor)
             {
-                return _ScannerService.GetFilesToScan(_FileMaskToScannerFile);
-            }
-            return null;
-        }
-        public bool ScanFileForException(IScannerFile fileToScan)
-        {
-            foreach(IExceptionOccurrence rule in _ExceptionsToScanFor)
-            {
-                rule.ScanFile(fileToScan);                
+                rule.ScanFile(scannerFile);                
             }
 
-            return fileToScan.HasException;
+            exceptionList = scannerFile.ExceptionList;
+            return scannerFile.HasException;
         }
 
         public void MoveFileAfterScan(IScannerFile fileToScan)

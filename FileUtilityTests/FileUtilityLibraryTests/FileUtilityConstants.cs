@@ -17,6 +17,8 @@
         public const string CONSTTestFile3 = "TestFile3.txt";
         public const string CONSTTestFile4 = "TestFile1.csv";
         public const char CONSTDelimiter = '|';
+        public const char CONSSemiColonTDelimiter = ';';
+        public const char CONSCommaDelimiter = ',';
         public const bool CONSTHasHeader = true;
         public const bool CONSTHasNoHeader = false;
         public const string CONSTHeaderLine = "Header1|Header2|Header3";
@@ -31,5 +33,6 @@
         public const string CONSTCustomerImportDefinitionName2 = "Second Import";
         public const string CONSTCustomerImportDefinitionTypeExcel = "EXCEL";
         public const string CONSTCustomerImportDefinitionTypeCSV = "CSV";
+        public const string CONSTHeaderErrorErrorMessage = "Header Error Found";
     }
 }

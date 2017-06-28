@@ -1,41 +1,30 @@
 ﻿using FileUtilityLibrary.Interface.Model;
+using FileUtilityLibrary.Model.ScannerFile;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileUtilityLibrary.Model
 {
-    public class FileMaskToScannerFile<T> : IFileMaskToScannerFile<T> where T : IScannerFile
+    public class FileMaskToScannerFile : IFileMaskToScannerFile
     {
-        private string _FileMask;
-        private char _Delimiter;
-        private bool _HasHeader;
-        private Func<string, string, char, bool, T> _Constructor;
+        public string FileMask { get; }
+        public char Delimiter { get; }
+        public bool HasHeader { get; }
+        public string ImportFormat { get; }
 
-        public FileMaskToScannerFile(string fileMask, char delimiter, bool hasHeader, Func<string, string, char, bool, T> constructor)
+        public FileMaskToScannerFile(
+            string fileMask, char delimiter, bool hasHeader, string importFormat)
         {
-            _Constructor = constructor;
-            _FileMask = fileMask;
-            _Delimiter = delimiter;
-            _HasHeader = hasHeader;
+            ImportFormat = importFormat;
+            FileMask = fileMask;
+            Delimiter = delimiter;
+            HasHeader = hasHeader;
         }
 
-        public string GetFileMask()
+        public IScannerFile GetScannerFileInstance(FileInfo file)
         {
-            return _FileMask;
-        }
-
-        public char GetDelimiter()
-        {
-            return _Delimiter;
-        }
-
-        public T GetScannerFileInstance(FileInfo file)
-        {
-            return _Constructor(file.Name, file.DirectoryName, _Delimiter, _HasHeader);
+            return new ScannerFileFactory().GetScannerFile(
+                file.Name, file.Directory.FullName, Delimiter, HasHeader, ImportFormat);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
         public Workbook CurrentWorkBook { get; set; }
         public int WorkbookSheetCount { get; set; }
         private Application _ExcelApp;
-        private MemoryStream[] _CsvStreamsToScan;
         private string _FullFileName;
 
         public ExcelWorkbook(string fullFileName)

@@ -50,8 +50,8 @@
     <Compile Include="Interface\Model\ScannerFIle\Excel\IExcelWorkBook.cs" />
     <Compile Include="Interface\Repository\IScannerRepository.cs" />
     <Compile Include="Interface\Service\IMoverService.cs" />
-    <Compile Include="Interface\Service\IScannerService.cs" />
     <Compile Include="Model\CharacterRead.cs" />
+    <Compile Include="Model\ScannerFile\BaseScannerFile.cs" />
     <Compile Include="Model\ScannerFile\Excel\ExcelScannerFile.cs" />
     <Compile Include="Model\ExceptionOccurrence.cs" />
     <Compile Include="Model\FileMaskToScannerFile.cs" />
@@ -63,11 +63,11 @@
     <Compile Include="Model\ScannerFile\CSVScannerFIle.cs" />
     <Compile Include="Model\ScannerFileCollection.cs" />
     <Compile Include="Model\ScannerFile\Excel\ExcelWorkbook.cs" />
+    <Compile Include="Model\ScannerFile\ScannerFileFactory.cs" />
     <Compile Include="Reposetory\ScannerRepository.cs" />
     <Compile Include="Service\Helper\DirecotryHelper.cs" />
     <Compile Include="Service\MoverService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ScannerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

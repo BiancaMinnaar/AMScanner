@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace FileUtilityLibrary.Interface.Model
 {
-    public interface IFileMaskToScannerFile<T> where T:IScannerFile
+    public interface IFileMaskToScannerFile
     {
-        string GetFileMask();
-        char GetDelimiter();
-        T GetScannerFileInstance(FileInfo file);
+        string FileMask { get; }
+        char Delimiter { get; }
+        bool HasHeader { get; }
+        string ImportFormat { get; }
+        IScannerFile GetScannerFileInstance(FileInfo file);
     }
 }
