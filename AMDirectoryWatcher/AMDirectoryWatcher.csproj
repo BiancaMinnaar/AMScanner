@@ -35,7 +35,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AMDirectoryWatcherInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AMDirectoryWatcherInstaller.Designer.cs">
+      <DependentUpon>AMDirectoryWatcherInstaller.cs</DependentUpon>
+    </Compile>
     <Compile Include="AMDirectoryToScanWatcher.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -8,3 +8,4 @@ FileUtilityTests/bin/
 packages/
 AMDirectoryWatcher/obj/
 TestResults/
+DirectoryToWatch/

@@ -16,8 +16,10 @@ namespace AMDirectoryWatcher
 {
     public partial class AMDirectoryToScanWatcher : ServiceBase
     {
-        ICustomerImportReposetory _ImportRepo;
-        IScannerRepository _ScannerRepo;
+        private ICustomerImportReposetory _ImportRepo;
+        private IScannerRepository _ScannerRepo;
+        public const string MyServiceName = "AMFolderWatcher";
+        private FileSystemWatcher watcher = null;
 
         public AMDirectoryToScanWatcher()
         {
@@ -28,7 +30,8 @@ namespace AMDirectoryWatcher
 
         protected override void OnStart(string[] args)
         {
-            FileSystemWatcher watcher = new FileSystemWatcher(ConfigurationManager.AppSettings["DirectoryToWatch"]);
+            watcher = new FileSystemWatcher(ConfigurationManager.AppSettings["DirectoryToWatch"]);
+            watcher.IncludeSubdirectories = true;
             watcher.Created += WatcherFoundCreation;
         }
 
@@ -88,6 +91,8 @@ namespace AMDirectoryWatcher
 
         protected override void OnStop()
         {
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
         }
     }
 }
