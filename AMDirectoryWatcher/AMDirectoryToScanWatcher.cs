@@ -24,12 +24,18 @@ namespace AMDirectoryWatcher
         public AMDirectoryToScanWatcher()
         {
             InitializeComponent();
+            log4net.ILog log =
+               log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Application is working");
             _ImportRepo = new CustomerImportReposetory(
                 new CustomerImportRetrievalService(), new EmailService(), new EMailTemplateService());
         }
 
         protected override void OnStart(string[] args)
         {
+            log4net.ILog log =
+                log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Application is working");
             watcher = new FileSystemWatcher(ConfigurationManager.AppSettings["DirectoryToWatch"]);
             watcher.IncludeSubdirectories = true;
             watcher.Created += WatcherFoundCreation;
