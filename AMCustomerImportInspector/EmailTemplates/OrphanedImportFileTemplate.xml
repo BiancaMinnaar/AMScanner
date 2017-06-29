@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<OrphanedImportFileEMail>
+  <EMailSubject>Missing Client definition</EMailSubject>
+  <EMailBody>
+    <PreErrorText>The File attached was placed in <MissPlacedFileDirectory></MissPlacedFileDirectory></PreErrorText>
+  </EMailBody>
+</OrphanedImportFileEMail>

@@ -14,18 +14,44 @@ namespace AMCustomerImportInspector.Reposetory
     {
         private ICustomerImportRetrievalService _DataService;
         private IEmailService _EmailService;
+        private IEMailTemplateService _EMailTemplateService;
 
-        public CustomerImportReposetory(ICustomerImportRetrievalService dataService, IEmailService emailService)
+        public CustomerImportReposetory(ICustomerImportRetrievalService dataService, IEmailService emailService, IEMailTemplateService emailTemplateService)
         {
             _DataService = dataService;
             _EmailService = emailService;
+            _EMailTemplateService = emailTemplateService;
         }
 
-        public void EmailFaultyFile(string fullFileName, ImportDefinision definition)
+        public void EmailFaultyFile(string fullFileName, ImportDefinision definition, string[] errorList)
         {
-            var faultyEmailSubject = ConfigurationManager.AppSettings["FaultyEmailSubject"];
-            var faultyEmailBody = ConfigurationManager.AppSettings["FaultyEmailBody"];
-            _EmailService.SendEmailToRecipient(definition.FailureEmailAddresses[0], faultyEmailSubject, faultyEmailBody, fullFileName);
+            var faultyEmailSubject = _EMailTemplateService.GetSubjectText(
+                "AMCustomerImportInspector.EmailTemplates.FaultyImportFIleTemplate.xml",
+                "//FaultyImportFileEMail/EMailSubject");
+            var faultyEmailBody = _EMailTemplateService.GetWholeEmailBodyWithErrors(
+                "AMCustomerImportInspector.EmailTemplates.FaultyImportFIleTemplate.xml",
+                "//FaultyImportFileEMail/EMailBody/PreErrorText", "<ErrorText></ErrorText>", errorList);
+            foreach (string emailAddress in definition.FailureEmailAddresses)
+            {
+                _EmailService.SendEmailToRecipient(emailAddress, faultyEmailSubject, faultyEmailBody, fullFileName);
+            }
+        }
+
+        public void EMailOrphenedFileToSupport(string fullFileName, string[] emailAddressList)
+        {
+            var orphanedEmailSubject = _EMailTemplateService.GetSubjectText(
+                "AMCustomerImportInspector.EmailTemplates.OrphanedImportFileTemplate.xml",
+                "//OrphanedImportFileEMail/EMailSubject");
+            var orphanedEmailBody = _EMailTemplateService.GetWholeEmailBody(
+                "AMCustomerImportInspector.EmailTemplates.OrphanedImportFileTemplate.xml",
+                "//OrphanedImportFileEMail/EMailBody/PreErrorText", 
+                "<MissPlacedFileDirectory></MissPlacedFileDirectory>", fullFileName);
+
+            foreach (string emailAddress in emailAddressList)
+            {
+                _EmailService.SendEmailToRecipient(
+                    emailAddress, orphanedEmailSubject, orphanedEmailBody, fullFileName);
+            }
         }
 
         public ImportDefinision GetImportDefinisionFromFileName(string fullFileName)

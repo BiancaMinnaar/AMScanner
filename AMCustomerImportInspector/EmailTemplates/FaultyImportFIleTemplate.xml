@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FaultyImportFileEMail>
+  <EMailSubject>Hi, Your Import File has been found faulty.</EMailSubject>
+  <EMailBody>
+    <PreErrorText>Please review the errors below and contact support if necesary.
+<ErrorText></ErrorText></PreErrorText>
+  </EMailBody>
+</FaultyImportFileEMail>

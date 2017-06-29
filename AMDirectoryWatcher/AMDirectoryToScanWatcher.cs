@@ -22,8 +22,8 @@ namespace AMDirectoryWatcher
         public AMDirectoryToScanWatcher()
         {
             InitializeComponent();
-            _ImportRepo = new CustomerImportReposetory(new CustomerImportRetrievalService(), new EmailService());
-            
+            _ImportRepo = new CustomerImportReposetory(
+                new CustomerImportRetrievalService(), new EmailService(), new EMailTemplateService());
         }
 
         protected override void OnStart(string[] args)
@@ -69,10 +69,18 @@ namespace AMDirectoryWatcher
                         {
                             _ScannerRepo.MoveFileAfterScan(scannerFile);
                         }
+                        else
+                        {
+                            _ImportRepo.EmailFaultyFile(e.FullPath, customerImportDef, 
+                                ((List<string>)scannerFile.ExceptionList).ToArray());
+                            _ScannerRepo.DeleteFaultyFile(scannerFile);
+                        }
                     }
                     else
                     {
-                        //move
+                        _ImportRepo.EMailOrphenedFileToSupport(
+                                e.FullPath, new string[] { ConfigurationManager.AppSettings["EmailSupportAddress"] });
+                        _ScannerRepo.DeleteOrphanedFile(e.FullPath);
                     }
                 }
             }

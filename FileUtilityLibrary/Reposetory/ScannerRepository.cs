@@ -40,5 +40,17 @@ namespace FileUtilityLibrary.Reposetory
             }
         }
 
+        public void DeleteFaultyFile(IScannerFile fileToDelete)
+        {
+            if (fileToDelete.HasException)
+            {
+                _MoverService.DeleteFilesInList(new FileInfo[] { fileToDelete.GetFileInfo() });
+            }
+        }
+
+        public void DeleteOrphanedFile(string fullFileName)
+        {
+            _MoverService.DeleteFilesInList(new FileInfo[] { new FileInfo(fullFileName) });
+        }
     }
 }

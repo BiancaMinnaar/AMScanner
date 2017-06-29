@@ -7,7 +7,8 @@ namespace AMCustomerImportInspector.Interface
     {
         IList<ImportDefinision> GetImportDefinitionsFromDatabase();
         ImportDefinision GetImportDefinisionFromFileName(string fullFileName);
-        void EmailFaultyFile(string fullFileName, ImportDefinision definition);
+        void EmailFaultyFile(string fullFileName, ImportDefinision definition, string[] errorList);
+        void EMailOrphenedFileToSupport(string fullFileName, string[] emailAddressList);
         string GetMoveToDirecotry(string importPath, string importDirectory, string checkedDirectory);
     }
 }

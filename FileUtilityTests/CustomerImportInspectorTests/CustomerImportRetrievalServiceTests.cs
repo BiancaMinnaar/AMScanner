@@ -8,7 +8,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
     public class CustomerImportRetrievalServiceTests
     {
         [TestMethod]
-        public void TestGetCustomerImportsReturnsRowsFromDB()
+        public void Test_GetCustomerImports_ReturnsRowsFromDB()
         {
             var service = new CustomerImportRetrievalService();
             var returnobj = service.GetCustomerImports();

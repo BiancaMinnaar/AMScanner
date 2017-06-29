@@ -34,5 +34,7 @@
         public const string CONSTCustomerImportDefinitionTypeExcel = "EXCEL";
         public const string CONSTCustomerImportDefinitionTypeCSV = "CSV";
         public const string CONSTHeaderErrorErrorMessage = "Header Error Found";
+        public const string CONSTGoodEMailSubject = "Good Email Subject";
+        public const string CONSTGoodEMailBody = "Good Email Body";
     }
 }

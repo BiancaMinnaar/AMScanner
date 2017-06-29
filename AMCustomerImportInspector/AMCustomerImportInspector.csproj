@@ -77,6 +77,7 @@
     <Compile Include="Interface\ICustomerImportReposetory.cs" />
     <Compile Include="Interface\ICustomerImportRetrievalService.cs" />
     <Compile Include="Interface\IEmailService.cs" />
+    <Compile Include="Interface\IEMailTemplateService.cs" />
     <Compile Include="Model\ImportDefinision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -87,6 +88,7 @@
     <Compile Include="Reposetory\CustomerImportReposetory.cs" />
     <Compile Include="Service\CustomerImportRetrievalService.cs" />
     <Compile Include="Service\EmailService.cs" />
+    <Compile Include="Service\EMailTemplateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -118,6 +120,8 @@
       <DependentUpon>CustomerImportModel.edmx</DependentUpon>
       <LastGenOutput>CustomerImportModel.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="EmailTemplates\OrphanedImportFileTemplate.xml" />
+    <EmbeddedResource Include="EmailTemplates\FaultyImportFIleTemplate.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

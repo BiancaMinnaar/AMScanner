@@ -154,5 +154,32 @@ namespace FileUtilityTests
 
             Assert.AreEqual(0, scannerFile.ExceptionList.Count);
         }
+
+        [TestMethod]
+        public void Test_DeleteFaultyFile_DeletesScannerFileWithErrors()
+        {
+            _MockMoverService = new Moq.Mock<IMoverService>();
+            Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
+            scannerFileMock.Setup(t => t.HasException).Returns(true);
+            Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            _ScannerRepository.DeleteFaultyFile(scannerFileMock.Object);
+
+            _MockMoverService.Verify(t => t.DeleteFilesInList(It.IsAny<FileInfo[]>()));
+        }
+
+        [TestMethod]
+        public void Test_DeleteOrphanedFile_DeletesFile()
+        {
+            _MockMoverService = new Moq.Mock<IMoverService>();
+            Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
+            Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            _ScannerRepository.DeleteOrphanedFile(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTTestFile3);
+
+            _MockMoverService.Verify(t => t.DeleteFilesInList(It.IsAny<FileInfo[]>()));
+        }
     }
 }

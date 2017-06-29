@@ -74,6 +74,7 @@
     <Compile Include="CustomerImportInspectorTests\CustomerImportInspectorConstants.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportRetrievalServiceTests.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportReposetoryTest.cs" />
+    <Compile Include="CustomerImportInspectorTests\EMailTemplateServiceTests.cs" />
     <Compile Include="FileUtilityLibraryTests\FileUtilityConstants.cs" />
     <Compile Include="FileUtilityLibraryTests\MoverServiceTests.cs" />
     <Compile Include="FileUtilityLibraryTests\FileMaskToScannerFileTest.cs" />
