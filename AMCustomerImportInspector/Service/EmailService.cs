@@ -14,10 +14,10 @@ namespace AMCustomerImportInspector.Service
             var password = ConfigurationManager.AppSettings["EMailPassword"];
             var host = ConfigurationManager.AppSettings["EmailURL"];
             var port = int.Parse(ConfigurationManager.AppSettings["EmailPort"]);
+            MailMessage mail = new MailMessage(userName, emailAddress, messageSubject, messageBody);
 
             try
             {
-                MailMessage mail = new MailMessage(userName, emailAddress, messageSubject, messageBody);
                 mail.Attachments.Add(new Attachment(fullFileName));
                 SmtpClient client = new SmtpClient(host, port);
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -28,7 +28,12 @@ namespace AMCustomerImportInspector.Service
             }
             catch(Exception excp)
             {
-                //TODO:Raise Log event
+                log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                log.Fatal(excp.Message);
+            }
+            finally
+            {
+                mail.Dispose();
             }
         }
     }

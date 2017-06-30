@@ -9,5 +9,4 @@ packages/
 AMDirectoryWatcher/obj/
 TestResults/
 DirectoryToWatch/
-AMDirectoryWatcher/packages.config
-FileUtilityTests/packages.config
+FileUtilityLibrary/bin/

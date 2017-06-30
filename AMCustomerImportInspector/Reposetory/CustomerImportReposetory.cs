@@ -1,12 +1,8 @@
 ﻿using AMCustomerImportInspector.Interface;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AMCustomerImportInspector.Model;
-using System.Configuration;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace AMCustomerImportInspector.Reposetory
 {
@@ -80,7 +76,16 @@ namespace AMCustomerImportInspector.Reposetory
 
         public IList<ImportDefinision> GetImportDefinitionsFromDatabase()
         {
-            return _DataService.GetCustomerImports();
+            try
+            {
+                return _DataService.GetCustomerImports();
+            }
+            catch(SqlException sqlExe)
+            {
+                log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                log.Fatal(sqlExe.Message);
+            }
+            return null;
         }
 
         public string GetMoveToDirecotry(string importPath, string importDirectory, string checkedDirectory)

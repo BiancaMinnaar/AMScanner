@@ -7,6 +7,9 @@ namespace FileUtilityLibrary.Service
     {
         public string DirectoryToMoveTo { get; }
         private DirectoryInfo direcotryHelper;
+
+        public MoverService() { }
+
         public MoverService(string direcotryToMoveTo)
         {
             DirectoryToMoveTo = direcotryToMoveTo;
@@ -22,9 +25,12 @@ namespace FileUtilityLibrary.Service
 
         public void MoveFilesInList(FileInfo[] fileListToMove)
         {
-            foreach (FileInfo info in fileListToMove)
+            if (DirectoryToMoveTo != null)
             {
-                info.MoveTo(DirectoryToMoveTo + "//" + info.Name);
+                foreach (FileInfo info in fileListToMove)
+                {
+                    info.MoveTo(DirectoryToMoveTo + "//" + info.Name);
+                }
             }
         }
     }

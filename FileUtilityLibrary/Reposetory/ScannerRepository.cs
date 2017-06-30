@@ -9,34 +9,50 @@ namespace FileUtilityLibrary.Reposetory
 {
     public class ScannerRepository : IScannerRepository
     {
-        private IMoverService _MoverService;
-        private IFileMaskToScannerFile _FileMaskToScannerFile;
-        private IList<IExceptionOccurrence> _ExceptionsToScanFor;
+        public IMoverService MoverService { get; set; }
+        public IFileMaskToScannerFile FileMaskToScannerFile { get; set; }
+        public IList<IExceptionOccurrence> ExceptionsToScanFor { get; set; }
+
+        public ScannerRepository(IMoverService moverService)
+        {
+            MoverService = moverService;
+        }
         
         public ScannerRepository(IMoverService moverService, 
             IFileMaskToScannerFile fileMaskToScannerFile, 
             IList<IExceptionOccurrence> exceptionsToScanFor)
+            :this(moverService)
         {
-            _MoverService = moverService;
-            _FileMaskToScannerFile = fileMaskToScannerFile;
-            _ExceptionsToScanFor = exceptionsToScanFor;
+            FileMaskToScannerFile = fileMaskToScannerFile;
+            ExceptionsToScanFor = exceptionsToScanFor;
         }
+
         
-        public bool ScanForExceptions(IScannerFile fileToScan)
+        public bool? ScanForExceptions(IScannerFile fileToScan)
         {
-            foreach (IExceptionOccurrence rule in _ExceptionsToScanFor)
+            if (ExceptionsToScanFor != null)
             {
-                rule.ScanFile(fileToScan);                
+                foreach (IExceptionOccurrence rule in ExceptionsToScanFor)
+                {
+                    rule.ScanFile(fileToScan);
+                }
+
+                return fileToScan.HasException;
+            }
+            else
+            {
+                var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                log.Fatal("No rules were configured for scan!");
             }
 
-            return fileToScan.HasException;
+            return null;
         }
 
         public void MoveFileAfterScan(IScannerFile fileToScan)
         {
             if (!fileToScan.HasException)
             {
-                _MoverService.MoveFilesInList(new FileInfo[] { fileToScan.GetFileInfo() });
+                MoverService.MoveFilesInList(new FileInfo[] { fileToScan.GetFileInfo() });
             }
         }
 
@@ -44,13 +60,13 @@ namespace FileUtilityLibrary.Reposetory
         {
             if (fileToDelete.HasException)
             {
-                _MoverService.DeleteFilesInList(new FileInfo[] { fileToDelete.GetFileInfo() });
+                MoverService.DeleteFilesInList(new FileInfo[] { fileToDelete.GetFileInfo() });
             }
         }
 
         public void DeleteOrphanedFile(string fullFileName)
         {
-            _MoverService.DeleteFilesInList(new FileInfo[] { new FileInfo(fullFileName) });
+            MoverService.DeleteFilesInList(new FileInfo[] { new FileInfo(fullFileName) });
         }
     }
 }
