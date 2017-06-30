@@ -4,51 +4,72 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BLANKETSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <Function Name="GetCustomerImportParameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <EntityContainer Name="BLANKETSModelStoreContainer" />
+    <Schema Namespace="CLIENTLISTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IMPEX_CONFIGURATIONS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DatabaseName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="vfs_path" Type="varchar" MaxLength="300" />
+          <Property Name="Data_Format" Type="varchar" MaxLength="20" />
+          <Property Name="Delimeter" Type="varchar" MaxLength="5" />
+          <Property Name="Data_Has_Header" Type="bit" />
+          <Property Name="Failure_Email_Addresses" Type="varchar" MaxLength="800" />
+          <Property Name="Approved_Folder" Type="varchar" MaxLength="300" />
+          <Property Name="Enabled" Type="bit" />
+          <Property Name="Cron_Trigger" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityContainer Name="CLIENTLISTModelStoreContainer">
+          <EntitySet Name="IMPEX_CONFIGURATIONS" EntityType="Self.IMPEX_CONFIGURATIONS" Schema="CLIENT" store:Type="Tables" />
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BLANKETSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="Blankets" annotation:LazyLoadingEnabled="true" >
-          <FunctionImport Name="GetCustormerImportParameters" ReturnType="Collection(BLANKETSModel.GetCustormerImportParameters_Result)" />
-          <FunctionImport Name="GetCustomerImportParameters" ReturnType="Collection(BLANKETSModel.GetCustomerImportParameters_Result)" />
+      <Schema Namespace="CLIENTLISTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CLIENTLISTEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="IMPEX_CONFIGURATIONS" EntityType="CLIENTLISTModel.IMPEX_CONFIGURATIONS" />
         </EntityContainer>
-        <ComplexType Name="GetCustormerImportParameters_Result">
-          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="vfs_path" Nullable="false" MaxLength="300" />
-          <Property Type="String" Name="data_format" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="delimeter" Nullable="false" MaxLength="5" />
-          <Property Type="Boolean" Name="data_has_header" Nullable="false" />
-          <Property Type="String" Name="failure_email_addresses" Nullable="true" MaxLength="800" />
-        </ComplexType>
-        <ComplexType Name="GetCustomerImportParameters_Result">
-          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="vfs_path" Nullable="false" MaxLength="300" />
-          <Property Type="String" Name="data_format" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="delimeter" Nullable="false" MaxLength="5" />
-          <Property Type="Boolean" Name="data_has_header" Nullable="false" />
-          <Property Type="String" Name="failure_email_addresses" Nullable="true" MaxLength="800" />
-        </ComplexType>
+        <EntityType Name="IMPEX_CONFIGURATIONS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatabaseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="vfs_path" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Data_Format" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Delimeter" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Data_Has_Header" Type="Boolean" />
+          <Property Name="Failure_Email_Addresses" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Approved_Folder" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Enabled" Type="Boolean" />
+          <Property Name="Cron_Trigger" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BLANKETSModelStoreContainer" CdmEntityContainer="Blankets" >
-          <FunctionImportMapping FunctionImportName="GetCustomerImportParameters" FunctionName="BLANKETSModel.Store.GetCustomerImportParameters">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BLANKETSModel.GetCustomerImportParameters_Result">
-                <ScalarProperty Name="name" ColumnName="name" />
+        <EntityContainerMapping StorageEntityContainer="CLIENTLISTModelStoreContainer" CdmEntityContainer="CLIENTLISTEntities" >
+          <EntitySetMapping Name="IMPEX_CONFIGURATIONS">
+            <EntityTypeMapping TypeName="CLIENTLISTModel.IMPEX_CONFIGURATIONS">
+              <MappingFragment StoreEntitySet="IMPEX_CONFIGURATIONS">
+                <ScalarProperty Name="Cron_Trigger" ColumnName="Cron_Trigger" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Approved_Folder" ColumnName="Approved_Folder" />
+                <ScalarProperty Name="Failure_Email_Addresses" ColumnName="Failure_Email_Addresses" />
+                <ScalarProperty Name="Data_Has_Header" ColumnName="Data_Has_Header" />
+                <ScalarProperty Name="Delimeter" ColumnName="Delimeter" />
+                <ScalarProperty Name="Data_Format" ColumnName="Data_Format" />
                 <ScalarProperty Name="vfs_path" ColumnName="vfs_path" />
-                <ScalarProperty Name="data_format" ColumnName="data_format" />
-                <ScalarProperty Name="delimeter" ColumnName="delimeter" />
-                <ScalarProperty Name="data_has_header" ColumnName="data_has_header" />
-                <ScalarProperty Name="failure_email_addresses" ColumnName="failure_email_addresses" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DatabaseName" ColumnName="DatabaseName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

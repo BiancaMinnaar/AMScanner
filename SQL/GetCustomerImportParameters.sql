@@ -1,13 +1,16 @@
-create procedure GetCustomerImportParameters
+use CLIENTLIST
+go
+Create procedure GetCustomerImportParameters
 as
 select 
-	name
-	,[vfs_path]
-	,[data_format]
-	,[delimeter]
-	,[data_has_header]
-	,[failure_email_addresses]
-from [IMPEX].[CONFIGURATIONS]
+	DatabaseName,
+	[Name],
+	vfs_path,
+	Data_Format,
+	Delimeter,
+	Data_Has_Header,
+	Failure_Email_Addresses,
+	Approved_Folder
+from [CLIENT].[IMPEX_CONFIGURATIONS]
 where 
 	enabled = 1
-	and [impex_type] = 'IMPORT'

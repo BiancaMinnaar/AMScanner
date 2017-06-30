@@ -36,5 +36,7 @@
         public const string CONSTHeaderErrorErrorMessage = "Header Error Found";
         public const string CONSTGoodEMailSubject = "Good Email Subject";
         public const string CONSTGoodEMailBody = "Good Email Body";
+        public const string CONSTScannerSetupDirecoryToWatch = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\_67Blankets\Upload";
+        public const string CONSTScannerSetupFileToDump = "items101.xlsx";
     }
 }

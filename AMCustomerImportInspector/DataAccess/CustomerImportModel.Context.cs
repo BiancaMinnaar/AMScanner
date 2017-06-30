@@ -12,13 +12,11 @@ namespace AMCustomerImportInspector.DataAccess
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
-    public partial class Blankets : DbContext
+    public partial class CLIENTLISTEntities : DbContext
     {
-        public Blankets()
-            : base("name=Blankets")
+        public CLIENTLISTEntities()
+            : base("name=CLIENTLISTEntities")
         {
         }
     
@@ -27,10 +25,6 @@ namespace AMCustomerImportInspector.DataAccess
             throw new UnintentionalCodeFirstException();
         }
     
-    
-        public virtual ObjectResult<GetCustomerImportParameters_Result> GetCustomerImportParameters()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCustomerImportParameters_Result>("GetCustomerImportParameters");
-        }
+        public virtual DbSet<IMPEX_CONFIGURATIONS> IMPEX_CONFIGURATIONS { get; set; }
     }
 }

@@ -4,6 +4,7 @@ namespace AMCustomerImportInspector.Model
 {
     public class ImportDefinision
     {
+        public string ClientDatabase { get; set; }
         public string ImportName { get; set; }
         public string ImportPath { get; set; }
         public string FileMask
@@ -24,6 +25,18 @@ namespace AMCustomerImportInspector.Model
         public string ImportFormat { get; set; }
         public bool HasHeader { get; set; }
         public string Delimiter { get; set; }
-        public string[] FailureEmailAddresses { get; set; }
+        private string failureEmailList;
+        public string FailureEmailList
+        {
+            set
+            {
+                failureEmailList = value;
+            }
+        }
+        public string[] FailureEmailAddresses
+        {
+            get { return failureEmailList.Split(';'); }
+        }
+        public bool IsEnabled { get; set; }
     }
 }

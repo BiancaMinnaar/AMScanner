@@ -21,7 +21,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 new ImportDefinision()
                 {
                     Delimiter = "|",
-                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FailureEmailList = "bminnaar@gmail.com",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = "C:/ImportFileDirecory"
@@ -54,7 +54,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 new ImportDefinision()
                 {
                     Delimiter = "|",
-                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FailureEmailList = "bminnaar@gmail.com",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
@@ -91,7 +91,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 new ImportDefinision()
                 {
                     Delimiter = "|",
-                    FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                    FailureEmailList = "bminnaar@gmail.com",
                     ImportFormat = "EXCEL",
                     ImportName = "First Import",
                     ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
@@ -121,7 +121,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = "|",
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                           FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "First Import",
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
@@ -129,7 +129,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                          new ImportDefinision()
                         {
                             Delimiter = "|",
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "Second Import",
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
@@ -158,7 +158,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = "|",
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "First Import",
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
@@ -166,7 +166,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                          new ImportDefinision()
                         {
                             Delimiter = "|",
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "Second Import",
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
@@ -195,7 +195,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
@@ -203,7 +203,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                          new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
@@ -232,7 +232,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
@@ -240,7 +240,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                          new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
@@ -269,7 +269,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
@@ -277,7 +277,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                          new ImportDefinision()
                         {
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeCSV,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
@@ -314,31 +314,19 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Assert.AreEqual(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo, directory);
         }
 
-        //[TestMethod]
-        //public void Test_EmailFaultyFile_EmailsFile()
-        //{
-        //    Mock<ICustomerImportRetrievalService> mockDataService = new Mock<ICustomerImportRetrievalService>();
-        //    Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
-        //    var mockEMailTemplateService = new Mock<EMailTemplateService>();
-        //    var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object, mockEMailTemplateService.Object);
-        //    var definitionList = new List<ImportDefinision>()
-        //    {
-        //        new ImportDefinision()
-        //        {
-        //            Delimiter = "|",
-        //            FailureEmailAddresses = new string[] { "bminnaar@gmail.com" },
-        //            ImportFormat = "EXCEL",
-        //            ImportName = "First Import",
-        //            ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan
-        //        }
-        //    };
+        [TestMethod]
+        public void Test_GetImportDefinisionFromFileName_ReturnsDefinisionsFromDBForCorrectFile()
+        {
+            var mockEMailService = new Mock<IEmailService>();
+            var mockEMailTemplateService = new Mock<IEMailTemplateService>();
+            var ImportRepo = new CustomerImportReposetory(
+               new CustomerImportRetrievalService(), mockEMailService.Object, mockEMailTemplateService.Object);
+            var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
-        //    repo.EmailFaultyFile(
-        //        FileUtilityLibraryConstants.CONSTDirectoryToScan
-        //        + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithError, definitionList[0],
-        //        new string[] { "Error On line 1", "Error on Line 2" });
+            var definision = ImportRepo.GetImportDefinisionFromFileName(fileToScan);
 
-        //    Assert.IsTrue(true);
-        //}
+            Assert.AreNotEqual(null, definision);
+        }
     }
 }

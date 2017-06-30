@@ -17,18 +17,20 @@ namespace AMCustomerImportInspector.Service
         {
             try
             {
-                var blanketModel = new Blankets();
-                var returnObj = blanketModel.GetCustomerImportParameters().Select(x => new ImportDefinision
+                CLIENTLISTEntities ent = new CLIENTLISTEntities();
+                var importDefinisions = ent.IMPEX_CONFIGURATIONS.Select(x => new ImportDefinision
                 {
-                    Delimiter = x.delimeter,
-                    FailureEmailAddresses = x.failure_email_addresses.Split(';'),
-                    ImportFormat = x.data_format,
-                    ImportName = x.name,
+                    ClientDatabase = x.DatabaseName,
+                    Delimiter = x.Delimeter,
+                    FailureEmailList = x.Failure_Email_Addresses,
+                    ImportFormat = x.Data_Format,
+                    ImportName = x.Name,
                     ImportPath = x.vfs_path,
-                    HasHeader = x.data_has_header
-                }).ToList();
+                    HasHeader = x.Data_Has_Header ?? x.Data_Has_Header.Value,
+                    IsEnabled = x.Enabled ?? x.Enabled.Value
+                }) .ToList();
 
-                return returnObj;
+                return importDefinisions;
             }
             catch(Exception excp)
             {

@@ -72,10 +72,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CustomerImportModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\GetCustomerImportParameters_Result.cs">
-      <DependentUpon>CustomerImportModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccess\GetCustormerImportParameters_Result.cs">
+    <Compile Include="DataAccess\IMPEX_CONFIGURATIONS.cs">
       <DependentUpon>CustomerImportModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Interface\ICustomerImportReposetory.cs" />
@@ -114,6 +111,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EmailTemplates\OrphanedImportFileTemplate.xml" />
+    <EmbeddedResource Include="EmailTemplates\FaultyImportFIleTemplate.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataAccess\CustomerImportModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CustomerImportModel.edmx</DependentUpon>
@@ -124,8 +125,6 @@
       <DependentUpon>CustomerImportModel.edmx</DependentUpon>
       <LastGenOutput>CustomerImportModel.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="EmailTemplates\OrphanedImportFileTemplate.xml" />
-    <EmbeddedResource Include="EmailTemplates\FaultyImportFIleTemplate.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

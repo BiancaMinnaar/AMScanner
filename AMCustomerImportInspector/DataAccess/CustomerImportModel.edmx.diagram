@@ -4,7 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0cd67ad3f86f46a79ad33c0ff9d17401" Name="Diagram1" />
+      <Diagram DiagramId="78e49c66179e42be9b4db4836cd151cb" Name="Diagram1" >
+        <EntityTypeShape EntityType="CLIENTLISTModel.IMPEX_CONFIGURATIONS" Width="1.5" PointX="0.75" PointY="0.75" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
