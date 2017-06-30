@@ -194,19 +194,21 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                     {
                         new ImportDefinision()
                         {
+                            ID=0,
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + "\\*.*"
                         },
                          new ImportDefinision()
                         {
+                             ID=1,
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2 + "\\*.*"
                         }
                     };
             mockDataService.Setup(m => m.GetCustomerImports())
@@ -268,6 +270,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                     {
                         new ImportDefinision()
                         {
+                            ID=0,
                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
@@ -276,11 +279,12 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         },
                          new ImportDefinision()
                         {
-                            Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
-                            FailureEmailList = "bminnaar@gmail.com",
-                            ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeCSV,
-                            ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
+                             ID=1,
+                             Delimiter = FileUtilityLibraryConstants.CONSTDelimiter.ToString(),
+                             FailureEmailList = "bminnaar@gmail.com",
+                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeCSV,
+                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
+                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
                         }
                     };
             mockDataService.Setup(m => m.GetCustomerImports())
@@ -323,6 +327,36 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                new CustomerImportRetrievalService(), mockEMailService.Object, mockEMailTemplateService.Object);
             var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+
+            var definision = ImportRepo.GetImportDefinisionFromFileName(fileToScan);
+
+            Assert.AreNotEqual(null, definision);
+        }
+
+        [TestMethod]
+        public void Test_GetImportDefinisionFromFileName_ReturnsNullForTextFile()
+        {
+            var mockEMailService = new Mock<IEmailService>();
+            var mockEMailTemplateService = new Mock<IEMailTemplateService>();
+            var ImportRepo = new CustomerImportReposetory(
+               new CustomerImportRetrievalService(), mockEMailService.Object, mockEMailTemplateService.Object);
+            var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDumpStoreSalesText;
+
+            var definision = ImportRepo.GetImportDefinisionFromFileName(fileToScan);
+
+            Assert.AreEqual(null, definision);
+        }
+
+        [TestMethod]
+        public void Test_GetImportDefinisionFromFileName_ReturnsDeffinisionForExcel()
+        {
+            var mockEMailService = new Mock<IEmailService>();
+            var mockEMailTemplateService = new Mock<IEMailTemplateService>();
+            var ImportRepo = new CustomerImportReposetory(
+               new CustomerImportRetrievalService(), mockEMailService.Object, mockEMailTemplateService.Object);
+            var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDumpStoreSalesExcel;
 
             var definision = ImportRepo.GetImportDefinisionFromFileName(fileToScan);
 

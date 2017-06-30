@@ -20,6 +20,7 @@ namespace AMCustomerImportInspector.Service
                 CLIENTLISTEntities ent = new CLIENTLISTEntities();
                 var importDefinisions = ent.IMPEX_CONFIGURATIONS.Select(x => new ImportDefinision
                 {
+                    ID = x.id,
                     ClientDatabase = x.DatabaseName,
                     Delimiter = x.Delimeter,
                     FailureEmailList = x.Failure_Email_Addresses,

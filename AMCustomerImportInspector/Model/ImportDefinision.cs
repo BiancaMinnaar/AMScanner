@@ -4,6 +4,7 @@ namespace AMCustomerImportInspector.Model
 {
     public class ImportDefinision
     {
+        public int ID { get; set; }
         public string ClientDatabase { get; set; }
         public string ImportName { get; set; }
         public string ImportPath { get; set; }

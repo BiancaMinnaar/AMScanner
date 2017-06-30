@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AMCustomerImportInspector.Model;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace AMCustomerImportInspector.Reposetory
 {
@@ -50,27 +51,78 @@ namespace AMCustomerImportInspector.Reposetory
             }
         }
 
-        public ImportDefinision GetImportDefinisionFromFileName(string fullFileName)
+        private bool isNameInMask(string testMask, string fileName)
         {
-            foreach (ImportDefinision definition in GetImportDefinitionsFromDatabase())
-            {
-                if (fullFileName.Contains(definition.ImportPath))
-                {
-                    Regex mask = new Regex(
+            Regex mask = new Regex(
                         '^' +
-                        definition.FileMask
+                        testMask
                             .Replace(".", "[.]")
                             .Replace("*", ".*")
                             .Replace("?", ".")
                         + '$',
                         RegexOptions.IgnoreCase);
-                    if (mask.IsMatch(fullFileName))
+            return mask.IsMatch(fileName);
+        }
+
+        private ImportDefinision GetMostLightlyImportDefinision(string fullFileName, 
+            IList<ImportDefinision> importDefinisionList)
+        {
+            string[] fileParts = fullFileName.Split('\\');
+            var fileName = fileParts[fileParts.Length - 1];
+            List<ImportDefinisionTestFrame> direcoryPartsList = new List<ImportDefinisionTestFrame>();
+            foreach(ImportDefinision definision in importDefinisionList)
+            {
+                var testSet = new ImportDefinisionTestFrame()
+                {
+                    DirectoryParts = definision.ImportPath.Split('\\'),
+                    ID = definision.ID,
+                    Probability = 0,
+                    FileMask = definision.FileMask
+                };
+                direcoryPartsList.Add(testSet);
+
+                if (isNameInMask(testSet.DirectoryParts[testSet.DirectoryParts.Length-1], fileName))
+                {
+                    var DirecotryCounter = testSet.DirectoryParts.Count() - 2;
+                    for (int filePartsCounter = fileParts.Length - 2; filePartsCounter > 0; filePartsCounter--)
                     {
-                        return definition;
+                        if (fileParts[filePartsCounter] == testSet.DirectoryParts[DirecotryCounter])
+                        {
+                            testSet.Probability++;
+                            if (DirecotryCounter > 0)
+                                DirecotryCounter--;
+                        }
+                        else
+                            break;
+                    }
+                }            
+            }
+            var maxPriority = direcoryPartsList.Max(p => p.Probability);
+            var setsWithMaxPriority = direcoryPartsList.Where(p => p.Probability == maxPriority);
+            if (setsWithMaxPriority.Count() > 1)
+            {
+                foreach(ImportDefinisionTestFrame frame in setsWithMaxPriority)
+                {
+                    if (isNameInMask(frame.FileMask, fileName))
+                    {
+                        return importDefinisionList.Where(p => p.ID == frame.ID).First();
                     }
                 }
             }
 
+            return importDefinisionList.Where(p => p.ID == setsWithMaxPriority.First().ID).First();
+        }
+
+        public ImportDefinision GetImportDefinisionFromFileName(string fullFileName)
+        {
+            var importList = GetImportDefinitionsFromDatabase();
+            var importDef = GetMostLightlyImportDefinision(fullFileName, importList);
+            string[] fileParts = fullFileName.Split('\\');
+            var fileName = fileParts[fileParts.Length - 1];
+            if (isNameInMask(importDef.FileMask, fileName))
+            {
+                return importDef;
+            }
             return null;
         }
 
