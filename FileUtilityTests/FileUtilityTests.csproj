@@ -74,6 +74,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AMDirecoryWatcherTests\DirectoryScannerReposetoryTests.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportEmailServiceTest.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportInspectorConstants.cs" />
     <Compile Include="CustomerImportInspectorTests\CustomerImportRetrievalServiceTests.cs" />
@@ -93,6 +94,10 @@
     <ProjectReference Include="..\AMCustomerImportInspector\AMCustomerImportInspector.csproj">
       <Project>{5f505266-bc8e-4159-b74f-d227ebf6819f}</Project>
       <Name>AMCustomerImportInspector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AMDirectoryWatcher\AMDirectoryWatcher.csproj">
+      <Project>{49AD1F41-ADCA-4C2E-81B2-6F5B4A445657}</Project>
+      <Name>AMDirectoryWatcher</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileUtilityLibrary\FileUtilityLibrary.csproj">
       <Project>{95de842d-1435-42b6-ad51-a221078682e8}</Project>

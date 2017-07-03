@@ -27,12 +27,16 @@
         public const string CONSTPipeCountLineEndingErrorMessage = "The Ammount of columns returned from the line was incorrect.";
         public const string CONSTExcelFileWithError = "Master1.xlsb";
         public const string CONSTExcelFileWithNoError = "VolumePerPeriod_20170519.xls";
+        public const int CONSTClientRecordID = 1;
+        public const string CONSTClientName = "Sebenzella";
         public const string CONSTCustomerImportDefinitionPathClient1 = @"C:\test1\Client1\Import";
         public const string CONSTCustomerImportDefinitionPathClient2 = @"C:\test1\Client2\Import";
         public const string CONSTCustomerImportDefinitionName1 = "First Import";
         public const string CONSTCustomerImportDefinitionName2 = "Second Import";
         public const string CONSTCustomerImportDefinitionTypeExcel = "EXCEL";
         public const string CONSTCustomerImportDefinitionTypeCSV = "CSV";
+        public const bool CONSTImportIsEnabled = true;
+        public const bool CONSTImportIsNOTEnabled = false;
         public const string CONSTHeaderErrorErrorMessage = "Header Error Found";
         public const string CONSTGoodEMailSubject = "Good Email Subject";
         public const string CONSTGoodEMailBody = "Good Email Body";
@@ -40,5 +44,6 @@
         public const string CONSTScannerSetupFileToDump = "POS_Additional.xlsx";
         public const string CONSTScannerSetupFileToDumpStoreSalesText = "storesales.txt";
         public const string CONSTScannerSetupFileToDumpStoreSalesExcel = "storesales.xls";
+        public const string CONSTActualErrorMessageForHeaderError = "There is an error in the following line: ";
     }
 }
