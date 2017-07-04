@@ -6,6 +6,12 @@ namespace FileUtilityTests.Sundry
     [TestClass]
     public class LogTests
     {
+        [AssemblyInitialize]
+        public static void Configure(TestContext tc)
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
         [TestMethod]
         public void Test_LogMessage_LogsMessage()
         {
