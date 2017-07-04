@@ -7,8 +7,8 @@ using FileUtilityLibrary.Interface.Model;
 using Moq;
 using System.IO;
 using FileUtilityLibrary.ExpetionOccurrences;
-using FileUtilityLibrary.Model.ScannerFile.Excel;
 using FileUtilityLibrary.Model.ScannerFile;
+using log4net;
 
 namespace FileUtilityTests
 {
@@ -28,7 +28,8 @@ namespace FileUtilityTests
             scannerFileMock.Setup(t => t.HasException).Returns(false);
             Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
             fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            var logMock = new Mock<ILog>();
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null, logMock.Object);
             _ScannerRepository.MoveFileAfterScan(scannerFileMock.Object);
 
             _MockMoverService.Verify(t => t.MoveFilesInList(It.IsAny<FileInfo[]>()));
@@ -52,8 +53,9 @@ namespace FileUtilityTests
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     FileUtilityLibraryConstants.CONSTDelimiter,
                     true);
-
-            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, exeptionList);
+            var logMock = new Mock<ILog>();
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, exeptionList, 
+                logMock.Object);
 
             _ScannerRepository.ScanForExceptions(scannerFile);
 
@@ -78,10 +80,12 @@ namespace FileUtilityTests
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             var exceptionListMock = new Mock<List<IExceptionOccurrence>>();
+            var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(
                 _MockMoverService.Object, 
                 _FileMaskToScannerFile.Object,
-                _ExeptionList);
+                _ExeptionList,
+                logMock.Object);
 
             var hasErrors = _ScannerRepository.ScanForExceptions(scannerFile);
 
@@ -100,10 +104,12 @@ namespace FileUtilityTests
                      true);
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
+            var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(
                 _MockMoverService.Object,
                 _FileMaskToScannerFile.Object,
-                _ExeptionList);
+                _ExeptionList,
+                logMock.Object);
 
             var hasErrors = _ScannerRepository.ScanForExceptions(scannerFile);
 
@@ -122,10 +128,12 @@ namespace FileUtilityTests
                      true);
             var PipeError = new HeaderColumnLineCountExceptionOccurrence(FileUtilityLibraryConstants.CONSTHeaderErrorErrorMessage);
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
+            var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(
                 _MockMoverService.Object,
                 _FileMaskToScannerFile.Object,
-                _ExeptionList);
+                _ExeptionList,
+                logMock.Object);
 
             var hasErrors = _ScannerRepository.ScanForExceptions(scannerFile);
 
@@ -145,10 +153,12 @@ namespace FileUtilityTests
                      true);
             var PipeError = new HeaderColumnLineCountExceptionOccurrence(FileUtilityLibraryConstants.CONSTHeaderErrorErrorMessage);
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
+            var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(
                 _MockMoverService.Object,
                 _FileMaskToScannerFile.Object,
-                _ExeptionList);
+                _ExeptionList,
+                logMock.Object);
 
             var hasErrors = _ScannerRepository.ScanForExceptions(scannerFile);
 
@@ -163,7 +173,8 @@ namespace FileUtilityTests
             scannerFileMock.Setup(t => t.HasException).Returns(true);
             Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
             fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
-            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            var logMock = new Mock<ILog>();
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null, logMock.Object);
             _ScannerRepository.DeleteFaultyFile(scannerFileMock.Object);
 
             _MockMoverService.Verify(t => t.DeleteFilesInList(It.IsAny<FileInfo[]>()));
@@ -175,7 +186,8 @@ namespace FileUtilityTests
             _MockMoverService = new Moq.Mock<IMoverService>();
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();
             Mock<IFileMaskToScannerFile> fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
-            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null);
+            var logMock = new Mock<ILog>();
+            _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null, logMock.Object);
             _ScannerRepository.DeleteOrphanedFile(
                 FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTTestFile3);
 

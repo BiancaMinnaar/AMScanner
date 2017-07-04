@@ -30,8 +30,8 @@ namespace AMDirectoryWatcher
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Info("DirectoryWatcher Has been installed");
             var importRepo = new CustomerImportReposetory(
-                new CustomerImportRetrievalService(), new EmailService(), new EMailTemplateService());
-            var scannerRepo = new ScannerRepository(new MoverService());
+                new CustomerImportRetrievalService(log), new EmailService(log), new EMailTemplateService(), log);
+            var scannerRepo = new ScannerRepository(new MoverService(), log);
             _DirecotryWatcher = new DirectoryScannerReposetory(
                 importRepo, scannerRepo, log,
                 ConfigurationManager.AppSettings["ScannedDirectoryFound"], 

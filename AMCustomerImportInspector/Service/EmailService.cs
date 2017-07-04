@@ -1,4 +1,5 @@
 ﻿using AMCustomerImportInspector.Interface;
+using log4net;
 using System;
 using System.Configuration;
 using System.Net;
@@ -8,6 +9,14 @@ namespace AMCustomerImportInspector.Service
 {
     public class EmailService : IEmailService
     {
+
+        private ILog _LogHandler;
+
+        public EmailService(ILog logHandler)
+        {
+            _LogHandler = logHandler;
+        }
+
         public void SendEmailToRecipient(string emailAddress, string messageSubject, string messageBody, string fullFileName)
         {
             var userName = ConfigurationManager.AppSettings["EMailUser"];
@@ -28,8 +37,7 @@ namespace AMCustomerImportInspector.Service
             }
             catch(Exception excp)
             {
-                log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                log.Fatal(excp.Message);
+                _LogHandler.Fatal(excp.Message);
             }
             finally
             {

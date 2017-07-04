@@ -1,5 +1,7 @@
 ﻿using AMCustomerImportInspector.Service;
+using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace FileUtilityTests.CustomerImportInspectorTests
 {
@@ -9,7 +11,8 @@ namespace FileUtilityTests.CustomerImportInspectorTests
         [TestMethod]
         public void Test_SendEmailToRecipient_SendsEmail()
         {
-            var service = new EmailService();
+            var logMock = new Mock<ILog>();
+            var service = new EmailService(logMock.Object);
 
             service.SendEmailToRecipient(CustomerImportInspectorConstants.CONSTEmailAddress, CustomerImportInspectorConstants.CONSTMessageSubject, CustomerImportInspectorConstants.CONSTMessageBody, FileUtilityLibraryConstants.CONSTDirectoryToScan + "\\" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
 

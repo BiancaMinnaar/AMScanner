@@ -4,6 +4,7 @@ using AMCustomerImportInspector.Model;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Linq;
+using log4net;
 
 namespace AMCustomerImportInspector.Reposetory
 {
@@ -12,12 +13,18 @@ namespace AMCustomerImportInspector.Reposetory
         private ICustomerImportRetrievalService _DataService;
         private IEmailService _EmailService;
         private IEMailTemplateService _EMailTemplateService;
+        private ILog _LogHandler;
 
-        public CustomerImportReposetory(ICustomerImportRetrievalService dataService, IEmailService emailService, IEMailTemplateService emailTemplateService)
+        public CustomerImportReposetory(
+            ICustomerImportRetrievalService dataService, 
+            IEmailService emailService, 
+            IEMailTemplateService emailTemplateService,
+            ILog logHandler)
         {
             _DataService = dataService;
             _EmailService = emailService;
             _EMailTemplateService = emailTemplateService;
+            _LogHandler = logHandler;
         }
 
         public void EmailFaultyFile(string fullFileName, ImportDefinision definition, string[] errorList)
@@ -134,8 +141,7 @@ namespace AMCustomerImportInspector.Reposetory
             }
             catch(SqlException sqlExe)
             {
-                log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                log.Fatal(sqlExe.Message);
+                _LogHandler.Fatal(sqlExe.Message);
             }
             return null;
         }

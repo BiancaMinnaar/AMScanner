@@ -1,18 +1,22 @@
 ﻿using AMCustomerImportInspector.DataAccess;
 using AMCustomerImportInspector.Interface;
 using AMCustomerImportInspector.Model;
+using log4net;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AMCustomerImportInspector.Service
 {
     public class CustomerImportRetrievalService : ICustomerImportRetrievalService
     {
-         
+        private ILog _LogHandler;
+
+        public CustomerImportRetrievalService(ILog logHandler)
+        {
+            _LogHandler = logHandler;
+        }
+
         public IList<ImportDefinision> GetCustomerImports()
         {
             try
@@ -35,8 +39,7 @@ namespace AMCustomerImportInspector.Service
             }
             catch(Exception excp)
             {
-                log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                log.Fatal(excp.Message);
+                _LogHandler.Fatal(excp.Message);
             }
             return null;
         }

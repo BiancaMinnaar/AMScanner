@@ -1,7 +1,7 @@
 ﻿using FileUtilityLibrary.Interface.Model;
 using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Interface.Service;
-using FileUtilityLibrary.Model;
+using log4net;
 using System.Collections.Generic;
 using System.IO;
 
@@ -12,16 +12,18 @@ namespace FileUtilityLibrary.Reposetory
         public IMoverService MoverService { get; set; }
         public IFileMaskToScannerFile FileMaskToScannerFile { get; set; }
         public IList<IExceptionOccurrence> ExceptionsToScanFor { get; set; }
+        private ILog _LogHandler;
 
-        public ScannerRepository(IMoverService moverService)
+        public ScannerRepository(IMoverService moverService, ILog logHandler)
         {
             MoverService = moverService;
+            _LogHandler = logHandler;
         }
         
         public ScannerRepository(IMoverService moverService, 
             IFileMaskToScannerFile fileMaskToScannerFile, 
-            IList<IExceptionOccurrence> exceptionsToScanFor)
-            :this(moverService)
+            IList<IExceptionOccurrence> exceptionsToScanFor, ILog logHandler)
+            :this(moverService, logHandler)
         {
             FileMaskToScannerFile = fileMaskToScannerFile;
             ExceptionsToScanFor = exceptionsToScanFor;
@@ -41,8 +43,7 @@ namespace FileUtilityLibrary.Reposetory
             }
             else
             {
-                var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-                log.Fatal("No rules were configured for scan!");
+                _LogHandler.Fatal("No rules were configured for scan!");
             }
 
             return null;
