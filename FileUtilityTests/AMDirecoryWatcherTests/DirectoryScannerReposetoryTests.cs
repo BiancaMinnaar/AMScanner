@@ -214,9 +214,10 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
 
             directoryRepo.ScannCreatedFile(fullFileName);
 
+            var emails = CustomerImportInspectorConstants.CONSTEmailAddress.Split(';');
             importRepo.Verify(m => m.EMailOrphenedFileToSupport(
                 It.Is<string>(p => p == fullFileName),
-                It.IsAny<string[]>()));
+                emails));
             scannerRepo.Verify(m => m.DeleteOrphanedFile(It.Is<string>(p => p == fullFileName)));
         }
     }
