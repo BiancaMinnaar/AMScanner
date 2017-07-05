@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FileUtilityLibrary.Interface.Model
 {
-    public interface IScannerFile : IScannerFileStream
+    public interface IScannerFile : IScannerFileStream, IDisposable
     {
         string FileName { get; set; }
         string FilePath { get; set; }

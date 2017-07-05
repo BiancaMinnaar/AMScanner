@@ -56,10 +56,14 @@ namespace FileUtilityLibrary.Model.ScannerFile
             return new FileInfo(FilePath + @"\" + FileName);
         }
 
-        ~BaseScannerFile()
+        public virtual void Dispose()
         {
+            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Debug("Base Scanner destructor");
             if (_StreamReader != null)
                 _StreamReader.Close();
+            log.Debug("Base Scanner finished destruction");
         }
+        
     }
 }

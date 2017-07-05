@@ -75,7 +75,7 @@ namespace AMCustomerImportInspector.Reposetory
             IList<ImportDefinision> importDefinisionList)
         {
             string[] fileParts = fullFileName.Split('\\');
-            var fileName = fileParts[fileParts.Length - 1];
+            var fileName = fileParts[fileParts.Length - 1].ToUpper();
             List<ImportDefinisionTestFrame> direcoryPartsList = new List<ImportDefinisionTestFrame>();
             foreach(ImportDefinision definision in importDefinisionList)
             {
@@ -88,12 +88,12 @@ namespace AMCustomerImportInspector.Reposetory
                 };
                 direcoryPartsList.Add(testSet);
 
-                if (isNameInMask(testSet.DirectoryParts[testSet.DirectoryParts.Length-1], fileName))
+                if (isNameInMask(testSet.DirectoryParts[testSet.DirectoryParts.Length-1].ToUpper(), fileName))
                 {
                     var DirecotryCounter = testSet.DirectoryParts.Count() - 2;
                     for (int filePartsCounter = fileParts.Length - 2; filePartsCounter > 0; filePartsCounter--)
                     {
-                        if (fileParts[filePartsCounter] == testSet.DirectoryParts[DirecotryCounter])
+                        if (fileParts[filePartsCounter].ToUpper().Equals(testSet.DirectoryParts[DirecotryCounter].ToUpper()))
                         {
                             testSet.Probability++;
                             if (DirecotryCounter > 0)
@@ -105,6 +105,10 @@ namespace AMCustomerImportInspector.Reposetory
                 }            
             }
             var maxPriority = direcoryPartsList.Max(p => p.Probability);
+            if (maxPriority == 0)
+            {
+                return null;
+            }
             var setsWithMaxPriority = direcoryPartsList.Where(p => p.Probability == maxPriority);
             if (setsWithMaxPriority.Count() > 1)
             {
@@ -124,6 +128,10 @@ namespace AMCustomerImportInspector.Reposetory
         {
             var importList = GetImportDefinitionsFromDatabase();
             var importDef = GetMostLightlyImportDefinision(fullFileName, importList);
+            if (importDef == null)
+            {
+                return null;
+            }
             string[] fileParts = fullFileName.Split('\\');
             var fileName = fileParts[fileParts.Length - 1];
             if (isNameInMask(importDef.FileMask, fileName))

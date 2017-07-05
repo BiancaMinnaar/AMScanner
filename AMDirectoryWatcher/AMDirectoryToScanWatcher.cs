@@ -31,7 +31,7 @@ namespace AMDirectoryWatcher
             log.Info("DirectoryWatcher Has been installed");
             var importRepo = new CustomerImportReposetory(
                 new CustomerImportRetrievalService(log), new EmailService(log), new EMailTemplateService(), log);
-            var scannerRepo = new ScannerRepository(new MoverService(), log);
+            var scannerRepo = new ScannerRepository(new MoverService(log), log);
             _DirecotryWatcher = new DirectoryScannerReposetory(
                 importRepo, scannerRepo, log,
                 ConfigurationManager.AppSettings["ScannedDirectoryFound"], 
@@ -56,21 +56,27 @@ namespace AMDirectoryWatcher
 
         private void WatcherFoundCreation(object sender, FileSystemEventArgs e)
         {
-            log.Info("A File " + e.Name + " in the path " + e.FullPath + " has been changed");
-            try
+            if (!e.Name.Contains("~") 
+                && !e.Name.Contains(".Temp.xlsx")
+                && !e.Name.Contains(ConfigurationManager.AppSettings["ScannedDirectoryReplace"]))
             {
-                if (e.ChangeType == WatcherChangeTypes.Created)
+                log.Info("A File " + e.Name + " in the path " + e.FullPath + " has been changed");
+                try
                 {
-                    if (!Directory.Exists(e.FullPath))
+                    if (e.ChangeType == WatcherChangeTypes.Created)
                     {
-                        _DirecotryWatcher.ScannCreatedFile(e.FullPath);
+                        if (!Directory.Exists(e.FullPath))
+                        {
+                            _DirecotryWatcher.ScannCreatedFile(e.FullPath);
+                            log.Info("File " + e.Name + " was scanned");
+                        }
                     }
                 }
-            }
-            catch(Exception excp)
-            {
-                log.Fatal(excp.Message);
-                log.Fatal(excp.StackTrace);
+                catch (Exception excp)
+                {
+                    log.Fatal(excp.Message);
+                    log.Fatal(excp.StackTrace);
+                }
             }
         }
 

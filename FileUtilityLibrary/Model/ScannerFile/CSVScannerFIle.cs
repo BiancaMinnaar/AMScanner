@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace FileUtilityLibrary.Model.ScannerFile
@@ -18,10 +19,9 @@ namespace FileUtilityLibrary.Model.ScannerFile
             return false;
         }
 
-        ~CSVScannerFile()
+        public override void Dispose()
         {
-            if (_StreamReader != null)
-                _StreamReader.Close();
+            base.Dispose();
         }
     }
 }

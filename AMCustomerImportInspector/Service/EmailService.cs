@@ -34,6 +34,7 @@ namespace AMCustomerImportInspector.Service
                 client.Credentials = new NetworkCredential(userName, password);
                 client.EnableSsl = true;
                 client.Send(mail);
+                _LogHandler.Debug("Mail Has been Sent");
             }
             catch(Exception excp)
             {
@@ -41,7 +42,9 @@ namespace AMCustomerImportInspector.Service
             }
             finally
             {
+                _LogHandler.Debug("Mail Disposing");
                 mail.Dispose();
+                _LogHandler.Debug("Mail Disposed");
             }
         }
     }

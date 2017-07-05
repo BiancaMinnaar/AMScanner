@@ -1,10 +1,9 @@
-﻿using FileUtilityLibrary.Interface.Model;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 
 namespace FileUtilityLibrary.Model.ScannerFile.Excel
 {
-    public class ExcelScannerFile : BaseScannerFile
+    public class ExcelScannerFile : BaseScannerFile, IDisposable
     {
         private int _CurrentStructureNumber;
         private MemoryStream[] _StreamForSheets;
@@ -12,6 +11,7 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
         public ExcelScannerFile(string fileName, string filePath, char delimiter, bool hasHeader) 
             : base(fileName, filePath, delimiter, hasHeader)
         {
+            this.Delimiter = ',';
             _CurrentStructureNumber = 0;
             setCurrentReader(_CurrentStructureNumber);
         }
@@ -44,6 +44,22 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
             var csvStreamsToScan = book.GetScannableData();
             
             return csvStreamsToScan;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Debug("Excel ScannerFile being disposed.");
+            foreach (MemoryStream stream in _StreamForSheets)
+            {
+                log.Debug("stream being flused");
+                stream.Flush();
+                log.Debug("stream being closed");
+                stream.Close();
+                log.Debug("stream closed");
+            }
+            log.Debug("Excel ScannerFile disposed");
         }
     }
 }

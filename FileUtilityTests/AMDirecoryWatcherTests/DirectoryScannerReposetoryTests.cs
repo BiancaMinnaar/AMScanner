@@ -1,5 +1,7 @@
 ﻿using AMCustomerImportInspector.Interface;
 using AMCustomerImportInspector.Model;
+using AMCustomerImportInspector.Reposetory;
+using AMCustomerImportInspector.Service;
 using AMDirectoryWatcher.Reposetory;
 using FileUtilityLibrary.ExpetionOccurrences;
 using FileUtilityLibrary.Interface.Model;
@@ -87,7 +89,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ID = FileUtilityLibraryConstants.CONSTClientRecordID,
                 ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                 ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
@@ -103,7 +105,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             directoryRepo.ScannCreatedFile(fullFileName);
 
             importRepo.Verify(m => m.GetMoveToDirecotry(
-                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
+                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
                 "Email wasn't sent");
@@ -220,5 +222,86 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 emails));
             scannerRepo.Verify(m => m.DeleteOrphanedFile(It.Is<string>(p => p == fullFileName)));
         }
+
+        [TestMethod]
+        public void Test_ScannCreatedFile_SendsOrphanedEmailIfNoImportDeffinisionIsFoundWithLiveSetup()
+        {
+            Mock<ILog> logHandler = new Mock<ILog>();
+            var emailTempMock = new Mock<IEMailTemplateService>();
+            var emailService = new Mock<IEmailService>();
+            var retrevalMock = new Mock<ICustomerImportRetrievalService>();
+            retrevalMock.Setup(m => m.GetCustomerImports())
+                .Returns(() =>
+                {
+                    return new List<ImportDefinision>() {
+                        new ImportDefinision()
+                        {
+                            ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
+                            Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
+                            FailureEmailList = CustomerImportInspectorConstants.CONSTEmailAddress,
+                            HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
+                            ID = FileUtilityLibraryConstants.CONSTClientRecordID,
+                            ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                            ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
+                            ImportPath = @"\\amftp\ftp sites\rgbc\uploads\Profiles*.*",
+                            IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
+                        }
+                    };
+                });
+            var importRepo = new CustomerImportReposetory(
+                retrevalMock.Object,
+                emailService.Object,
+                emailTempMock.Object, logHandler.Object);
+            Mock<IScannerRepository> scannerRepo = new Mock<IScannerRepository>();
+            var directoryRepo = new DirectoryScannerReposetory(
+                importRepo, scannerRepo.Object, logHandler.Object,
+                FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
+                FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+
+            directoryRepo.ScannCreatedFile(@"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\RGBC\Upload\profiles20170704.xlsx");
+
+            scannerRepo.Verify(m => m.DeleteOrphanedFile(It.IsAny<string>()));
+        }
+
+        //[TestMethod]
+        //public void Test_ScannCreatedFile_MovesSuccessfullFileFromLive()
+        //{
+        //    IScannerFile scannerFile;
+        //    Mock<ICustomerImportReposetory> importRepo;
+        //    Mock<IScannerRepository> scannerRepo;
+        //    var importDefinision = new ImportDefinision()
+        //    {
+        //        ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
+        //        Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
+        //        FailureEmailList = CustomerImportInspectorConstants.CONSTEmailAddress,
+        //        HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
+        //        ID = FileUtilityLibraryConstants.CONSTClientRecordID,
+        //        ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+        //        ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
+        //        ImportPath = @"\\amftp\ftp sites\rgbc\uploads\Profiles*.*",
+        //        IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
+        //    };
+        //    setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
+        //    scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
+        //    Mock<ILog> logHandler = new Mock<ILog>();
+        //    var directoryRepo = new DirectoryScannerReposetory(
+        //        importRepo.Object, scannerRepo.Object, logHandler.Object,
+        //        FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
+        //        FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
+        //        CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+        //    var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
+        //        FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+
+        //    directoryRepo.ScannCreatedFile(@"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\RGBC\Upload\profiles20170704.xlsx");
+
+        //    importRepo.Verify(m => m.GetMoveToDirecotry(
+        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
+        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
+        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
+        //        "Email wasn't sent");
+        //    scannerRepo.Verify(m => m.ScanForExceptions(It.Is<IScannerFile>(p => p == scannerFile)));
+        //    scannerRepo.Verify(m => m.MoveFileAfterScan(It.Is<IScannerFile>(p => p == scannerFile)));
+        //}
     }
 }

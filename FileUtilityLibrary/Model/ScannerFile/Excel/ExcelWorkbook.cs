@@ -19,6 +19,8 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
 
         private void setExcelApplication()
         {
+            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Scanner set Excel spreadsheet");
             _ExcelApp = new Application();
             _ExcelApp.DisplayAlerts = false;
             CurrentWorkBook = _ExcelApp.Workbooks.Open(_FullFileName);
@@ -71,10 +73,19 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
 
         private void closeWorkBook()
         {
+            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Info("Closing Workbook");
             if (CurrentWorkBook != null)
+            {
                 CurrentWorkBook.Close();
+                log.Info("Closing Workbook - Close");
+            }
             if (_ExcelApp != null)
+            {
                 _ExcelApp.Quit();
+                log.Info("Closing Workbook - Quit");
+            }
+            log.Info("Closing Workbook - done");
         }
 
         public void Dispose()

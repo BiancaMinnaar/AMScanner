@@ -1,4 +1,5 @@
 ﻿using FileUtilityLibrary.Interface.Service;
+using log4net;
 using System.IO;
 
 namespace FileUtilityLibrary.Service
@@ -7,10 +8,15 @@ namespace FileUtilityLibrary.Service
     {
         public string DirectoryToMoveTo { get; }
         private DirectoryInfo direcotryHelper;
+        private ILog _LogHandler;
 
-        public MoverService() { }
+        public MoverService(ILog logHandler)
+        {
+            _LogHandler = logHandler;
+        }
 
-        public MoverService(string direcotryToMoveTo)
+        public MoverService(string direcotryToMoveTo, ILog logHandler)
+            :this(logHandler)
         {
             DirectoryToMoveTo = direcotryToMoveTo;
             direcotryHelper = new DirectoryInfo(DirectoryToMoveTo);
@@ -29,7 +35,10 @@ namespace FileUtilityLibrary.Service
             {
                 foreach (FileInfo info in fileListToMove)
                 {
-                    info.MoveTo(DirectoryToMoveTo + "//" + info.Name);
+                    var destinationFileName = DirectoryToMoveTo + @"\" + info.Name;
+                    _LogHandler.Debug(destinationFileName);
+                    _LogHandler.Debug(info.FullName + " is being moved");
+                    info.MoveTo(destinationFileName);
                 }
             }
         }

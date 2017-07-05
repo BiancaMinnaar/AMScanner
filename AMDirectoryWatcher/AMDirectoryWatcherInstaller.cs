@@ -16,7 +16,7 @@ namespace AMDirectoryWatcher
             serviceInstaller = new ServiceInstaller();
             // Here you can set properties on serviceProcessInstaller                                          
             //or register event handlers                                          
-            serviceProcessInstaller.Account = ServiceAccount.LocalService;
+            serviceProcessInstaller.Account = ServiceAccount.LocalSystem;
 
             serviceInstaller.ServiceName = AMDirectoryToScanWatcher.MyServiceName;
             this.Installers.AddRange(new Installer[] {

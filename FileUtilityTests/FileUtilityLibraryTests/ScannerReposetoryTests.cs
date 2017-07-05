@@ -9,6 +9,7 @@ using System.IO;
 using FileUtilityLibrary.ExpetionOccurrences;
 using FileUtilityLibrary.Model.ScannerFile;
 using log4net;
+using FileUtilityLibrary.Model.ScannerFile.Excel;
 
 namespace FileUtilityTests
 {
@@ -72,12 +73,13 @@ namespace FileUtilityTests
             scannerFileMock.Setup(p => p.ExceptionList).Returns(new List<string>());
             scannerFileMock.Setup(p => p.HasHeader).Returns(true);
 
-            var scannerFile = new CSVScannerFile(
+            var scannerFile = new ExcelScannerFile(
                     FileUtilityLibraryConstants.CONSTExcelFileWithError,
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
-                    FileUtilityLibraryConstants.CONSCommaDelimiter,
+                    //FileUtilityLibraryConstants.CONSCommaDelimiter,
+                    FileUtilityLibraryConstants.CONSTDelimiter,
                     true);
-            var PipeError = new HeaderColumnLineCountExceptionOccurrence("Pipe Error Found");
+            var PipeError = new HeaderColumnLineCountExceptionOccurrence("Delimiter Error found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             var exceptionListMock = new Mock<List<IExceptionOccurrence>>();
             var logMock = new Mock<ILog>();

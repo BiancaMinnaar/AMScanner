@@ -2,6 +2,7 @@
 using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Interface.Service;
 using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -38,7 +39,7 @@ namespace FileUtilityLibrary.Reposetory
                 {
                     rule.ScanFile(fileToScan);
                 }
-
+                _LogHandler.Debug(fileToScan.FileName + " HasError = " + fileToScan.HasException.ToString());
                 return fileToScan.HasException;
             }
             else
@@ -53,7 +54,9 @@ namespace FileUtilityLibrary.Reposetory
         {
             if (!fileToScan.HasException)
             {
-                MoverService.MoveFilesInList(new FileInfo[] { fileToScan.GetFileInfo() });
+                var fileToMove = fileToScan.GetFileInfo();
+                fileToScan.Dispose();
+                MoverService.MoveFilesInList(new FileInfo[] { fileToMove });
             }
         }
 

@@ -1,10 +1,5 @@
 ﻿using FileUtilityLibrary.Interface.Model;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileUtilityLibrary.Model.ScannerFile
 {

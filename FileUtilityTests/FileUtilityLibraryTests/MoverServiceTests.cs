@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileUtilityLibrary.Service;
 using System.IO;
+using Moq;
+using log4net;
 
 namespace FileUtilityTests
 {
@@ -10,7 +12,8 @@ namespace FileUtilityTests
         [TestMethod]
         public void TestThatMoverInitialisesMoveToDirectory()
         {
-            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo);
+            var logMock = new Mock<ILog>();
+            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo, logMock.Object);
 
             Assert.AreEqual(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo, mover.DirectoryToMoveTo, "The move to directory was incorrectly initialised");
         }
@@ -20,7 +23,8 @@ namespace FileUtilityTests
         {
             var scanDirectory = new DirectoryInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan);
             var moveDirectory = new DirectoryInfo(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo);
-            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo);
+            var logMock = new Mock<ILog>();
+            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirecoryToMoveTo, logMock.Object);
 
             var startCount = scanDirectory.GetFiles(FileUtilityLibraryConstants.CONSTMoveFileMask).Length;
             var startDestinationCount = moveDirectory.GetFiles(FileUtilityLibraryConstants.CONSTMoveFileMask).Length;
@@ -38,7 +42,8 @@ namespace FileUtilityTests
         public void TestMoverDeletesMovedFilesInList()
         {
             var scanDirectory = new DirectoryInfo(FileUtilityLibraryConstants.CONSTDirectoryToScan);
-            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirectoryToScan);
+            var logMock = new Mock<ILog>();
+            var mover = new MoverService(FileUtilityLibraryConstants.CONSTDirectoryToScan, logMock.Object);
 
             var startCount = scanDirectory.GetFiles(FileUtilityLibraryConstants.CONSTDeleteFileMask).Length;
             mover.DeleteFilesInList(scanDirectory.GetFiles(FileUtilityLibraryConstants.CONSTDeleteFileMask));

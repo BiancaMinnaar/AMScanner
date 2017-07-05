@@ -40,28 +40,37 @@ namespace AMDirectoryWatcher.Reposetory
             {
                 _LogHandler.Info("Found Client Configuration");
                 var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(
-                    customerImportDef.ImportPath, _ImportDirecotry, _VerifiedFileDirectory);
+                    fullFileName.Substring(0, fullFileName.LastIndexOf(@"\")), _ImportDirecotry, _VerifiedFileDirectory);
+                _LogHandler.Info(direcotryToMoveTo);
                 var fileMaskToScannerFile = new FileMaskToScannerFile(
                         customerImportDef.FileMask,
                         customerImportDef.Delimiter[0],
                         customerImportDef.HasHeader,
                         customerImportDef.ImportFormat);
-                _ScannerRepo.MoverService = new MoverService(direcotryToMoveTo);
+                _ScannerRepo.MoverService = new MoverService(direcotryToMoveTo, _LogHandler);
                 _ScannerRepo.FileMaskToScannerFile = fileMaskToScannerFile;
                 _ScannerRepo.ExceptionsToScanFor =
                     new List<IExceptionOccurrence>() { new HeaderColumnLineCountExceptionOccurrence(
                                     "There is an error in the following line: ")};
                 var scannerFile = _ScannerRepo.FileMaskToScannerFile.GetScannerFileInstance(new FileInfo(fullFileName));
                 var isSuccessfullScan = _ScannerRepo.ScanForExceptions(scannerFile);
-                if (isSuccessfullScan != null && isSuccessfullScan.Value)
+                //TODO: Test Properly
+                if (isSuccessfullScan != null && !isSuccessfullScan.Value)
                 {
+                    _LogHandler.Info("Move File after scan");
                     _ScannerRepo.MoveFileAfterScan(scannerFile);
+                    _LogHandler.Info("moved");
                 }
                 else
                 {
+                    _LogHandler.Info("Email Faulty File");
+                    //TODO: REMOVE!!
+                    customerImportDef.FailureEmailList = "bminnaar@gmail.com";
                     _ImportRepo.EmailFaultyFile(fullFileName, customerImportDef,
                         ((List<string>)scannerFile.ExceptionList).ToArray());
+                    _LogHandler.Info("Delete Faulty File");
                     _ScannerRepo.DeleteFaultyFile(scannerFile);
+                    _LogHandler.Info("deleted");
                 }
             }
             else
