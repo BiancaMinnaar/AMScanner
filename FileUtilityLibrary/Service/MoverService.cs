@@ -25,7 +25,9 @@ namespace FileUtilityLibrary.Service
         {
             foreach(FileInfo info in fileListToRemove)
             {
+                _LogHandler.Debug(info.FullName + " is being Deleted");
                 info.Delete();
+                _LogHandler.Debug(info.FullName + " is Deleted");
             }
         }
 

@@ -126,10 +126,10 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                         new ImportDefinision()
                         {
                             Delimiter = "|",
-                           FailureEmailList = "bminnaar@gmail.com",
+                            FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "First Import",
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient1
                         },
                          new ImportDefinision()
                         {
@@ -137,7 +137,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "Second Import",
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient2
                         }
                     };
             mockDataService.Setup(m => m.GetCustomerImports())
@@ -167,7 +167,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "First Import",
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient1
                         },
                          new ImportDefinision()
                         {
@@ -175,7 +175,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = "EXCEL",
                             ImportName = "Second Import",
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient2
                         }
                     };
             mockDataService.Setup(m => m.GetCustomerImports())
@@ -284,7 +284,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                             FailureEmailList = "bminnaar@gmail.com",
                             ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                             ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1
+                            ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient1
                         },
                          new ImportDefinision()
                         {
@@ -293,7 +293,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                              FailureEmailList = "bminnaar@gmail.com",
                              ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeCSV,
                              ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2,
-                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2
+                             ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient2
                         }
                     };
             mockDataService.Setup(m => m.GetCustomerImports())

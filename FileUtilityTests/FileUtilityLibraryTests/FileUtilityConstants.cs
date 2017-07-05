@@ -31,6 +31,9 @@
         public const string CONSTClientName = "Sebenzella";
         public const string CONSTCustomerImportDefinitionPathClient1 = @"C:\test1\Client1\Import";
         public const string CONSTCustomerImportDefinitionPathClient2 = @"C:\test1\Client2\Import";
+        public const string CONSTCustomerImportDefinitionPathWithMaskClient1 = @"C:\test1\Client1\Import\Master*.*";
+        public const string CONSTCustomerImportDefinitionPathWithMaskClient2 = @"C:\test1\Client2\Import\TestFile*.*";
+        public const string CONSTCustomerImportDefinitionPathWithMaskClient3 = @"C:\test1\Client2\Import\POS*.*";
         public const string CONSTCustomerImportDefinitionName1 = "First Import";
         public const string CONSTCustomerImportDefinitionName2 = "Second Import";
         public const string CONSTCustomerImportDefinitionTypeExcel = "EXCEL";

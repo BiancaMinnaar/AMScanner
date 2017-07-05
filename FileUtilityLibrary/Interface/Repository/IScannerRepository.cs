@@ -10,9 +10,9 @@ namespace FileUtilityLibrary.Interface.Repository
         IFileMaskToScannerFile FileMaskToScannerFile { get; set; }
         IList<IExceptionOccurrence> ExceptionsToScanFor { get; set; }
 
-        void DeleteFaultyFile(IScannerFile fileToDelete);
+        void DeleteFaultyFile(string fullFileName);
         void DeleteOrphanedFile(string fullFileName);
-        void MoveFileAfterScan(IScannerFile fileToScan);
+        void MoveFileAfterScan(string fullFileName);
         bool? ScanForExceptions(IScannerFile fileToScan);
     }
 }

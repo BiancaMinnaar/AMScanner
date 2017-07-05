@@ -40,7 +40,9 @@ namespace FileUtilityLibrary.Reposetory
                     rule.ScanFile(fileToScan);
                 }
                 _LogHandler.Debug(fileToScan.FileName + " HasError = " + fileToScan.HasException.ToString());
-                return fileToScan.HasException;
+                var returnHasException = fileToScan.HasException;
+                fileToScan.Dispose();
+                return returnHasException;
             }
             else
             {
@@ -50,22 +52,17 @@ namespace FileUtilityLibrary.Reposetory
             return null;
         }
 
-        public void MoveFileAfterScan(IScannerFile fileToScan)
+        public void MoveFileAfterScan(string fullFileName)
         {
-            if (!fileToScan.HasException)
-            {
-                var fileToMove = fileToScan.GetFileInfo();
-                fileToScan.Dispose();
-                MoverService.MoveFilesInList(new FileInfo[] { fileToMove });
-            }
+            var fileToMove = new FileInfo(fullFileName);
+            _LogHandler.Debug(fileToMove.FullName);
+            MoverService.MoveFilesInList(new FileInfo[] { fileToMove });
         }
 
-        public void DeleteFaultyFile(IScannerFile fileToDelete)
+        public void DeleteFaultyFile(string fullFileName)
         {
-            if (fileToDelete.HasException)
-            {
-                MoverService.DeleteFilesInList(new FileInfo[] { fileToDelete.GetFileInfo() });
-            }
+            var fileToDelete = new FileInfo(fullFileName);
+            MoverService.DeleteFilesInList(new FileInfo[] { fileToDelete });
         }
 
         public void DeleteOrphanedFile(string fullFileName)

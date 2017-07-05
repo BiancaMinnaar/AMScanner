@@ -89,7 +89,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ID = FileUtilityLibraryConstants.CONSTClientRecordID,
                 ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                 ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
@@ -99,7 +99,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
                 CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
-            var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
             directoryRepo.ScannCreatedFile(fullFileName);
@@ -127,29 +127,29 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ID = FileUtilityLibraryConstants.CONSTClientRecordID,
                 ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                 ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
-            scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
+            scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
                 CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
-            var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
             directoryRepo.ScannCreatedFile(fullFileName);
 
             importRepo.Verify(m => m.GetMoveToDirecotry(
-                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
+                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
                 "Email wasn't sent");
             scannerRepo.Verify(m => m.ScanForExceptions(It.Is<IScannerFile>(p => p == scannerFile)));
-            scannerRepo.Verify(m => m.MoveFileAfterScan(It.Is<IScannerFile>(p => p == scannerFile)));
+            scannerRepo.Verify(m => m.MoveFileAfterScan(It.Is<string>(p => p == fullFileName)));
         }
 
         [TestMethod]
@@ -167,24 +167,24 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ID = FileUtilityLibraryConstants.CONSTClientRecordID,
                 ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
                 ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-                ImportPath = FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
-            scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
+            scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
                 CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
-            var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
-                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
+                FileUtilityLibraryConstants.CONSTExcelFileWithError;
 
             directoryRepo.ScannCreatedFile(fullFileName);
 
             importRepo.Verify(m => m.GetMoveToDirecotry(
-                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
+                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
                 "Email wasn't sent");
@@ -193,7 +193,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 It.Is<string>(p => p == fullFileName),
                 It.Is<ImportDefinision>(p => p == importDefinision),
                 It.IsAny<string[]>()));
-            scannerRepo.Verify(m => m.DeleteFaultyFile(It.Is<IScannerFile>(p => p == scannerFile)));
+            scannerRepo.Verify(m => m.DeleteFaultyFile(It.Is<string>(p => p == fullFileName)));
         }
 
         [TestMethod]

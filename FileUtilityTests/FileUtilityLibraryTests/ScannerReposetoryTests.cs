@@ -31,7 +31,9 @@ namespace FileUtilityTests
             fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null, logMock.Object);
-            _ScannerRepository.MoveFileAfterScan(scannerFileMock.Object);
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+            _ScannerRepository.MoveFileAfterScan(fullFileName);
 
             _MockMoverService.Verify(t => t.MoveFilesInList(It.IsAny<FileInfo[]>()));
         }
@@ -177,7 +179,9 @@ namespace FileUtilityTests
             fileMaskToScannerFile.Setup(t => t.FileMask).Returns(FileUtilityLibraryConstants.CONSTCorrectFileMask);
             var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(_MockMoverService.Object, fileMaskToScannerFile.Object, null, logMock.Object);
-            _ScannerRepository.DeleteFaultyFile(scannerFileMock.Object);
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+            _ScannerRepository.DeleteFaultyFile(fullFileName);
 
             _MockMoverService.Verify(t => t.DeleteFilesInList(It.IsAny<FileInfo[]>()));
         }

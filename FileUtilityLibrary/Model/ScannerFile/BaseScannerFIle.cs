@@ -48,6 +48,8 @@ namespace FileUtilityLibrary.Model.ScannerFile
 
         public void Close()
         {
+            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log.Debug("Base stream close().");
             _StreamReader.Close();
         }
 

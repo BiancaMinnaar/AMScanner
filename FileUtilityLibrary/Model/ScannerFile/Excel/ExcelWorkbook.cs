@@ -56,7 +56,6 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
                     csvStream.Flush();
                     csvStream.Position = 0;
                     csvStreamsToScan[sheetCount - 1] = csvStream;
-                    
                 }
             }
             catch (Exception excp)
