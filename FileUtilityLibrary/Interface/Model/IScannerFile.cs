@@ -13,6 +13,5 @@ namespace FileUtilityLibrary.Interface.Model
         bool HasException { get; set; }
         IList<string> ExceptionList { get; set; }
         bool HasSubStructures();
-        FileInfo GetFileInfo();
     }
 }

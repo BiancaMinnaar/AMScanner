@@ -48,5 +48,7 @@
         public const string CONSTScannerSetupFileToDumpStoreSalesText = "storesales.txt";
         public const string CONSTScannerSetupFileToDumpStoreSalesExcel = "storesales.xls";
         public const string CONSTActualErrorMessageForHeaderError = "There is an error in the following line: ";
+        public const string CONSTBrokenOneSheetBinaryFile = "ProfilesOneSheetD1.xlsb";
+        public const string CONSTCustomerImportDefinitionPathBrokenOneSheetBinaryFile = @"C:\test1\Client2\Import\ProfilesOneSheet*.*";
     }
 }

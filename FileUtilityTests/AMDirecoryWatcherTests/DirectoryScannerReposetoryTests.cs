@@ -8,6 +8,7 @@ using FileUtilityLibrary.Interface.Model;
 using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Interface.Service;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
+using FileUtilityLibrary.Reposetory;
 using FileUtilityTests.CustomerImportInspectorTests;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -44,15 +45,12 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             out IScannerFile scannerFile, 
             out Mock<ICustomerImportReposetory> importRepo, 
             out Mock<IScannerRepository> scannerRepo,
-            ImportDefinision importDefinision)
+            ImportDefinision importDefinision,
+            IScannerFile sendScannerFile)
         {
             Mock<IMoverService> moverService = new Mock<IMoverService>();
 
-            var sendScannerFile = new ExcelScannerFile(
-                    FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
-                    FileUtilityLibraryConstants.CONSTDirectoryToScan,
-                    FileUtilityLibraryConstants.CONSCommaDelimiter,
-                    FileUtilityLibraryConstants.CONSTHasHeader);
+            
             Mock<IFileMaskToScannerFile> maskToScannerFile = new Mock<IFileMaskToScannerFile>();
             maskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
                 .Returns(() => sendScannerFile);
@@ -92,7 +90,12 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
-            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
+            var sendScannerFile = new ExcelScannerFile(
+                    FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
+                    FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                    FileUtilityLibraryConstants.CONSCommaDelimiter,
+                    FileUtilityLibraryConstants.CONSTHasHeader);
+            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
@@ -130,7 +133,12 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
-            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
+            var sendScannerFile = new ExcelScannerFile(
+                                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
+                                FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                                FileUtilityLibraryConstants.CONSCommaDelimiter,
+                                FileUtilityLibraryConstants.CONSTHasHeader);
+            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
@@ -170,7 +178,12 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
                 IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
             };
-            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
+            var sendScannerFile = new ExcelScannerFile(
+                    FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
+                    FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                    FileUtilityLibraryConstants.CONSCommaDelimiter,
+                    FileUtilityLibraryConstants.CONSTHasHeader);
+            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
@@ -203,7 +216,12 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
             ImportDefinision importDefinision = null;
-            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
+            var sendScannerFile = new ExcelScannerFile(
+                    FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
+                    FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                    FileUtilityLibraryConstants.CONSCommaDelimiter,
+                    FileUtilityLibraryConstants.CONSTHasHeader);
+            setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
             Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
@@ -264,44 +282,44 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             scannerRepo.Verify(m => m.DeleteOrphanedFile(It.IsAny<string>()));
         }
 
-        //[TestMethod]
-        //public void Test_ScannCreatedFile_MovesSuccessfullFileFromLive()
-        //{
-        //    IScannerFile scannerFile;
-        //    Mock<ICustomerImportReposetory> importRepo;
-        //    Mock<IScannerRepository> scannerRepo;
-        //    var importDefinision = new ImportDefinision()
-        //    {
-        //        ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
-        //        Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
-        //        FailureEmailList = CustomerImportInspectorConstants.CONSTEmailAddress,
-        //        HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
-        //        ID = FileUtilityLibraryConstants.CONSTClientRecordID,
-        //        ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
-        //        ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
-        //        ImportPath = @"\\amftp\ftp sites\rgbc\uploads\Profiles*.*",
-        //        IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
-        //    };
-        //    setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision);
-        //    scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
-        //    Mock<ILog> logHandler = new Mock<ILog>();
-        //    var directoryRepo = new DirectoryScannerReposetory(
-        //        importRepo.Object, scannerRepo.Object, logHandler.Object,
-        //        FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
-        //        FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-        //        CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
-        //    var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
-        //        FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+        [TestMethod]
+        public void Test_ScannCreatedFile_ClosesAllReferences()
+        {
+            var importDefinision = new ImportDefinision()
+            {
+                ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
+                Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
+                FailureEmailList = CustomerImportInspectorConstants.CONSTEmailAddress,
+                HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
+                ID = FileUtilityLibraryConstants.CONSTClientRecordID,
+                ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathBrokenOneSheetBinaryFile,
+                IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
+            };
+            Mock<ICustomerImportReposetory> importRepo;
+            importRepo = new Mock<ICustomerImportReposetory>();
+            importRepo.Setup(m => m.GetImportDefinisionFromFileName(It.IsAny<string>()))
+                .Returns(() => importDefinision);
+            importRepo.Setup(m => m.GetMoveToDirecotry(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(() =>
+                    FileUtilityLibraryConstants.CONSTDirecoryToMoveTo);
+            var mockMover = new Mock<IMoverService>();
+            log4net.ILog log =
+               log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            IScannerRepository scannerRepo = new ScannerRepository(mockMover.Object, log);
+            var directoryRepo = new DirectoryScannerReposetory(
+                importRepo.Object, scannerRepo, log,
+                FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
+                FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+            var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
+                FileUtilityLibraryConstants.CONSTBrokenOneSheetBinaryFile;
 
-        //    directoryRepo.ScannCreatedFile(@"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\RGBC\Upload\profiles20170704.xlsx");
+            directoryRepo.ScannCreatedFile(fullFileName);
+            //directoryRepo.ScannCreatedFile(fullFileName);
 
-        //    importRepo.Verify(m => m.GetMoveToDirecotry(
-        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
-        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
-        //        It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
-        //        "Email wasn't sent");
-        //    scannerRepo.Verify(m => m.ScanForExceptions(It.Is<IScannerFile>(p => p == scannerFile)));
-        //    scannerRepo.Verify(m => m.MoveFileAfterScan(It.Is<IScannerFile>(p => p == scannerFile)));
-        //}
+            Assert.IsTrue(false);
+        }
     }
 }

@@ -49,13 +49,11 @@ namespace FileUtilityLibrary.Model.ScannerFile
         public void Close()
         {
             var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Debug("Base stream close().");
+            log.Debug("Base Scanner Close");
             _StreamReader.Close();
-        }
-
-        public FileInfo GetFileInfo()
-        {
-            return new FileInfo(FilePath + @"\" + FileName);
+            log.Debug("Base Scanner _StreamReader.Close");
+            _StreamReader.Dispose();
+            log.Debug("Base Scanner _StreamReader.Disposed");
         }
 
         public virtual void Dispose()
@@ -63,7 +61,9 @@ namespace FileUtilityLibrary.Model.ScannerFile
             var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Debug("Base Scanner destructor");
             if (_StreamReader != null)
-                _StreamReader.Close();
+            {
+                Close();
+            }
             log.Debug("Base Scanner finished destruction");
         }
         

@@ -58,6 +58,8 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
                 log.Debug("stream being closed");
                 stream.Close();
                 log.Debug("stream closed");
+                stream.Dispose();
+                log.Debug("stream Disposed");
             }
             log.Debug("Excel ScannerFile disposed");
         }
