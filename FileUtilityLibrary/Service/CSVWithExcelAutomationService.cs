@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace FileUtilityLibrary.Service
 {
-    public class CSVWithExcelAutomationService : ICSVWithExcelAutomationService
+    public class CSVWithExcelAutomationService : ICSVFromExcelService
     {
         private ILog logInterface;
         private string excelFileName;

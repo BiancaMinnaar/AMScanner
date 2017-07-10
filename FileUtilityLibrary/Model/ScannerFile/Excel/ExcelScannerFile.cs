@@ -6,12 +6,12 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
 {
     public class ExcelScannerFile : BaseScannerFile, IDisposable
     {
-        private ICSVWithExcelAutomationService excelService;
+        private ICSVFromExcelService excelService;
         private int currentStructureNumber;
         private MemoryStream[] streamForSheets;
 
         public ExcelScannerFile(string fileName, string filePath, char delimiter, bool hasHeader, 
-            ICSVWithExcelAutomationService excelService) 
+            ICSVFromExcelService excelService) 
             : base(fileName, filePath, delimiter, hasHeader)
         {
             this.Delimiter = ',';

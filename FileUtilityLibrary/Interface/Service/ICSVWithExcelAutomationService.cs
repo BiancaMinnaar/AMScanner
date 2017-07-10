@@ -2,7 +2,7 @@
 
 namespace FileUtilityLibrary.Interface.Service
 {
-    public interface ICSVWithExcelAutomationService
+    public interface ICSVFromExcelService
     {
         MemoryStream[] GetSheetStreamsFromDocument();
     }

@@ -80,7 +80,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
             Mock<ILog> logHandler = new Mock<ILog>();
-            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
+            Mock<ICSVFromExcelService> csvExcelService = new Mock<ICSVFromExcelService>();
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -124,7 +124,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
-            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
+            Mock<ICSVFromExcelService> csvExcelService = new Mock<ICSVFromExcelService>();
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -222,7 +222,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
-            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
+            Mock<ICSVFromExcelService> csvExcelService = new Mock<ICSVFromExcelService>();
             ImportDefinision importDefinision = null;
             var sendScannerFile = new ExcelScannerFile(
                     FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
