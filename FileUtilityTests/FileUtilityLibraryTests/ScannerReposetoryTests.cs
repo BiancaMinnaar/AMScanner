@@ -71,6 +71,7 @@ namespace FileUtilityTests
             _MockMoverService = new Moq.Mock<IMoverService>();
             _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
             var scannerFileMock = new Mock<IScannerFile>();
+            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
             scannerFileMock.Setup(p => p.HasException).Returns(true);
             scannerFileMock.Setup(p => p.ExceptionList).Returns(new List<string>());
             scannerFileMock.Setup(p => p.HasHeader).Returns(true);
@@ -80,7 +81,7 @@ namespace FileUtilityTests
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     //FileUtilityLibraryConstants.CONSCommaDelimiter,
                     FileUtilityLibraryConstants.CONSTDelimiter,
-                    true);
+                    true, csvExcelService.Object);
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Delimiter Error found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             var exceptionListMock = new Mock<List<IExceptionOccurrence>>();

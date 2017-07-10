@@ -1,29 +1,33 @@
-﻿using System;
+﻿using FileUtilityLibrary.Interface.Service;
+using System;
 using System.IO;
 
 namespace FileUtilityLibrary.Model.ScannerFile.Excel
 {
     public class ExcelScannerFile : BaseScannerFile, IDisposable
     {
-        private int _CurrentStructureNumber;
-        private MemoryStream[] _StreamForSheets;
+        private ICSVWithExcelAutomationService excelService;
+        private int currentStructureNumber;
+        private MemoryStream[] streamForSheets;
 
-        public ExcelScannerFile(string fileName, string filePath, char delimiter, bool hasHeader) 
+        public ExcelScannerFile(string fileName, string filePath, char delimiter, bool hasHeader, 
+            ICSVWithExcelAutomationService excelService) 
             : base(fileName, filePath, delimiter, hasHeader)
         {
             this.Delimiter = ',';
-            _CurrentStructureNumber = 0;
-            setCurrentReader(_CurrentStructureNumber);
+            this.currentStructureNumber = 0;
+            this.excelService = excelService;
+            setCurrentReader(currentStructureNumber);
         }
 
         public override bool HasSubStructures()
         {
             bool hasSubStructures = false;
-            if (_StreamForSheets != null && _StreamForSheets.Length - 1 > _CurrentStructureNumber)
+            if (streamForSheets != null && streamForSheets.Length - 1 > currentStructureNumber)
             {
                 hasSubStructures = true;
-                _CurrentStructureNumber++;
-                setCurrentReader(_CurrentStructureNumber);
+                currentStructureNumber++;
+                setCurrentReader(currentStructureNumber);
             }
             return hasSubStructures;
         }
@@ -31,19 +35,11 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
 
         private void setCurrentReader(int arrayItem)
         {
-            if (_StreamForSheets == null)
+            if (streamForSheets == null)
             {
-                _StreamForSheets = getExcelStreamsForSheets(FilePath + @"\" + FileName);
+                streamForSheets = excelService.GetSheetStreamsFromDocument();
             }
-            _StreamReader = new StreamReader(_StreamForSheets[arrayItem]);
-        }
-
-        private MemoryStream[] getExcelStreamsForSheets(string fullFileName)
-        {
-            ExcelWorkbook book = new ExcelWorkbook(fullFileName);
-            var csvStreamsToScan = book.GetScannableData();
-            
-            return csvStreamsToScan;
+            _StreamReader = new StreamReader(streamForSheets[arrayItem]);
         }
 
         public override void Dispose()
@@ -51,7 +47,7 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
             base.Dispose();
             var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             log.Debug("Excel ScannerFile being disposed.");
-            foreach (MemoryStream stream in _StreamForSheets)
+            foreach (MemoryStream stream in streamForSheets)
             {
                 log.Debug("stream being flused");
                 stream.Flush();

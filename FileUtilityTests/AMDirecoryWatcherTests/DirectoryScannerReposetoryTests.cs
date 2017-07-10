@@ -78,6 +78,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
+            Mock<ILog> logHandler = new Mock<ILog>();
+            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -94,9 +96,9 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                     FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     FileUtilityLibraryConstants.CONSCommaDelimiter,
-                    FileUtilityLibraryConstants.CONSTHasHeader);
+                    FileUtilityLibraryConstants.CONSTHasHeader,
+                    csvExcelService.Object);
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
-            Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
@@ -121,6 +123,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
+            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -137,7 +140,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
                                 FileUtilityLibraryConstants.CONSTDirectoryToScan,
                                 FileUtilityLibraryConstants.CONSCommaDelimiter,
-                                FileUtilityLibraryConstants.CONSTHasHeader);
+                                FileUtilityLibraryConstants.CONSTHasHeader,
+                                csvExcelService.Object);
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
             Mock<ILog> logHandler = new Mock<ILog>();
@@ -166,6 +170,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
+            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -182,7 +187,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                     FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     FileUtilityLibraryConstants.CONSCommaDelimiter,
-                    FileUtilityLibraryConstants.CONSTHasHeader);
+                    FileUtilityLibraryConstants.CONSTHasHeader,
+                    csvExcelService.Object);
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
             Mock<ILog> logHandler = new Mock<ILog>();
@@ -215,12 +221,14 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
+            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
             ImportDefinision importDefinision = null;
             var sendScannerFile = new ExcelScannerFile(
                     FileUtilityLibraryConstants.CONSTScannerSetupFileToDump,
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     FileUtilityLibraryConstants.CONSCommaDelimiter,
-                    FileUtilityLibraryConstants.CONSTHasHeader);
+                    FileUtilityLibraryConstants.CONSTHasHeader,
+                    csvExcelService.Object);
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(false);
             Mock<ILog> logHandler = new Mock<ILog>();

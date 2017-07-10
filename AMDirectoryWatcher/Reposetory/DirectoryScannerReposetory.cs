@@ -50,7 +50,8 @@ namespace AMDirectoryWatcher.Reposetory
                             customerImportDef.FileMask,
                             customerImportDef.Delimiter[0],
                             customerImportDef.HasHeader,
-                            customerImportDef.ImportFormat);
+                            customerImportDef.ImportFormat,
+                            _LogHandler);
                     _ScannerRepo.MoverService = new MoverService(direcotryToMoveTo, _LogHandler);
                     _ScannerRepo.FileMaskToScannerFile = fileMaskToScannerFile;
                     _ScannerRepo.ExceptionsToScanFor =

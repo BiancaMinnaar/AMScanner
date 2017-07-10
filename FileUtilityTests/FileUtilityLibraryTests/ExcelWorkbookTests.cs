@@ -8,14 +8,14 @@ namespace FileUtilityTests
     [TestClass]
     public class ExcelWorkbookTests
     {
-        [TestMethod]
-        public void TestExcelWorkbookGetScannableDataReturnsMultipleStreamsFOrMultipleWorksheets()
-        {
-            var workBook = new ExcelWorkbook(FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
-            workBook.GetScannableData();
-            var streamCount = workBook.WorkbookSheetCount;
-            Assert.AreEqual(2, streamCount);
-        }
+        //[TestMethod]
+        //public void TestExcelWorkbookGetScannableDataReturnsMultipleStreamsFOrMultipleWorksheets()
+        //{
+        //    var workBook = new ExcelWorkbook(FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
+        //    workBook.GetScannableData();
+        //    var streamCount = workBook.WorkbookSheetCount;
+        //    Assert.AreEqual(2, streamCount);
+        //}
 
         [TestMethod]
         public void TestExcelWorkbookGetScannableDataReturnsReadableStreamData()

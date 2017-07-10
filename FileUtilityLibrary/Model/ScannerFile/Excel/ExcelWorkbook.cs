@@ -1,51 +1,67 @@
 ﻿using FileUtilityLibrary.Interface.Model.ScannerFIle.Excel;
+using log4net;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace FileUtilityLibrary.Model.ScannerFile.Excel
 {
     public class ExcelWorkbook : IExcelWorkBook, IDisposable
     {
-        public Workbook CurrentWorkBook { get; set; }
-        public int WorkbookSheetCount { get; set; }
-        private Application _ExcelApp;
+        private Application ExcelApp;
+        private Workbook CurrentWorkBook;
         private string _FullFileName;
+        ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ExcelWorkbook(string fullFileName)
         {
             _FullFileName = fullFileName;
         }
 
-        private void setExcelApplication()
+        private int setExcelApplication()
         {
-            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Scanner set Excel spreadsheet");
-            _ExcelApp = new Application();
-            _ExcelApp.DisplayAlerts = false;
-            CurrentWorkBook = _ExcelApp.Workbooks.Open(_FullFileName);
-            WorkbookSheetCount = CurrentWorkBook.Sheets.Count;
+            try
+            {
+                log.Debug("Scanner set Excel spreadsheet");
+                ExcelApp = new Application();
+                ExcelApp.DisplayAlerts = false;
+                log.Debug("ExcelApp setup");
+                CurrentWorkBook = ExcelApp.Workbooks.Open(_FullFileName);
+            }
+            catch
+            {
+                log.Debug("ExcelApp Exception");
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                //cleanup
+                Marshal.ReleaseComObject(ExcelApp);
+                Marshal.ReleaseComObject(CurrentWorkBook);
+            }
+
+            return CurrentWorkBook != null ? CurrentWorkBook.Sheets.Count : 0;
         }
 
         public MemoryStream[] GetScannableData()
         {
-            Type officeType = Type.GetTypeFromProgID("Excel.Application");
+            var officeType = Type.GetTypeFromProgID("Excel.Application");
             if (officeType == null)
             {
                 throw new Exception("Excel is not installed");
             }
-            setExcelApplication();
-            var csvStreamsToScan = WorkbookSheetCount > -1 ? new MemoryStream[WorkbookSheetCount] : null;
+            var workbookSheetCount = setExcelApplication();
+            var csvStreamsToScan = workbookSheetCount > -1 ? new MemoryStream[workbookSheetCount] : null;
 
             try
             {
-                for (int sheetCount = 1; sheetCount <= WorkbookSheetCount; sheetCount++)
+                for (int sheetCount = 1; sheetCount <= workbookSheetCount; sheetCount++)
                 {
                     MemoryStream csvStream = new MemoryStream();
-                    Worksheet sheet = CurrentWorkBook.Sheets[sheetCount];
+                    var sheet = CurrentWorkBook.Sheets[sheetCount];
                     var tempFileName = _FullFileName + ".Temp.xlsx";
                     sheet.SaveAs(tempFileName, XlFileFormat.xlCSV);
-                    closeWorkBook();
+                    closeWorkBook(sheet);
                     setExcelApplication();
                     var tempFile = new FileInfo(tempFileName);
                     FileStream fileStream = tempFile.OpenRead();
@@ -70,21 +86,28 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
             return csvStreamsToScan;
         }
 
-        private void closeWorkBook()
+        private void closeWorkBook(params object[] cleanups)
         {
-            var log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("Closing Workbook");
             if (CurrentWorkBook != null)
             {
                 CurrentWorkBook.Close();
-                log.Info("Closing Workbook - Close");
+                log.Debug("Closing Workbook - Close");
             }
-            if (_ExcelApp != null)
+            if (ExcelApp != null)
             {
-                _ExcelApp.Quit();
-                log.Info("Closing Workbook - Quit");
+                ExcelApp.Quit();
+                log.Debug("Closing Workbook - Quit");
             }
-            log.Info("Closing Workbook - done");
+            log.Debug("Closing Workbook - done");
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            foreach (object obj in cleanups)
+            {
+                Marshal.ReleaseComObject(obj);
+            }
+            Marshal.ReleaseComObject(CurrentWorkBook);
+            Marshal.ReleaseComObject(ExcelApp);
+            log.Debug("Marshaled all exel objects");
         }
 
         public void Dispose()

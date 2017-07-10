@@ -53,6 +53,7 @@
     <Compile Include="Interface\Model\IScannerFileStream.cs" />
     <Compile Include="Interface\Model\ScannerFIle\Excel\IExcelWorkBook.cs" />
     <Compile Include="Interface\Repository\IScannerRepository.cs" />
+    <Compile Include="Interface\Service\ICSVWithExcelAutomationService.cs" />
     <Compile Include="Interface\Service\IMoverService.cs" />
     <Compile Include="Model\CharacterRead.cs" />
     <Compile Include="Model\ScannerFile\BaseScannerFile.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Model\ScannerFile\Excel\ExcelWorkbook.cs" />
     <Compile Include="Model\ScannerFile\ScannerFileFactory.cs" />
     <Compile Include="Reposetory\ScannerRepository.cs" />
+    <Compile Include="Service\CSVWithExcelAutomationService.cs" />
     <Compile Include="Service\Helper\DirecotryHelper.cs" />
     <Compile Include="Service\MoverService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
