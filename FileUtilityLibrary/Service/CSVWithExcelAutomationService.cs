@@ -14,6 +14,7 @@ namespace FileUtilityLibrary.Service
         private bool excelAvailable;
         private Application excelApp;
         private Workbook currentWorkBook;
+        private Sheets allSheets;
         private bool automationIsSet;
 
         public CSVWithExcelAutomationService(string fullFileName, ILog log)
@@ -36,39 +37,35 @@ namespace FileUtilityLibrary.Service
             excelApp = new Application();
             excelApp.DisplayAlerts = false;
             currentWorkBook = excelApp.Workbooks.Open(excelFileName);
+            allSheets = currentWorkBook.Sheets;
             automationIsSet = true;
         }
 
-        private void closeExcelAutomation(params object[] cleanups)
+        private void closeExcelAutomation()
         {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            foreach (object obj in cleanups)
+            if (allSheets != null)
             {
-                Marshal.FinalReleaseComObject(obj);
+                Marshal.FinalReleaseComObject(allSheets);
+                allSheets = null;
             }
-            
-            currentWorkBook.Close();
-            Marshal.FinalReleaseComObject(currentWorkBook);
-            currentWorkBook = null;
-            excelApp.Quit();
-            Marshal.FinalReleaseComObject(excelApp);
-            excelApp = null;
+            if (currentWorkBook != null)
+            {
+                currentWorkBook.Close();
+                Marshal.FinalReleaseComObject(currentWorkBook);
+                currentWorkBook = null;
+            }
+
+            if (excelApp != null)
+            {
+                excelApp.Quit();
+                Marshal.FinalReleaseComObject(excelApp);
+                excelApp = null;
+            }
+
             automationIsSet = false;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
-
-        
-
-        
-        //TestForExcel
-        //Open Workbook
-        //Return sheet streams
-        //save file as CSV
-        //Reset and return stream
-        //close workbook
 
         public MemoryStream[] GetSheetStreamsFromDocument()
         {
@@ -78,22 +75,23 @@ namespace FileUtilityLibrary.Service
                 try
                 {
                     setExcelAutomation();
-                    var sheetCount = currentWorkBook.Sheets.Count;
-                    csvStreamsToScan = sheetCount > -1 ? new MemoryStream[sheetCount] : null;
+                    var numberOfSheets = allSheets.Count;
+                    csvStreamsToScan = numberOfSheets > -1 ? new MemoryStream[numberOfSheets] : null;
 
-                    for (int sheetCounter = 1; sheetCounter <= sheetCount; sheetCounter++)
+                    for (int sheetCounter = 1; sheetCounter <= numberOfSheets; sheetCounter++)
                     {
                         if (!automationIsSet)
                         {
                             setExcelAutomation();
                         }
                         MemoryStream csvStream = new MemoryStream();
-                        var sheet = currentWorkBook.Sheets[sheetCount];
+                        var sheet = allSheets[sheetCounter];
                         var tempFileName = excelFileName + ".Temp.xlsx";
                         sheet.SaveAs(tempFileName, XlFileFormat.xlCSV);
-                        closeExcelAutomation(sheet);
+                        Marshal.FinalReleaseComObject(sheet);
+                        closeExcelAutomation();
 
-                        csvStreamsToScan[sheetCount - 1] = getSheetStream(tempFileName);
+                        csvStreamsToScan[sheetCounter - 1] = getSheetStream(tempFileName);
                     }
                 }
                 catch(Exception excp)
@@ -101,6 +99,10 @@ namespace FileUtilityLibrary.Service
                     logInterface.Fatal("excel Automation error");
                     logInterface.Fatal(excp.Message);
                     logInterface.Fatal(excp.StackTrace);
+                }
+                finally
+                {
+                    closeExcelAutomation();
                 }
             }
             return csvStreamsToScan;
@@ -120,6 +122,11 @@ namespace FileUtilityLibrary.Service
             csvStream.Position = 0;
 
             return csvStream;
+        }
+
+        ~CSVWithExcelAutomationService()
+        {
+            closeExcelAutomation();
         }
     }
 }

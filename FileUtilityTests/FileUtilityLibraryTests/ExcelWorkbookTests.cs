@@ -2,11 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
 using System.IO;
+using Moq;
+using log4net;
+using FileUtilityLibrary.Service;
 
 namespace FileUtilityTests
 {
     [TestClass]
-    public class ExcelWorkbookTests
+    public class CSVWithExcelAutomationServiceTests
     {
         //[TestMethod]
         //public void TestExcelWorkbookGetScannableDataReturnsMultipleStreamsFOrMultipleWorksheets()
@@ -18,10 +21,13 @@ namespace FileUtilityTests
         //}
 
         [TestMethod]
-        public void TestExcelWorkbookGetScannableDataReturnsReadableStreamData()
+        public void Test_GetSheetStreamsFromDocument_ReturnsReadableStreamData()
         {
-            var workBook = new ExcelWorkbook(FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithError);
-            var streams = workBook.GetScannableData();
+            var logMock = new Mock<ILog>();
+            var excelService = new CSVWithExcelAutomationService(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + "/" + FileUtilityLibraryConstants.CONSTExcelFileWithNoError,
+                logMock.Object);
+            var streams = excelService.GetSheetStreamsFromDocument();
             TextReader reader = new StreamReader(streams[0]);
             var streamData = reader.ReadLine();
             reader.Close();

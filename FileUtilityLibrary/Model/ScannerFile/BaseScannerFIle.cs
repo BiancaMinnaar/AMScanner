@@ -25,7 +25,6 @@ namespace FileUtilityLibrary.Model.ScannerFile
             Delimiter = delimiter;
             HasHeader = hasHeader;
             var fullFileName = FilePath + @"\" + FileName;
-            _StreamReader = new StreamReader(fullFileName);
             ExceptionList = new List<string>();
         }
 

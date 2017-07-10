@@ -10,6 +10,7 @@ using FileUtilityLibrary.ExpetionOccurrences;
 using FileUtilityLibrary.Model.ScannerFile;
 using log4net;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
+using FileUtilityLibrary.Service;
 
 namespace FileUtilityTests
 {
@@ -71,7 +72,10 @@ namespace FileUtilityTests
             _MockMoverService = new Moq.Mock<IMoverService>();
             _FileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
             var scannerFileMock = new Mock<IScannerFile>();
-            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
+            var logMock = new Mock<ILog>();
+            var csvExcelService = new CSVWithExcelAutomationService(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" + FileUtilityLibraryConstants.CONSTExcelFileWithError,
+                logMock.Object);
             scannerFileMock.Setup(p => p.HasException).Returns(true);
             scannerFileMock.Setup(p => p.ExceptionList).Returns(new List<string>());
             scannerFileMock.Setup(p => p.HasHeader).Returns(true);
@@ -79,13 +83,11 @@ namespace FileUtilityTests
             var scannerFile = new ExcelScannerFile(
                     FileUtilityLibraryConstants.CONSTExcelFileWithError,
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
-                    //FileUtilityLibraryConstants.CONSCommaDelimiter,
                     FileUtilityLibraryConstants.CONSTDelimiter,
-                    true, csvExcelService.Object);
+                    true, csvExcelService);
             var PipeError = new HeaderColumnLineCountExceptionOccurrence("Delimiter Error found");
             _ExeptionList = new List<IExceptionOccurrence>() { PipeError };
             var exceptionListMock = new Mock<List<IExceptionOccurrence>>();
-            var logMock = new Mock<ILog>();
             _ScannerRepository = new ScannerRepository(
                 _MockMoverService.Object, 
                 _FileMaskToScannerFile.Object,

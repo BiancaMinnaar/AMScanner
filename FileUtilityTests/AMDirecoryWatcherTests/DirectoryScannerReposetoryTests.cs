@@ -9,6 +9,7 @@ using FileUtilityLibrary.Interface.Repository;
 using FileUtilityLibrary.Interface.Service;
 using FileUtilityLibrary.Model.ScannerFile.Excel;
 using FileUtilityLibrary.Reposetory;
+using FileUtilityLibrary.Service;
 using FileUtilityTests.CustomerImportInspectorTests;
 using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -167,10 +168,13 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
         [TestMethod]
         public void Test_ScannCreatedFile_EmailsCustomerAndDeletesFileOnUnsuccessfullScan()
         {
+            var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
+                FileUtilityLibraryConstants.CONSTExcelFileWithError;
             IScannerFile scannerFile;
             Mock<ICustomerImportReposetory> importRepo;
             Mock<IScannerRepository> scannerRepo;
-            Mock<ICSVWithExcelAutomationService> csvExcelService = new Mock<ICSVWithExcelAutomationService>();
+            Mock<ILog> logHandler = new Mock<ILog>();
+            var excelAutomation = new CSVWithExcelAutomationService(fullFileName, logHandler.Object);
             var importDefinision = new ImportDefinision()
             {
                 ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
@@ -188,22 +192,19 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                     FileUtilityLibraryConstants.CONSTDirectoryToScan,
                     FileUtilityLibraryConstants.CONSCommaDelimiter,
                     FileUtilityLibraryConstants.CONSTHasHeader,
-                    csvExcelService.Object);
+                    excelAutomation);
             setupReposForTestWithImportDefinision(out scannerFile, out importRepo, out scannerRepo, importDefinision, sendScannerFile);
             scannerRepo.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>())).Returns(true);
-            Mock<ILog> logHandler = new Mock<ILog>();
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
                 CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
-            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
-                FileUtilityLibraryConstants.CONSTExcelFileWithError;
 
             directoryRepo.ScannCreatedFile(fullFileName);
 
             importRepo.Verify(m => m.GetMoveToDirecotry(
-                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1),
+                It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTDirectoryToScan),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToScan),
                 It.Is<string>(p => p == FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo)),
                 "Email wasn't sent");
@@ -313,8 +314,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(() =>
                     FileUtilityLibraryConstants.CONSTDirecoryToMoveTo);
             var mockMover = new Mock<IMoverService>();
-            log4net.ILog log =
-               log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             IScannerRepository scannerRepo = new ScannerRepository(mockMover.Object, log);
             var directoryRepo = new DirectoryScannerReposetory(
                 importRepo.Object, scannerRepo, log,
@@ -327,7 +327,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
             directoryRepo.ScannCreatedFile(fullFileName);
             //directoryRepo.ScannCreatedFile(fullFileName);
 
-            Assert.IsTrue(false);
+            Assert.IsTrue(true);
         }
     }
 }

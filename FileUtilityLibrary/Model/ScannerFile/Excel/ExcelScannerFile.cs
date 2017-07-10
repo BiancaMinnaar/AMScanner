@@ -39,7 +39,10 @@ namespace FileUtilityLibrary.Model.ScannerFile.Excel
             {
                 streamForSheets = excelService.GetSheetStreamsFromDocument();
             }
-            _StreamReader = new StreamReader(streamForSheets[arrayItem]);
+            if (streamForSheets != null && streamForSheets.Length != 0)
+            {
+                _StreamReader = new StreamReader(streamForSheets[arrayItem]);
+            }
         }
 
         public override void Dispose()
