@@ -28,8 +28,12 @@ namespace FileUtilityLibrary.Service
         private bool hasExcel()
         {
             var officeType = Type.GetTypeFromProgID("Excel.Application");
-            logInterface.Fatal("Excel is not installed!!");
-            return officeType != null;
+            var excelIsInstalled = officeType != null;
+            if (!excelIsInstalled)
+            {
+                logInterface.Fatal("Excel is not installed!!");
+            }
+            return excelIsInstalled;
         }
 
         private void setExcelAutomation()

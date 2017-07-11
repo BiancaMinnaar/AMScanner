@@ -38,14 +38,14 @@ namespace AMDirectoryWatcher.Reposetory
         {
             lock (lockObject)
             {
-                _LogHandler.Info("It's a new file");
+                _LogHandler.Debug("It's a new file");
                 var customerImportDef = _ImportRepo.GetImportDefinisionFromFileName(fullFileName);
                 if (customerImportDef != null)
                 {
-                    _LogHandler.Info("Found Client Configuration");
+                    _LogHandler.Debug("Found Client Configuration");
                     var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(
                         fullFileName.Substring(0, fullFileName.LastIndexOf(@"\")), _ImportDirecotry, _VerifiedFileDirectory);
-                    _LogHandler.Info(direcotryToMoveTo);
+                    _LogHandler.Debug(direcotryToMoveTo);
                     var fileMaskToScannerFile = new FileMaskToScannerFile(
                             customerImportDef.FileMask,
                             customerImportDef.Delimiter[0],
@@ -62,28 +62,28 @@ namespace AMDirectoryWatcher.Reposetory
                     var TempFile = new FileInfo(fullFileName);
                     if (hasExceptions == true)
                     {
-                        _LogHandler.Info("Email Faulty File");
+                        _LogHandler.Debug("Email Faulty File");
                         //TODO: REMOVE!!
                         customerImportDef.FailureEmailList = "bminnaar@gmail.com";
                         _ImportRepo.EmailFaultyFile(fullFileName, customerImportDef,
                             ((List<string>)scannerFile.ExceptionList).ToArray());
-                        _LogHandler.Info("Delete Faulty File");
+                        _LogHandler.Debug("Delete Faulty File");
                         _ScannerRepo.DeleteFaultyFile(fullFileName);
-                        _LogHandler.Info("deleted");
+                        _LogHandler.Debug("deleted");
                     }
                     else
                     {
-                        _LogHandler.Info("Move File after scan");
+                        _LogHandler.Debug("Move File after scan");
                         _ScannerRepo.MoveFileAfterScan(fullFileName);
-                        _LogHandler.Info("moved");
+                        _LogHandler.Debug("moved");
                     }
                 }
                 else
                 {
-                    _LogHandler.Info("The file is orphaned");
+                    _LogHandler.Debug("The file is orphaned");
                     _ImportRepo.EMailOrphenedFileToSupport(fullFileName, _SupportEmailAddresses);
                     _ScannerRepo.DeleteOrphanedFile(fullFileName);
-                    _LogHandler.Info("The file " + fullFileName + " has been deleted.");
+                    _LogHandler.Debug("The file " + fullFileName + " has been deleted.");
                 }
             }
         }

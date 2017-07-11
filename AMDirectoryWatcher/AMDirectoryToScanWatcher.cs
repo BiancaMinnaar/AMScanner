@@ -60,7 +60,7 @@ namespace AMDirectoryWatcher
                 && !e.Name.Contains(".Temp.xlsx")
                 && !e.Name.Contains(ConfigurationManager.AppSettings["ScannedDirectoryReplace"]))
             {
-                log.Info("A File " + e.Name + " in the path " + e.FullPath + " has been changed");
+                log.Debug("A File " + e.Name + " in the path " + e.FullPath + " has been changed");
                 try
                 {
                     if (e.ChangeType == WatcherChangeTypes.Created)
@@ -68,7 +68,7 @@ namespace AMDirectoryWatcher
                         if (!Directory.Exists(e.FullPath))
                         {
                             _DirecotryWatcher.ScannCreatedFile(e.FullPath);
-                            log.Info("File " + e.Name + " was scanned");
+                            log.Debug("File " + e.Name + " was scanned");
                         }
                     }
                 }
