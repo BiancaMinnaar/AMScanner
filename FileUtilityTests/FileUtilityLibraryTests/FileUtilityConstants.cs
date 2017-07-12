@@ -2,9 +2,9 @@
 {
     public class FileUtilityLibraryConstants
     {
-        public const string CONSTDirectoryToScan = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ScanDirectory";
+        public const string CONSTDirectoryToScan = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ftp sites";
         public const string CONSTDirecoryToMoveTo = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\MoveDirectory";
-        public const string CONSTPartDirecotryToScan = "ScanDirectory";
+        public const string CONSTPartDirecotryToScan = "ftp sites";
         public const string CONSTPartDirecotryToMoveTo = "MoveDirectory";
         public const string CONSTCorrectFileMask = "*.txt";
         public const string CONSTInCorrectFileMask = "*.exe";
@@ -29,6 +29,7 @@
         public const string CONSTExcelFileWithNoError = "VolumePerPeriod_20170519.xls";
         public const int CONSTClientRecordID = 1;
         public const string CONSTClientName = "Sebenzella";
+        public const string CONSTCustomerImportDefinisionScanPath = @"C:\test1";
         public const string CONSTCustomerImportDefinitionPathClient1 = @"C:\test1\Client1\Import";
         public const string CONSTCustomerImportDefinitionPathClient2 = @"C:\test1\Client2\Import";
         public const string CONSTCustomerImportDefinitionPathWithMaskClient1 = @"C:\test1\Client1\Import\Master*.*";
@@ -43,7 +44,8 @@
         public const string CONSTHeaderErrorErrorMessage = "Header Error Found";
         public const string CONSTGoodEMailSubject = "Good Email Subject";
         public const string CONSTGoodEMailBody = "Good Email Body";
-        public const string CONSTScannerSetupDirecoryToWatch = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\danone\uploads\V7";
+        public const string CONSTScannerSetupDirecoryToWatchRoot = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ftp sites";
+        public const string CONSTScannerSetupDirecoryToWatch = @"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\ftp sites\danone\uploads\V7";
         public const string CONSTScannerSetupFileToDump = "POS_Additional.xlsx";
         public const string CONSTScannerSetupFileToDumpStoreSalesText = "storesales.txt";
         public const string CONSTScannerSetupFileToDumpStoreSalesExcel = "storesales.xls";

@@ -11,3 +11,7 @@ TestResults/
 DirectoryToWatch/
 FileUtilityLibrary/bin/
 MoveDirectory/
+ftp sites/
+InstallerBatch/InstallUtil.InstallLog
+Deploy/
+ScannerDeploy.zip

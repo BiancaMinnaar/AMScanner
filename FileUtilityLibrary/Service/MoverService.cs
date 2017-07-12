@@ -38,7 +38,7 @@ namespace FileUtilityLibrary.Service
                 foreach (FileInfo info in fileListToMove)
                 {
                     var destinationFileName = DirectoryToMoveTo + @"\" + info.Name;
-                    _LogHandler.Debug(destinationFileName);
+                    _LogHandler.Debug("Destination :" + destinationFileName);
                     _LogHandler.Debug(info.FullName + " is being moved");
                     info.MoveTo(destinationFileName);
                 }

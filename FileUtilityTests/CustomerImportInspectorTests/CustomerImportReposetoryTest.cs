@@ -33,6 +33,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
 
             var logMock = new Mock<ILog>();
             var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
                 mockDataService.Object, mockEMailService.Object, mockEMailTemplateService.Object, logMock.Object);
             var importConfigItem = repo.GetImportDefinitionsFromDatabase()[0];
 
@@ -51,7 +52,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>()))
                .Returns(() => FileUtilityLibraryConstants.CONSTGoodEMailBody);
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object, 
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                mockDataService.Object, mockEMailService.Object, 
                 mockEMailTemplateService.Object, logMock.Object);
             var definitionList = new List<ImportDefinision>()
             {
@@ -89,7 +92,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                .Returns(() => FileUtilityLibraryConstants.CONSTGoodEMailBody);
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object,
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                mockDataService.Object, mockEMailService.Object,
                 mockEMailTemplateService.Object, logMock.Object);
             var definitionList = new List<ImportDefinision>()
             {
@@ -145,8 +150,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object
-                , mockEMailTemplateService.Object, logMock.Object);
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath,
+                mockDataService.Object, mockEMailService.Object, mockEMailTemplateService.Object, logMock.Object);
 
             var importDefinision = repo.GetImportDefinisionFromFileName(
                 FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" 
@@ -183,8 +189,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object
-                , mockEMailTemplateService.Object, logMock.Object);
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath,
+                mockDataService.Object, mockEMailService.Object, mockEMailTemplateService.Object, logMock.Object);
 
             var importDefinision = repo.GetImportDefinisionFromFileName(
                 FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\"
@@ -223,7 +230,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object,
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath,
+                mockDataService.Object, mockEMailService.Object,
                 mockEMailTemplateService.Object, logMock.Object);
 
             var importDefinision = repo.GetImportDefinisionFromFileName(
@@ -261,7 +270,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object,
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                mockDataService.Object, mockEMailService.Object,
                 mockEMailTemplateService.Object, logMock.Object);
 
             var importDefinision = repo.GetImportDefinisionFromFileName(
@@ -301,13 +312,16 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object,
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath,
+                mockDataService.Object, mockEMailService.Object,
                 mockEMailTemplateService.Object, logMock.Object);
 
             var importDefinision = repo.GetImportDefinisionFromFileName(
                 FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2 + @"\"
                     + FileUtilityLibraryConstants.CONSTTestFile3);
 
+            Assert.AreNotEqual(null, importDefinision);
             Assert.AreEqual(FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName2, importDefinision.ImportName);
         }
 
@@ -318,7 +332,9 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             Mock<IEmailService> mockEMailService = new Mock<IEmailService>();
             var mockEMailTemplateService = new Mock<EMailTemplateService>();
             var logMock = new Mock<ILog>();
-            var repo = new CustomerImportReposetory(mockDataService.Object, mockEMailService.Object,
+            var repo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
+                mockDataService.Object, mockEMailService.Object,
                 mockEMailTemplateService.Object, logMock.Object);
 
             var directory = repo.GetMoveToDirecotry(
@@ -336,6 +352,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             var mockEMailTemplateService = new Mock<IEMailTemplateService>();
             var logMock = new Mock<ILog>();
             var ImportRepo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
                new CustomerImportRetrievalService(logMock.Object), mockEMailService.Object, mockEMailTemplateService.Object, 
                logMock.Object);
             var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
@@ -353,6 +370,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             var mockEMailTemplateService = new Mock<IEMailTemplateService>();
             var logMock = new Mock<ILog>();
             var ImportRepo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
                new CustomerImportRetrievalService(logMock.Object), mockEMailService.Object, mockEMailTemplateService.Object, 
                logMock.Object);
             var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +
@@ -370,6 +388,7 @@ namespace FileUtilityTests.CustomerImportInspectorTests
             var mockEMailTemplateService = new Mock<IEMailTemplateService>();
             var logMock = new Mock<ILog>();
             var ImportRepo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatchRoot,
                new CustomerImportRetrievalService(logMock.Object), mockEMailService.Object, mockEMailTemplateService.Object, 
                logMock.Object);
             var fileToScan = FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatch + "\\" +

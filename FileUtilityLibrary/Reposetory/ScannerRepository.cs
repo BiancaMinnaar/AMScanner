@@ -55,7 +55,6 @@ namespace FileUtilityLibrary.Reposetory
         public void MoveFileAfterScan(string fullFileName)
         {
             var fileToMove = new FileInfo(fullFileName);
-            _LogHandler.Debug(fileToMove.FullName);
             MoverService.MoveFilesInList(new FileInfo[] { fileToMove });
         }
 

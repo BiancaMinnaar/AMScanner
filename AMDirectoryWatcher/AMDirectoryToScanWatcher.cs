@@ -28,8 +28,8 @@ namespace AMDirectoryWatcher
         {
             InitializeComponent();
             log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            log.Info("DirectoryWatcher Has been installed");
-            var importRepo = new CustomerImportReposetory(
+            log.Info("DirectoryWatcher Has been initialised");
+            var importRepo = new CustomerImportReposetory(ConfigurationManager.AppSettings["DirectoryToWatch"],
                 new CustomerImportRetrievalService(log), new EmailService(log), new EMailTemplateService(), log);
             var scannerRepo = new ScannerRepository(new MoverService(log), log);
             _DirecotryWatcher = new DirectoryScannerReposetory(
@@ -82,6 +82,7 @@ namespace AMDirectoryWatcher
 
         protected override void OnStop()
         {
+            log.Info("DirectoryWatcher Has been Stopped");
             watcher.EnableRaisingEvents = false;
             watcher.Dispose();
         }

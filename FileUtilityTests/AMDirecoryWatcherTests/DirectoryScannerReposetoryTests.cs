@@ -276,6 +276,7 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                     };
                 });
             var importRepo = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTDirectoryToScan,
                 retrevalMock.Object,
                 emailService.Object,
                 emailTempMock.Object, logHandler.Object);

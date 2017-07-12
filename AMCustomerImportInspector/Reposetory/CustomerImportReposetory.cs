@@ -14,13 +14,15 @@ namespace AMCustomerImportInspector.Reposetory
         private IEmailService _EmailService;
         private IEMailTemplateService _EMailTemplateService;
         private ILog _LogHandler;
+        private string _RootPath;
 
-        public CustomerImportReposetory(
+        public CustomerImportReposetory(string rootPath,
             ICustomerImportRetrievalService dataService, 
             IEmailService emailService, 
             IEMailTemplateService emailTemplateService,
             ILog logHandler)
         {
+            _RootPath = rootPath;
             _DataService = dataService;
             _EmailService = emailService;
             _EMailTemplateService = emailTemplateService;
@@ -71,7 +73,7 @@ namespace AMCustomerImportInspector.Reposetory
             return mask.IsMatch(fileName);
         }
 
-        private ImportDefinision GetMostLightlyImportDefinision(string fullFileName, 
+        private ImportDefinision GetMostLightlyImportDefinision(string rootPath, string fullFileName, 
             IList<ImportDefinision> importDefinisionList)
         {
             string[] fileParts = fullFileName.Split('\\');
@@ -81,6 +83,7 @@ namespace AMCustomerImportInspector.Reposetory
             {
                 var testSet = new ImportDefinisionTestFrame()
                 {
+                    ClientName = definision.ClientDatabase,
                     DirectoryParts = definision.ImportPath.Split('\\'),
                     ID = definision.ID,
                     Probability = 0,
@@ -88,28 +91,36 @@ namespace AMCustomerImportInspector.Reposetory
                 };
                 direcoryPartsList.Add(testSet);
 
-                if (isNameInMask(testSet.DirectoryParts[testSet.DirectoryParts.Length-1].ToUpper(), fileName))
+                var rootPathParts = _RootPath.Split('\\');
+                var rootPathLastDirectory = rootPathParts[rootPathParts.Length - 1].ToUpper();
+                if (isNameInMask(testSet.DirectoryParts[testSet.DirectoryParts.Length - 1].ToUpper(), fileName))
                 {
                     var DirecotryCounter = testSet.DirectoryParts.Count() - 2;
                     for (int filePartsCounter = fileParts.Length - 2; filePartsCounter > 0; filePartsCounter--)
                     {
-                        if (fileParts[filePartsCounter].ToUpper().Equals(testSet.DirectoryParts[DirecotryCounter].ToUpper()))
+                        var pathPartToTest = fileParts[filePartsCounter].ToUpper();
+                        var testDirectoryPart = testSet.DirectoryParts[DirecotryCounter].ToUpper();
+
+                        if (pathPartToTest.Equals(testDirectoryPart))
                         {
                             testSet.Probability++;
                             if (DirecotryCounter > 0)
                                 DirecotryCounter--;
+                            testSet.ReachedRootFolder = pathPartToTest == rootPathLastDirectory;
                         }
                         else
                             break;
                     }
-                }            
+                }
+                       
             }
             var maxPriority = direcoryPartsList.Max(p => p.Probability);
-            if (maxPriority == 0)
+            _LogHandler.Debug("Max Priority :" + maxPriority);
+            var setsWithMaxPriority = direcoryPartsList.Where(p => p.ReachedRootFolder && p.Probability == maxPriority);
+            if (maxPriority == 0 || setsWithMaxPriority.Count() == 0)
             {
                 return null;
             }
-            var setsWithMaxPriority = direcoryPartsList.Where(p => p.Probability == maxPriority);
             if (setsWithMaxPriority.Count() > 1)
             {
                 foreach(ImportDefinisionTestFrame frame in setsWithMaxPriority)
@@ -127,7 +138,7 @@ namespace AMCustomerImportInspector.Reposetory
         public ImportDefinision GetImportDefinisionFromFileName(string fullFileName)
         {
             var importList = GetImportDefinitionsFromDatabase();
-            var importDef = GetMostLightlyImportDefinision(fullFileName, importList);
+            var importDef = GetMostLightlyImportDefinision(_RootPath, fullFileName, importList);
             if (importDef == null)
             {
                 return null;

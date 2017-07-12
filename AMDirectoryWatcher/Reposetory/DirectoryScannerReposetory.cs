@@ -43,6 +43,9 @@ namespace AMDirectoryWatcher.Reposetory
                 if (customerImportDef != null)
                 {
                     _LogHandler.Debug("Found Client Configuration");
+                    _LogHandler.Debug("ClientDatabase :" + customerImportDef.ClientDatabase);
+                    _LogHandler.Debug("ImportPath :" + customerImportDef.ImportPath);
+                    _LogHandler.Debug("Delimiter :" + customerImportDef.Delimiter);
                     var direcotryToMoveTo = _ImportRepo.GetMoveToDirecotry(
                         fullFileName.Substring(0, fullFileName.LastIndexOf(@"\")), _ImportDirecotry, _VerifiedFileDirectory);
                     _LogHandler.Debug(direcotryToMoveTo);
