@@ -22,6 +22,7 @@
         public const bool CONSTHasHeader = true;
         public const bool CONSTHasNoHeader = false;
         public const string CONSTHeaderLine = "Header1|Header2|Header3";
+        public const string CONSTTextLineWithCommasInColumn = "column1,column2\"3,2,4\",column3";
         public const string CONSTCorrectFileSctructure = "Header1|Header2|Header3\n\rLine1Column1|Line1COlumn2|Line1Column3\n\rLine2Column1|Line2Column2|Line2Column3\n\rLine3Column1|Line3Column2|Line3Column3";
         public const string CONSTInCorrectFileSctructureLine2Column2 = "Header1|Header2|Header3\n\rLine1Column1|Line1COlumn2|Line1Column3\n\rLine2Column1|Line2\nColumn2|Line2Column3\n\rLine3Column1|Line3Column2|Line3Column3";
         public const string CONSTPipeCountLineEndingErrorMessage = "The Ammount of columns returned from the line was incorrect.";

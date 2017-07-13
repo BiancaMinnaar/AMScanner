@@ -28,12 +28,13 @@ namespace FileUtilityTests
         }
 
         [TestMethod]
-        public void TestCountDelimiterInStringReturnsCorrectNumerOfDelimitersWith()
+        public void Test_CountDelimiterInString_ReturnsCorrectNumerOfDelimitersWithDelimitersInColumm()
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 "");
 
-            var columnCount = exceptionTest.CountDelimiterInString(FileUtilityLibraryConstants.CONSTHeaderLine, FileUtilityLibraryConstants.CONSTDelimiter);
+            var columnCount = exceptionTest.CountDelimiterInString(
+                FileUtilityLibraryConstants.CONSTTextLineWithCommasInColumn, FileUtilityLibraryConstants.CONSCommaDelimiter);
 
             Assert.AreEqual(3, columnCount);
         }

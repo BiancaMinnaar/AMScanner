@@ -21,10 +21,11 @@ namespace AMDirectoryWatcher.Reposetory
         private string _VerifiedFileDirectory;
         private string[] _SupportEmailAddresses;
         private object lockObject = new object();
+        private bool _AlwaysMailSupport;
 
         public DirectoryScannerReposetory(
             ICustomerImportReposetory customerImportReposetory, IScannerRepository scannerReposetory, ILog logHandler,
-            string importDirecotery, string verifiedFileDirectory, string[] supportEmailAddresses)
+            string importDirecotery, string verifiedFileDirectory, string[] supportEmailAddresses, bool alwaysMailSupport)
         {
             _ImportRepo = customerImportReposetory;
             _ScannerRepo = scannerReposetory;
@@ -32,6 +33,7 @@ namespace AMDirectoryWatcher.Reposetory
             _ImportDirecotry = importDirecotery;
             _VerifiedFileDirectory = verifiedFileDirectory;
             _SupportEmailAddresses = supportEmailAddresses;
+            _AlwaysMailSupport = alwaysMailSupport;
         }
 
         public void ScannCreatedFile(string fullFileName)
@@ -66,8 +68,11 @@ namespace AMDirectoryWatcher.Reposetory
                     if (hasExceptions == true)
                     {
                         _LogHandler.Debug("Email Faulty File");
-                        //TODO: REMOVE!!
-                        customerImportDef.FailureEmailList = "bminnaar@gmail.com";
+                        if (_AlwaysMailSupport)
+                        {
+                            customerImportDef.FailureEmailList = _SupportEmailAddresses[0];
+                            _LogHandler.Debug("sending mail to support");
+                        }
                         _ImportRepo.EmailFaultyFile(fullFileName, customerImportDef,
                             ((List<string>)scannerFile.ExceptionList).ToArray());
                         _LogHandler.Debug("Delete Faulty File");

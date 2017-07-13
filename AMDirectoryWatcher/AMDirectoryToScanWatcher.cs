@@ -32,11 +32,16 @@ namespace AMDirectoryWatcher
             var importRepo = new CustomerImportReposetory(ConfigurationManager.AppSettings["DirectoryToWatch"],
                 new CustomerImportRetrievalService(log), new EmailService(log), new EMailTemplateService(), log);
             var scannerRepo = new ScannerRepository(new MoverService(log), log);
+            bool alwaysMailSupport =
+                ConfigurationManager.AppSettings["AlwaysMailSupport"] == null ||
+                ConfigurationManager.AppSettings["AlwaysMailSupport"] == "0" ? 
+                false : true;
             _DirecotryWatcher = new DirectoryScannerReposetory(
                 importRepo, scannerRepo, log,
                 ConfigurationManager.AppSettings["ScannedDirectoryFound"], 
                 ConfigurationManager.AppSettings["ScannedDirectoryReplace"], 
-                ConfigurationManager.AppSettings["EmailSupportAddress"].Split(';'));
+                ConfigurationManager.AppSettings["EmailSupportAddress"].Split(';'),
+                alwaysMailSupport);
         }
 
         protected override void OnStart(string[] args)

@@ -11,7 +11,7 @@ namespace AMCustomerImportInspector.Reposetory
     public class CustomerImportReposetory : ICustomerImportReposetory
     {
         private ICustomerImportRetrievalService _DataService;
-        private IEmailService _EmailService;
+        public IEmailService EmailService { get; set; }
         private IEMailTemplateService _EMailTemplateService;
         private ILog _LogHandler;
         private string _RootPath;
@@ -24,7 +24,7 @@ namespace AMCustomerImportInspector.Reposetory
         {
             _RootPath = rootPath;
             _DataService = dataService;
-            _EmailService = emailService;
+            EmailService = emailService;
             _EMailTemplateService = emailTemplateService;
             _LogHandler = logHandler;
         }
@@ -39,7 +39,7 @@ namespace AMCustomerImportInspector.Reposetory
                 "//FaultyImportFileEMail/EMailBody/PreErrorText", "<ErrorText></ErrorText>", errorList);
             foreach (string emailAddress in definition.FailureEmailAddresses)
             {
-                _EmailService.SendEmailToRecipient(emailAddress, faultyEmailSubject, faultyEmailBody, fullFileName);
+                EmailService.SendEmailToRecipient(emailAddress, faultyEmailSubject, faultyEmailBody, fullFileName);
             }
         }
 
@@ -55,7 +55,7 @@ namespace AMCustomerImportInspector.Reposetory
 
             foreach (string emailAddress in emailAddressList)
             {
-                _EmailService.SendEmailToRecipient(
+                EmailService.SendEmailToRecipient(
                     emailAddress, orphanedEmailSubject, orphanedEmailBody, fullFileName);
             }
         }

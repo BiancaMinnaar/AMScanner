@@ -34,7 +34,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
 
             directoryRepo.ScannCreatedFile("");
 
@@ -104,7 +105,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
             var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
@@ -150,7 +152,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
             var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient1 + @"\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
@@ -199,7 +202,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
 
             directoryRepo.ScannCreatedFile(fullFileName);
 
@@ -237,7 +241,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
             var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
                 FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
 
@@ -285,7 +290,8 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo, scannerRepo.Object, logHandler.Object,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
 
             directoryRepo.ScannCreatedFile(@"C:\Client\Britehouse\AMDevelopment\FileScannerConsole\DirectoryToWatch\RGBC\Upload\profiles20170704.xlsx");
 
@@ -321,14 +327,124 @@ namespace FileUtilityTests.AMDirecoryWatcherTests
                 importRepo.Object, scannerRepo, log,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
                 FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
-                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'));
+                CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+                true);
             var fullFileName = FileUtilityLibraryConstants.CONSTDirectoryToScan + @"\" +
                 FileUtilityLibraryConstants.CONSTBrokenOneSheetBinaryFile;
 
             directoryRepo.ScannCreatedFile(fullFileName);
-            //directoryRepo.ScannCreatedFile(fullFileName);
 
             Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void Test_ScannCreatesFile_SendsEmailToSupport()
+        {
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2 + @"\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+            var supportEmailAddresa = CustomerImportInspectorConstants.CONSTEmailAddress.Split(';')[0];
+            var importDefinisionIn = new ImportDefinision()
+            {
+                ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
+                Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
+                FailureEmailList = CustomerImportInspectorConstants.CONSTClientEmailAddress,
+                HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
+                ID = FileUtilityLibraryConstants.CONSTClientRecordID,
+                ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
+                IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
+            };
+            var logMock = new Mock<ILog>();
+            var emailServiceMock = new Mock<IEmailService>();
+            var emailTemplateServiceMock = new Mock<IEMailTemplateService>();
+            emailTemplateServiceMock.Setup(m => m.GetSubjectText(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns("Subject");
+            emailTemplateServiceMock.Setup(m => m.GetWholeEmailBodyWithErrors(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>()))
+                .Returns("Whole body");
+            var customerImportRetrivalMock = new Mock<ICustomerImportRetrievalService>();
+            customerImportRetrivalMock.Setup(m => m.GetCustomerImports())
+                .Returns(new List<ImportDefinision> { importDefinisionIn });
+            var customerImportReposetory = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath, customerImportRetrivalMock.Object, emailServiceMock.Object, emailTemplateServiceMock.Object,
+                logMock.Object);
+            var scannerFileMock = new Mock<IScannerFile>();
+            scannerFileMock.Setup(p => p.ExceptionList)
+                .Returns(new List<string> { });
+            var fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            fileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+                .Returns(scannerFileMock.Object);
+            var scannerRepoMock = new Mock<IScannerRepository>();
+            scannerRepoMock.Setup(p => p.FileMaskToScannerFile)
+                .Returns(fileMaskToScannerFile.Object);
+            scannerRepoMock.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>()))
+                .Returns(true);
+            var directoryRepo = new DirectoryScannerReposetory(
+               customerImportReposetory, scannerRepoMock.Object, logMock.Object,
+               FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
+               FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
+               CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+               true);
+
+            directoryRepo.ScannCreatedFile(fullFileName);
+
+            emailServiceMock.Verify(m => m.SendEmailToRecipient(It.Is<string>(v => v == supportEmailAddresa), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+        }
+
+        [TestMethod]
+        public void Test_ScannCreatesFile_SendsEmailToCustomer()
+        {
+            var fullFileName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathClient2 + @"\" +
+                FileUtilityLibraryConstants.CONSTScannerSetupFileToDump;
+            var supportEmailAddresa = CustomerImportInspectorConstants.CONSTEmailAddress.Split(';')[0];
+            var importDefinisionIn = new ImportDefinision()
+            {
+                ClientDatabase = FileUtilityLibraryConstants.CONSTClientName,
+                Delimiter = FileUtilityLibraryConstants.CONSCommaDelimiter.ToString(),
+                FailureEmailList = CustomerImportInspectorConstants.CONSTClientEmailAddress,
+                HasHeader = FileUtilityLibraryConstants.CONSTHasHeader,
+                ID = FileUtilityLibraryConstants.CONSTClientRecordID,
+                ImportFormat = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                ImportName = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionName1,
+                ImportPath = FileUtilityLibraryConstants.CONSTCustomerImportDefinitionPathWithMaskClient3,
+                IsEnabled = FileUtilityLibraryConstants.CONSTImportIsEnabled
+            };
+            var logMock = new Mock<ILog>();
+            var emailServiceMock = new Mock<IEmailService>();
+            var emailTemplateServiceMock = new Mock<IEMailTemplateService>();
+            emailTemplateServiceMock.Setup(m => m.GetSubjectText(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns("Subject");
+            emailTemplateServiceMock.Setup(m => m.GetWholeEmailBodyWithErrors(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>()))
+                .Returns("Whole body");
+            var customerImportRetrivalMock = new Mock<ICustomerImportRetrievalService>();
+            customerImportRetrivalMock.Setup(m => m.GetCustomerImports())
+                .Returns(new List<ImportDefinision> { importDefinisionIn });
+            var customerImportReposetory = new CustomerImportReposetory(
+                FileUtilityLibraryConstants.CONSTCustomerImportDefinisionScanPath, customerImportRetrivalMock.Object, emailServiceMock.Object, emailTemplateServiceMock.Object,
+                logMock.Object);
+            var scannerFileMock = new Mock<IScannerFile>();
+            scannerFileMock.Setup(p => p.ExceptionList)
+                .Returns(new List<string> { });
+            var fileMaskToScannerFile = new Mock<IFileMaskToScannerFile>();
+            fileMaskToScannerFile.Setup(m => m.GetScannerFileInstance(It.IsAny<FileInfo>()))
+                .Returns(scannerFileMock.Object);
+            var scannerRepoMock = new Mock<IScannerRepository>();
+            scannerRepoMock.Setup(p => p.FileMaskToScannerFile)
+                .Returns(fileMaskToScannerFile.Object);
+            scannerRepoMock.Setup(m => m.ScanForExceptions(It.IsAny<IScannerFile>()))
+                .Returns(true);
+            var directoryRepo = new DirectoryScannerReposetory(
+               customerImportReposetory, scannerRepoMock.Object, logMock.Object,
+               FileUtilityLibraryConstants.CONSTPartDirecotryToScan,
+               FileUtilityLibraryConstants.CONSTPartDirecotryToMoveTo,
+               CustomerImportInspectorConstants.CONSTEmailAddress.Split(';'),
+               false);
+
+            directoryRepo.ScannCreatedFile(fullFileName);
+
+            emailServiceMock.Verify(m => m.SendEmailToRecipient(It.Is<string>(v => v == CustomerImportInspectorConstants.CONSTClientEmailAddress), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
         }
     }
 }

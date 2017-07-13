@@ -5,6 +5,7 @@ namespace AMCustomerImportInspector.Interface
 {
     public interface ICustomerImportReposetory
     {
+        IEmailService EmailService { get; set; }
         IList<ImportDefinision> GetImportDefinitionsFromDatabase();
         ImportDefinision GetImportDefinisionFromFileName(string fullFileName);
         void EmailFaultyFile(string fullFileName, ImportDefinision definition, string[] errorList);
