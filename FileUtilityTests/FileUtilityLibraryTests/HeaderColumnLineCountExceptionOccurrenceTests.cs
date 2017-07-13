@@ -27,6 +27,17 @@ namespace FileUtilityTests
             Assert.AreEqual(3, columnCount);
         }
 
+        [TestMethod]
+        public void TestCountDelimiterInStringReturnsCorrectNumerOfDelimitersWith()
+        {
+            HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
+                "");
+
+            var columnCount = exceptionTest.CountDelimiterInString(FileUtilityLibraryConstants.CONSTHeaderLine, FileUtilityLibraryConstants.CONSTDelimiter);
+
+            Assert.AreEqual(3, columnCount);
+        }
+
         private Mock<IScannerFile> getScannerMockSetup(string fileText)
         {
             Mock<IScannerFile> scannerFileMock = new Mock<IScannerFile>();

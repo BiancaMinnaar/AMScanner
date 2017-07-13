@@ -32,10 +32,36 @@ namespace FileUtilityLibrary.Model
         public int CountDelimiterInString(string stringToCount, char delimiter)
         {
             int columnCount = 1;
+            bool doubleQuoteOverride = false;
+            bool hasDoubleQuote = false;
+            bool hasDelimiter = false;
             for (int count = 0; count < stringToCount.Length; count++)
             {
-                //TODO: Check for " incase commas in one coumn
-                if (stringToCount[count] == delimiter)
+                if (hasDoubleQuote && doubleQuoteOverride)
+                {
+                    hasDoubleQuote = stringToCount[count] == '"';
+                    if (hasDoubleQuote)
+                    {
+                        doubleQuoteOverride = false;
+                        hasDoubleQuote = false;
+                    }
+                }
+                else if (!hasDoubleQuote)
+                {
+                    hasDoubleQuote = stringToCount[count] == '"';
+                }
+                if (hasDoubleQuote && !doubleQuoteOverride)
+                {
+                    doubleQuoteOverride = true;
+                }
+                else if (hasDoubleQuote && doubleQuoteOverride)
+                {
+                    doubleQuoteOverride = false;
+                    hasDoubleQuote = false;
+                }
+
+                hasDelimiter = stringToCount[count] == delimiter;
+                if (hasDelimiter && !doubleQuoteOverride)
                 {
                     columnCount++;
                 }
