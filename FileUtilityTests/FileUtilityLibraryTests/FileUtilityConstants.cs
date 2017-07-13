@@ -49,6 +49,7 @@
         public const string CONSTScannerSetupFileToDump = "POS_Additional.xlsx";
         public const string CONSTScannerSetupFileToDumpStoreSalesText = "storesales.txt";
         public const string CONSTScannerSetupFileToDumpStoreSalesExcel = "storesales.xls";
+        public const string CONSTScannerSetupFileToImportCallCycles = "callcycles_alt - Phil (1).xlsx";
         public const string CONSTActualErrorMessageForHeaderError = "There is an error in the following line: ";
         public const string CONSTBrokenOneSheetBinaryFile = "ProfilesOneSheetD1.xlsb";
         public const string CONSTCustomerImportDefinitionPathBrokenOneSheetBinaryFile = @"C:\test1\Client2\Import\ProfilesOneSheet*.*";

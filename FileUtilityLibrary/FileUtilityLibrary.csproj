@@ -73,6 +73,7 @@
     <Compile Include="Service\Helper\DirecotryHelper.cs" />
     <Compile Include="Service\MoverService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\StreamsWithExcelAutomationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

@@ -88,7 +88,6 @@ namespace FileUtilityLibrary.Service
                         {
                             setExcelAutomation();
                         }
-                        MemoryStream csvStream = new MemoryStream();
                         var sheet = allSheets[sheetCounter];
                         var tempFileName = excelFileName + ".Temp.xlsx";
                         sheet.SaveAs(tempFileName, XlFileFormat.xlCSV);

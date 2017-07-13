@@ -32,9 +32,14 @@ namespace FileUtilityLibrary.Model
         public int CountDelimiterInString(string stringToCount, char delimiter)
         {
             int columnCount = 1;
-            for(int count=0; count<stringToCount.Length; count++)
+            for (int count = 0; count < stringToCount.Length; count++)
+            {
+                //TODO: Check for " incase commas in one coumn
                 if (stringToCount[count] == delimiter)
+                {
                     columnCount++;
+                }
+            }
 
             return columnCount;
         }

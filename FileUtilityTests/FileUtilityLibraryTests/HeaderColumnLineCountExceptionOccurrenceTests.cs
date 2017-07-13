@@ -5,6 +5,8 @@ using FileUtilityLibrary.ExpetionOccurrences;
 using Moq;
 using FileUtilityLibrary.Interface.Model;
 using System.Collections.Generic;
+using System.IO;
+using log4net;
 
 namespace FileUtilityTests
 {
@@ -155,15 +157,19 @@ namespace FileUtilityTests
         {
             HeaderColumnLineCountExceptionOccurrence exceptionTest = new HeaderColumnLineCountExceptionOccurrence(
                 FileUtilityLibraryConstants.CONSTPipeCountLineEndingErrorMessage);
-            var scannerFileMock = getScannerMockSetup(FileUtilityLibraryConstants.CONSTInCorrectFileSctructureLine2Column2);
-            var errorList = new List<string>();
-            scannerFileMock.Setup(t => t.ExceptionList).Returns(() => errorList);
-            scannerFileMock.Setup(t => t.Delimiter).Returns(() => FileUtilityLibraryConstants.CONSTDelimiter);
-            scannerFileMock.Setup(t => t.HasHeader).Returns(() => FileUtilityLibraryConstants.CONSTHasNoHeader);
+            var logHandler = new Mock<ILog>();
+            var FileMastT = new FileMaskToScannerFile(
+                FileUtilityLibraryConstants.CONSTCorrectFileMask,
+                FileUtilityLibraryConstants.CONSTDelimiter,
+                true, FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                logHandler.Object);
 
-            exceptionTest.ScanFile(scannerFileMock.Object);
+            var scannerFile = FileMastT.GetScannerFileInstance(new FileInfo(
+                FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatchRoot + @"\" + FileUtilityLibraryConstants.CONSTScannerSetupFileToImportCallCycles));
 
-            scannerFileMock.Verify(m => m.HasSubStructures());
+            exceptionTest.ScanFile(scannerFile);
+
+            Assert.IsFalse(scannerFile.HasException);
         }
     }
 }

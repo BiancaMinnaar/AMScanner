@@ -25,5 +25,21 @@ namespace FileUtilityTests.FileUtilityLibraryTests
 
             Assert.AreNotEqual(null, scannerFile);
         }
+
+        [TestMethod]
+        public void Test_GetScannerFileInstance_ReturnsExcelScannerFile()
+        {
+            var logHandler = new Mock<ILog>();
+            var FileMastT = new FileMaskToScannerFile(
+                FileUtilityLibraryConstants.CONSTCorrectFileMask,
+                FileUtilityLibraryConstants.CONSTDelimiter,
+                true, FileUtilityLibraryConstants.CONSTCustomerImportDefinitionTypeExcel,
+                logHandler.Object);
+
+            var scannerFile = FileMastT.GetScannerFileInstance(new FileInfo(
+                FileUtilityLibraryConstants.CONSTScannerSetupDirecoryToWatchRoot + @"\" + FileUtilityLibraryConstants.CONSTScannerSetupFileToImportCallCycles));
+
+            Assert.AreNotEqual(null, scannerFile);
+        }
     }
 }
