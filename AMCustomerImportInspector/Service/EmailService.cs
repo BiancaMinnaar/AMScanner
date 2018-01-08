@@ -27,14 +27,23 @@ namespace AMCustomerImportInspector.Service
 
             try
             {
+                _LogHandler.Debug(userName);
+                _LogHandler.Debug(password);
+                _LogHandler.Debug(host);
+                _LogHandler.Debug(port);
+
                 mail.Attachments.Add(new Attachment(fullFileName));
                 SmtpClient client = new SmtpClient(host, port);
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(userName, password);
-                client.EnableSsl = true;
+                //client.EnableSsl = true;
                 client.Send(mail);
                 _LogHandler.Debug("Mail Has been Sent");
+            }
+            catch(SmtpException ex)
+            {
+                _LogHandler.Fatal(ex.Message);
             }
             catch(Exception excp)
             {
